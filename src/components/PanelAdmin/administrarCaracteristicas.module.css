@@ -1,0 +1,36 @@
+.administrarCaracteristicas {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .agregarCaracteristica {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .agregarCaracteristica input {
+    flex: 1;
+    padding: 8px;
+  }
+  
+  .agregarCaracteristica button {
+    padding: 8px 12px;
+    background-color: #213555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .listaCaracteristicas li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+
+  .listaCaracteristicas li button {
+    background-color: #213555;
+  }
+  

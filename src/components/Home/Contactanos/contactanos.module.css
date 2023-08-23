@@ -1,0 +1,36 @@
+.contenedorPadre{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+    padding-top: 35px;
+    padding-bottom: 100px;
+}
+
+.textoContacto{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.contactoButton{
+    background-color: #213555;
+    color: #E5E5E5;
+    font-size: 1.5rem;
+}
+
+@media (max-width:768px) {
+    .textoContacto{
+        font-size: 1.2rem;
+    }
+    .contactoButton{
+        font-size: 1rem;
+    }
+
+
+
+    
+}

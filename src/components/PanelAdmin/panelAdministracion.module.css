@@ -1,0 +1,62 @@
+.adminPanel {
+    width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .adminMenu {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .adminMenu ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .adminMenu li {
+    margin-bottom: 5px;
+  }
+  
+  .adminMenu a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .adminMenu a:hover {
+    background-color: #ddd;
+  }
+
+  .adminCartel{
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .adminPanel{
+      display: none;
+    }
+
+    .adminCartel{
+      display: flex;
+      flex-wrap: wrap;
+      height: 15vh;
+      background-color: #f5efe7;
+      padding: 5rem;
+      margin: 6rem;
+      text-align: center;
+      color: #213555;
+      font-weight: bold;
+      border-radius: 5rem;
+      justify-content: center;
+      
+    }
+    p{
+      text-align: center;
+    }
+  
+  }
+  
