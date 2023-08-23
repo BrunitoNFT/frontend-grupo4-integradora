@@ -64,8 +64,9 @@ const ListaProductos = ({  onEditProduct }) => {
           <tr>
             <th>Id</th>
             <th>Nombre</th>
+            <th>Categoria</th>
             <th>Caracteristicas</th>
-            <th>Acciones</th>
+            <th>Precio</th>
           </tr>
         </thead>
         <tbody>
@@ -74,9 +75,11 @@ const ListaProductos = ({  onEditProduct }) => {
               <td>{producto.id}</td>
               <td>{producto.objeto}</td>
               <td>{producto.categoria}</td>
+              <td>{producto.marca}</td>
+              <td>{producto.precio}</td>
               <td>
-                <button onClick={() => handleEdit(producto.id)}>Editar producto</button>
-                <button onClick={() => handleDelete(producto.id)}>Eliminar producto</button>
+                <button onClick={() => handleEdit(producto.id)}>Editar</button>
+                <button onClick={() => handleDelete(producto.id)}>Eliminar</button>
               </td>
             </tr>
           ))}

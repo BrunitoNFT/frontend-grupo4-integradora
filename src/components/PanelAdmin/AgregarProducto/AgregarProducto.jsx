@@ -4,7 +4,8 @@ import styles from './agregarProducto.module.css';
 const AgregarProducto = ({ agregarProducto }) => {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState([]);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
+  const [caracteristicaSeleccionada, setCaracteristicaSeleccionada] = useState([]);
   const [imagenes, setImagenes] = useState([]);
   const [mensajeError, setMensajeError] = useState('');
 
@@ -21,22 +22,27 @@ const AgregarProducto = ({ agregarProducto }) => {
     setImagenes(files);
   };
 
-  const handleCategoriaSeleccionada = (e, categoriaId) => {
+  const handleCategoriaChange = (event) => {
+    setCategoriaSeleccionada(event.target.value);
+  };
+  
+
+  const handleCaracteristicaSeleccionada = (e, caracteristicaId) => {
     const isChecked = e.target.checked;
 
     if (isChecked) {
         // Agregar la categoría seleccionada al conjunto
-      setCategoriaSeleccionada([...categoriaSeleccionada, categoriaId]);
+      setCaracteristicaSeleccionada([...caracteristicaSeleccionada, caracteristicaId]);
     } else {
         // Remover la categoría deseleccionada del conjunto
-      setCategoriaSeleccionada(categoriaSeleccionada.filter(id => id !== categoriaId));
+      setCaracteristicaSeleccionada(caracteristicaSeleccionada.filter(id => id !== caracteristicaId));
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!nombre || !descripcion || categoriaSeleccionada.length === 0 || imagenes.length === 0) {
+    if (!nombre || !descripcion || caracteristicaSeleccionada.length === 0 || imagenes.length === 0) {
       setMensajeError('Por favor, completa todos los campos.');
       return;
     }
@@ -44,8 +50,9 @@ const AgregarProducto = ({ agregarProducto }) => {
     const formData = new FormData();
     formData.append('nombre', nombre);
     formData.append('descripcion', descripcion);
-    categoriaSeleccionada.forEach(id => {
-      formData.append('categoriaSeleccionada', id);
+    formData.append('categoriaSeleccionada', categoriaSeleccionada);
+    caracteristicaSeleccionada.forEach(id => {
+      formData.append('caracteristicaSeleccionada', id);
     });
     imagenes.forEach(imagen => {
       formData.append('imagenes', imagen);
@@ -62,7 +69,8 @@ const AgregarProducto = ({ agregarProducto }) => {
       if (response.ok) {
         setNombre('');
         setDescripcion('');
-        setCategoriaSeleccionada([]);
+        setCaracteristicaSeleccionada([]);
+        setCategoriaSeleccionada(''); 
         setImagenes([]);
         setMensajeError('');
       } else {
@@ -74,11 +82,20 @@ const AgregarProducto = ({ agregarProducto }) => {
     }
   };
 
-/// Traer el listado de Categorias para armar la checklist
+/// Traer el listado de Caracteristicas para armar la checklist
+
+  const [caracteristicas] = useState([
+    { id: 1, nombre: 'Yamaha' },
+    { id: 2, nombre: 'Babilon' },
+    { id: 3, nombre: 'Behringer'},
+  ]);
+
+/// Traer el listado de Categorias
 
   const [categorias] = useState([
-    { id: 1, nombre: 'Electrónico' },
-    { id: 2, nombre: 'Acustico' },
+    { id: 1, nombre: 'Percucion' },
+    { id: 2, nombre: 'Viento' },
+    { id: 3, nombre: 'Cuerda'},
   ]);
 
   return (
@@ -94,18 +111,27 @@ const AgregarProducto = ({ agregarProducto }) => {
 
         <label>Imágenes:</label>
         <input type="file" multiple onChange={handleImagenesChange} />
-        
+
         <label>Categoría:</label>
+        <select value={categoriaSeleccionada} onChange={handleCategoriaChange}>
+          <option value="">Selecciona una categoría</option>
+           {categorias.map(categorias => (
+          <option key={categorias.id} value={categorias.id}>
+           {categorias.nombre}
+          </option> ))}
+        </select>
+        
+        <label>Características:</label>
         <div>
-          {categorias.map(categoria => (
-            <label key={categoria.id}>
+          {caracteristicas.map(caracteristica => (
+            <label key={caracteristica.id}>
               <input
                 type="checkbox"
-                value={categoria.id}
-                checked={categoriaSeleccionada.includes(categoria.id)}
-                onChange={e => handleCategoriaSeleccionada(e, categoria.id)}
+                value={caracteristica.id}
+                checked={caracteristicaSeleccionada.includes(caracteristica.id)}
+                onChange={e => handleCaracteristicaSeleccionada(e, caracteristica.id)}
               />
-              {categoria.nombre}
+              {caracteristica.nombre}
             </label>
           ))}
         </div>

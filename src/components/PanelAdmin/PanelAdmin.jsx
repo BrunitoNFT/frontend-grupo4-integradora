@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import AgregarProducto from './AgregarProducto';
-import ListaProductos from './ListaProductos';
-import AdministrarCaracteristicas from './AdministrarCaracteristicas';
-import AdministrarCategorias from './AdministrarCategorias';
+import AgregarProducto from './AgregarProducto/AgregarProducto';
+import ListaProductos from './ListaProductos/ListaProductos';
+import AdministrarCaracteristicas from './AdministrarCaracteristicas/AdministrarCaracteristicas';
+import AdministrarCategorias from './AdministrarCategorias/AdministrarCategorias';
 import styles from './panelAdministracion.module.css';
 
 const AdministracionPanel = () => {
