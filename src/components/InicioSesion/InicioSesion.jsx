@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext} from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './InicioSesion.module.css';
+import { DataContext } from '../Context/DataContext';
+
 
 function InicioSesion() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoginSuccess, setIsLoginSuccess] = useState(false);
+  const { setUser } = useContext(DataContext);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +18,8 @@ function InicioSesion() {
     } else if (!email.includes('@')) {
       alert('Ingresa una dirección de correo válida');
     } else {
-      setIsLoginSuccess(true);
+      setUser({ name: 'Andrea', email: 'andrea@mail.com' });
+      navigate('/')
     }
   };
 
@@ -40,11 +44,7 @@ function InicioSesion() {
             onChange={(e) => setPassword(e.target.value)}
             required
           /> <br />
-
-        {setIsLoginSuccess ? <button onClick={handleSubmit} ><Link to='/'>Iniciar Sesión </Link></button> : <button onClick={handleSubmit} >Iniciar Sesión </button>}
-        
-
-          
+          <button onClick={handleSubmit}>Iniciar Sesión</button>
         </div>
       </div>
     </>

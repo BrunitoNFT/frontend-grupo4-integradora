@@ -1,10 +1,15 @@
-import React from "react";
+import React, {useContext}from "react";
 import styles from "./navbar.module.css";
 import { Link } from "react-router-dom";
-import logo from '../../DropTheBass.png'
+import logo from '../../DropTheBass.png';
+import { DataContext } from "../Context/DataContext";
+import { GiHexagonalNut } from "react-icons/gi";
 
 
 const Navbar = () => {
+
+const { user, setUser } = useContext(DataContext);
+
   return (
     <div className={styles.navContainer}>
       <nav className={styles.navbar}>
@@ -35,6 +40,8 @@ const Navbar = () => {
         </div>
 
         <div className={styles.navbarIcons}>
+        {JSON.stringify(user) === '{}' ? (
+            <>
           <button className={styles.RegisterBox}>
             <Link className="Register" to={"/register"}>
               Crear cuenta
@@ -45,6 +52,20 @@ const Navbar = () => {
               Iniciar sesión
             </Link>
           </button>
+          </>
+          ) : (
+            <>
+             <div className={styles.avatar}>
+                {user.name}
+              </div>
+              <Link className={styles.Admin} to={"/paneladmin"}>
+              <GiHexagonalNut />
+              </Link>
+              <button className={styles.LoginBox} onClick={(e) => setUser({})}>
+                Cerrar sesión
+              </button>
+            </>
+          )}
           <Link className={styles.seeCarrito} to={"/cart"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
