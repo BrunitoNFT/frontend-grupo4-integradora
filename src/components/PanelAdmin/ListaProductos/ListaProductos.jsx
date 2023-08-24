@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import styles from './listaProductos.module.css';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const ListaProductos = ({  onEditProduct }) => {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    // Realizar una llamada a la API o base de datos para obtener la lista de productos
-    fetch('/data.json')
-      .then(response => response.json())
-      .then(data => {
-        setProductos(data); // Establecer los datos en el estado
-      })
-      .catch(error => {
-        console.error('Error al obtener los datos:', error);
-      });
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch("http://18.118.140.140/product", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log('testing cors,',result))
+      .catch((error) => console.log("error cors isss", error));
   }, []);
 
   const handleDelete = (id) => {
@@ -61,32 +62,39 @@ const ListaProductos = ({  onEditProduct }) => {
       <h2>Lista de Productos</h2>
       <table>
         <thead>
-          <tr>
+          {/* <tr>
             <th>Id</th>
+            <th>Imagen</th>
             <th>Nombre</th>
-            <th>Categoria</th>
-            <th>Caracteristicas</th>
             <th>Precio</th>
-          </tr>
+            <th>Categoria</th>
+            <th>Acciones</th>
+          </tr> */}
         </thead>
         <tbody>
           {productos.map(producto => (
             <tr key={producto.id}>
               <td>{producto.id}</td>
-              <td>{producto.objeto}</td>
-              <td>{producto.categoria}</td>
-              <td>{producto.marca}</td>
-              <td>{producto.precio}</td>
               <td>
-                <button onClick={() => handleEdit(producto.id)}>Editar</button>
-                <button onClick={() => handleDelete(producto.id)}>Eliminar</button>
+                <img src={producto.img} alt={`Imagen de ${producto.objeto}`} />
+              </td>
+              <td>{producto.objeto}</td>
+              <td>{producto.precio}</td>
+              <td>{producto.categoria}</td>
+              <td>
+                <button onClick={() => handleEdit(producto.id)}>
+                  <FaEdit />
+                </button>
+                <button onClick={() => handleDelete(producto.id)}>
+                  <FaTrash />
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}
 
 export default ListaProductos;

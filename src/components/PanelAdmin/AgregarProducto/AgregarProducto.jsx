@@ -3,6 +3,7 @@ import styles from './agregarProducto.module.css';
 
 const AgregarProducto = ({ agregarProducto }) => {
   const [nombre, setNombre] = useState('');
+  const [precio, setPrecio] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [caracteristicaSeleccionada, setCaracteristicaSeleccionada] = useState([]);
@@ -25,7 +26,10 @@ const AgregarProducto = ({ agregarProducto }) => {
   const handleCategoriaChange = (event) => {
     setCategoriaSeleccionada(event.target.value);
   };
-  
+
+  const handlePrecioChange = (event) => {
+    setPrecio(event.target.value);
+  };
 
   const handleCaracteristicaSeleccionada = (e, caracteristicaId) => {
     const isChecked = e.target.checked;
@@ -49,6 +53,7 @@ const AgregarProducto = ({ agregarProducto }) => {
 
     const formData = new FormData();
     formData.append('nombre', nombre);
+    formData.append('precio', precio);
     formData.append('descripcion', descripcion);
     formData.append('categoriaSeleccionada', categoriaSeleccionada);
     caracteristicaSeleccionada.forEach(id => {
@@ -88,12 +93,17 @@ const AgregarProducto = ({ agregarProducto }) => {
     { id: 1, nombre: 'Yamaha' },
     { id: 2, nombre: 'Babilon' },
     { id: 3, nombre: 'Behringer'},
+    { id: 4, nombre: 'Guitarras'},
+    { id: 5, nombre: 'Plastico'},
+    { id: 6, nombre: 'Metal'},
+    { id: 7, nombre: 'Madera'},
+
   ]);
 
 /// Traer el listado de Categorias
 
   const [categorias] = useState([
-    { id: 1, nombre: 'Percucion' },
+    { id: 1, nombre: 'Percusion' },
     { id: 2, nombre: 'Viento' },
     { id: 3, nombre: 'Cuerda'},
   ]);
@@ -106,23 +116,31 @@ const AgregarProducto = ({ agregarProducto }) => {
         <label>Nombre:</label>
         <input type="text" value={nombre} onChange={handleNombreChange} />
 
+        <label>Precio:</label>
+        <input type="text" value={precio} onChange={handlePrecioChange} inputmode="numeric" pattern="[0-9]*" />
+
         <label>Descripción:</label>
         <textarea value={descripcion} onChange={handleDescripcionChange}></textarea>
 
         <label>Imágenes:</label>
-        <input type="file" multiple onChange={handleImagenesChange} />
+        <input type="file" multiple onChange={handleImagenesChange} />  
 
         <label>Categoría:</label>
-        <select value={categoriaSeleccionada} onChange={handleCategoriaChange}>
+        <select
+          value={categoriaSeleccionada}
+          onChange={handleCategoriaChange}
+          className={categoriaSeleccionada ? styles.selectSeleccionado : ''}
+        >
           <option value="">Selecciona una categoría</option>
-           {categorias.map(categorias => (
-          <option key={categorias.id} value={categorias.id}>
-           {categorias.nombre}
-          </option> ))}
+           {categorias.map(categoria => (
+            <option key={categoria.id} value={categoria.id}>
+              {categoria.nombre}
+            </option>
+           ))}
         </select>
         
         <label>Características:</label>
-        <div>
+        <div className={styles.caracteristicasContainer}>
           {caracteristicas.map(caracteristica => (
             <label key={caracteristica.id}>
               <input

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './administrarCategorias.module.css';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const AdministrarCategorias = () => {
   const [categorias, setCategorias] = useState([]);
@@ -8,6 +9,10 @@ const AdministrarCategorias = () => {
     descripcion: '',
     imagen: '',
   });
+
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [categoryToDeleteIndex, setCategoryToDeleteIndex] = useState(null);
+
 
   const agregarCategoria = () => {
     if (nuevaCategoria.titulo && nuevaCategoria.descripcion && nuevaCategoria.imagen) {
@@ -19,6 +24,22 @@ const AdministrarCategorias = () => {
       });
     }
   };
+
+  const editarCategoria = (indice, nuevosDatos) => {
+    const nuevasCategorias = [...categorias];
+    nuevasCategorias[indice] = nuevosDatos;
+    setCategorias(nuevasCategorias);
+  };
+
+  const eliminarCategoria = (indice) => {
+    const confirmacion = window.confirm("¿Estás seguro de que deseas eliminar esta categoría?");
+    if (confirmacion) {
+      const nuevasCategorias = [...categorias];
+      nuevasCategorias.splice(indice, 1);
+      setCategorias(nuevasCategorias);
+    }
+  };
+  
 
   return (
     <div className={styles.administrarCategorias}>
@@ -43,16 +64,36 @@ const AdministrarCategorias = () => {
         />
         <button onClick={agregarCategoria}>Agregar Categoría</button>
       </div>
-      <ul className={styles.listaCategorias}>
-        {categorias.map((categoria, indice) => (
-          <li key={indice}>
-            <h3>{categoria.titulo}</h3>
-            <p>{categoria.descripcion}</p>
-            <img src={URL.createObjectURL(categoria.imagen)} alt={`Imagen de ${categoria.titulo}`} />
-          </li>
-        ))}
-      </ul>
+      <table className={styles.listaCategorias}>
+  <tbody>
+    {categorias.map((categoria, indice) => (
+      <tr key={indice}>
+        <td>
+          {categoria.titulo}
+        </td>
+        <td>
+          {categoria.descripcion}
+        </td>
+        <td>
+          <img src={URL.createObjectURL(categoria.imagen)} alt={`Imagen de ${categoria.titulo}`} />
+        </td>
+        <td>
+                <div className={styles.iconContainer}>
+                  <div onClick={() => editarCategoria(indice, categoria)} className={styles.iconDiv}>
+                    <FaEdit />
+                  </div>
+                  <div onClick={() => eliminarCategoria(indice)} className={styles.iconDiv}>
+                    <FaTrash />
+                  </div>
+                </div>
+              </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
     </div>
+    
   );
 };
 

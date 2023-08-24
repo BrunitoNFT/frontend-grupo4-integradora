@@ -1,85 +1,71 @@
 .administrarCaracteristicas {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .agregarCaracteristica {
-    display: flex;
-    margin-bottom: 20px;
-  }
-  
-  .agregarCaracteristica input {
-    flex: 1;
-    padding: 8px;
-  }
-  
-  .agregarCaracteristica button {
-    padding: 8px 12px;
-    background-color: #213555;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .listaCaracteristicas li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-  }
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #A9A794;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
-  .listaCaracteristicas li button {
-    background-color: #213555;
-  }
-  
-  .icon {
-    display: inline-block;
-    margin-right: 8px;
-    cursor: pointer;
-  }
+.administrarCaracteristicas .agregarCaracteristica {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  .selectContainer {
-    position: relative;
-    width: 200px; /* Ajusta el ancho según tus necesidades */
-  }
-  
-  .customSelect {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .selectedOption {
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .options {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 4px 4px;
-    background-color: #fff;
-  }
-  
-  .option {
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .option:hover {
-    background-color: #f0f0f0;
-  }
+.administrarCaracteristicas h2 {
+  align-items: center;
+}
+
+.administrarCaracteristicas .mensajeError {
+  color: red;
+  margin-top: 10px;
+}
+
+.administrarCaracteristicas label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.administrarCaracteristicas input[type="text"],
+.administrarCaracteristicas textarea,
+.administrarCaracteristicas select,
+.administrarCaracteristicas input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.administrarCaracteristicas .caracteristicasContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.administrarCaracteristicas .selectSeleccionado {
+  background-color: #214f55;
+  color: #fff;
+  font-weight: bold;
+}
+
+.administrarCaracteristicas button[type="submit"] {
+  margin-top: 15px;
+  background-color: #214f55;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: center;
+  display: block;
+}
+
+.administrarCaracteristicas button[type="submit"]:hover {
+  background-color: #0056b3;
+}

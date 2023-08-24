@@ -1,39 +1,65 @@
-/* AgregarProducto.module.css */
-
 .agregarProducto {
-    width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .mensajeError {
-    color: red;
-    margin-bottom: 10px;
-  }
-  
-  form label,
-  form input,
-  form textarea {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  form textarea {
-    height: 100px;
-  }
-  
-  form button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  form button:hover {
-    background-color: #0056b3;
-  }
-  
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #A9A794;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+h2{
+  align-items: center;
+}
+
+.mensajeError {
+  color: red;
+  margin-top: 10px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input[type="text"],
+textarea,
+select,
+input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.caracteristicasContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Esto crea 4 columnas iguales */
+  gap: 10px;
+}
+
+.selectSeleccionado {
+  background-color: #214f55; /* Cambia el color de fondo */
+  color: #fff;
+  font-weight: bold;
+}
+
+
+button[type="submit"] {
+  margin-top: 15px;
+  background-color: #214f55;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: center;
+  display:block
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
