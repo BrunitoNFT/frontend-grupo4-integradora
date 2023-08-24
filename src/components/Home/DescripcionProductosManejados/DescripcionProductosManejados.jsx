@@ -9,10 +9,7 @@ function DescripcionProductosManejados() {
 
             {/* FILA 1 */}
             <section className={styles.fila}>
-                {/* Imagen y texto */}
                 <section className={styles.content}>
-                    {/* Texto */}
-                    <img src="https://http2.mlstatic.com/D_NQ_NP_689720-MLA69887987939_062023-O.webp" alt="BandejaGiradiscos" width={"50%"}/>
                     <div className={styles.descripcion}>
                         <span className={styles.tituloDescripcion}>Bandejas giradiscos</span>
                         <p className={styles.paragraph}>
@@ -21,7 +18,7 @@ function DescripcionProductosManejados() {
                             tus bandejas las encontrás acá
                         </p>
                     </div>
-                    
+                    <img src="https://http2.mlstatic.com/D_NQ_NP_689720-MLA69887987939_062023-O.webp" alt="BandejaGiradiscos" width={"50%"}/>
                 </section>
                 <hr className={styles.divider}/>
             </section>
@@ -50,13 +47,13 @@ function DescripcionProductosManejados() {
                 {/* Imagen y texto */}
                 <section className={styles.content}>
                     {/* Texto */}
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuhAZYPUWEIQkNKFoXbBm2_09gSU-qIRqqTA&usqp=CAU" alt="auriculares" width={"50%"}/>
                     <div className={styles.descripcion}>
                         <span className={styles.tituloDescripcion}>Auriculares</span>
                         <p className={styles.paragraph}>
                             Nada es para cualquiera, llevate los mejores auriculares, tanto para uso personal como para producción musical
                         </p>
                     </div>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuhAZYPUWEIQkNKFoXbBm2_09gSU-qIRqqTA&usqp=CAU" alt="auriculares" width={"50%"}/>
                     
                 </section>
                 <hr className={styles.divider}/>

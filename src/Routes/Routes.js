@@ -8,7 +8,9 @@ const Detalle = lazy(() => import('../Screens/Detalle'));
 const Cart = lazy(() => import('../Screens/CartContent'));
 const PanelAdmin = lazy(() => import('../Screens/PanelAdmin'));
 const Register = lazy(() => import('../Screens/Register'));
-const Login = lazy(() => import('../Screens/Login'));
+const PanelUsuarios = lazy(() => import('../Screens/PanelUsuarios'));
+const Productos = lazy(() => import('../Screens/Productos'));
+const Login = lazy (() => import ('../Screens/Login'));
 
 // Define la configuración de rutas
 const navigation = [
@@ -44,9 +46,20 @@ const navigation = [
   },
   {
     id: 7,
+    path: '/PanelUsuarios',
+    Element: PanelUsuarios,
+  },
+  {
+    id: 8,
+    path: '/Productos',
+    Element: Productos,
+  },
+  {
+    id: 9,
     path: '/login',
     Element: Login,
-  },
+  }
 ];
 
-export default navigation; // Exporta la configuración de rutas
+
+export default navigation;

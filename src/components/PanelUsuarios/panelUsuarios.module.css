@@ -1,0 +1,105 @@
+.adminPermissions {
+  width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.searchBar {
+  margin-bottom: 20px;
+}
+
+.userList {
+  list-style: none;
+  padding: 0;
+}
+
+.userItem {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.toggleLabel {
+  margin-left: auto;
+}
+
+.toggleLabel button {
+  text-decoration: none;
+  color: #333;
+  padding: 5px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.toggleLabel button:hover {
+  background-color: #ddd;
+}
+
+.confirmationBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.adminIndicator {
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 0 5px;
+  font-size: 14px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.pagination button:hover {
+  color: #555;
+}
+
+.activePage {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .adminPermissions {
+    display: none;
+  }
+
+  .confirmationBox {
+    margin-top: 5px;
+  }
+
+  .adminCartel {
+    display: flex;
+    flex-wrap: wrap;
+    height: 15vh;
+    background-color: #f5efe7;
+    padding: 5rem;
+    margin: 6rem;
+    text-align: center;
+    color: #213555;
+    font-weight: bold;
+    border-radius: 5rem;
+    justify-content: center;
+  }
+
+  p {
+    text-align: center;
+  }
+}

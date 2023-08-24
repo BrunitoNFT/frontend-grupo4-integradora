@@ -1,0 +1,65 @@
+.agregarCategoria {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #A9A794;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.agregarCategoria h2 {
+  align-items: center;
+}
+
+.agregarCategoria .mensajeError {
+  color: red;
+  margin-top: 10px;
+}
+
+.agregarCategoria label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.agregarCategoria input[type="text"],
+.agregarCategoria textarea,
+.agregarCategoria select,
+.agregarCategoria input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.agregarCategoria .caracteristicasContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.agregarCategoria .selectSeleccionado {
+  background-color: #214f55;
+  color: #fff;
+  font-weight: bold;
+}
+
+.agregarCategoria button[type="submit"] {
+  margin-top: 15px;
+  background-color: #214f55;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: center;
+  display: block;
+}
+
+.agregarCategoria button[type="submit"]:hover {
+  background-color: #0056b3;
+}

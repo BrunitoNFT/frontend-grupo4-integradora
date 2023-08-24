@@ -1,0 +1,71 @@
+.administrarCaracteristicas {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #A9A794;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.administrarCaracteristicas .agregarCaracteristica {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.administrarCaracteristicas h2 {
+  align-items: center;
+}
+
+.administrarCaracteristicas .mensajeError {
+  color: red;
+  margin-top: 10px;
+}
+
+.administrarCaracteristicas label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.administrarCaracteristicas input[type="text"],
+.administrarCaracteristicas textarea,
+.administrarCaracteristicas select,
+.administrarCaracteristicas input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.administrarCaracteristicas .caracteristicasContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.administrarCaracteristicas .selectSeleccionado {
+  background-color: #214f55;
+  color: #fff;
+  font-weight: bold;
+}
+
+.administrarCaracteristicas button[type="submit"] {
+  margin-top: 15px;
+  background-color: #214f55;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: center;
+  display: block;
+}
+
+.administrarCaracteristicas button[type="submit"]:hover {
+  background-color: #0056b3;
+}
