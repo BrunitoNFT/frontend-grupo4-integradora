@@ -66,6 +66,7 @@ const Registro = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </div>
         <div className={styles.labelContainer}>
@@ -76,6 +77,7 @@ const Registro = () => {
             type="text"
             value={apellido}
             onChange={(e) => setApellido(e.target.value)}
+            required
           />
         </div>
 
@@ -87,6 +89,7 @@ const Registro = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
 
@@ -97,6 +100,7 @@ const Registro = () => {
             type="password"
             value={contrasena}
             onChange={(e) => setContrasena(e.target.value)}
+            required
           />
         </div>
         <button type="submit">Registrar</button>
