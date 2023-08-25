@@ -7,6 +7,12 @@ import { AiFillSetting } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
 import { FiMenu, FiSearch } from "react-icons/fi";
 
+function getInitials(mail) {
+
+  const initial = mail.charAt(0).toUpperCase();
+  return initial;
+}
+
 const Navbar = () => {
   const { user, setUser } = useContext(DataContext);
 
@@ -44,16 +50,18 @@ const Navbar = () => {
               </button>
 
               <Link className={styles.seeCarrito} to={"/cart"}>
-                <BsCartCheck />
+                <BsCartCheck color="whitesmoke"/>
               </Link>
             </>
           ) : (
               <div className={styles.navbarAvatar}>
 
-                <div className={styles.avatar}>{user.name}</div>
+                <div className={styles.avatar}>
+                  {getInitials(user.email)}
+                </div>
                 
                 <Link className={styles.Admin} to={"/paneladmin"}>
-                  <AiFillSetting />
+                  <AiFillSetting color="D8C4B6" size={25}/>
                 </Link>
 
                 <button
@@ -64,7 +72,7 @@ const Navbar = () => {
                 </button>
 
                 <Link className={styles.seeCarrito} to={"/cart"}>
-                  <BsCartCheck />
+                  <BsCartCheck color="whitesmoke"/>
                 </Link>
 
               </div>
@@ -74,7 +82,7 @@ const Navbar = () => {
 
 
         <div className={styles.BurgerButton}>
-          <FiMenu />
+          <FiMenu color="D8C4B6"/>
         </div>
       </nav>
 
