@@ -1,36 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styles from './galeria.module.css';
+
 
 const GaleriaImg = () => {
   
-  return (
-    <>
-    <div className={styles.galleryContainer}>
-      <div className={styles.mainImage}>
-        <img src="imagen_principal.jpg" alt="Imagen Principal" />
-      </div>
+  const { id } = useParams();
+  console.log('/Galeria:', id);
 
-      <div className={styles.imageGrid}>
-        <div className={styles.additionalImage}>
-          <img src="imagen_2.jpg" alt="Imagen 2" />
-        </div>
-        <div className={styles.additionalImage}>
-          <img src="imagen_3.jpg" alt="Imagen 3" />
-        </div>
-        <div className={styles.additionalImage}>
-          <img src="imagen_4.jpg" alt="Imagen 4" />
-        </div>
-        <div className={styles.additionalImage}>
-          <img src="imagen_5.jpg" alt="Imagen 5" />
-        </div>
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/data.json');
+        if (!response.ok) {
+          throw new Error('No se pudo cargar el archivo JSON');
+        }
+        const productsData = await response.json();
+        const foundProduct = productsData.find((product) => product.id.toString() === id);
+  
+        if (foundProduct) {
+          setProduct(foundProduct);
+        } else {
+          console.error('Producto no encontrado');
+        }
+      } catch (error) {
+        console.error('Error al cargar los datos', error);
+      }
+    };
+  
+    fetchData();
+  }, [id]);
+
+  if (!product) {
+    return <p>Producto no encontrado</p>;
+  }
+
+  // Crear un array de imágenes a partir de las propiedades img1, img2, img3, etc.
+  const imagenes = Object.keys(product)
+    .filter((key) => key.startsWith('img'))
+    .map((key) => product[key]);
+
+  return (
+    <div className={styles.galleryContainer}>
+      <h1 >Galería de Imágenes</h1>
+      <div className={styles.imagenes}>
+        {imagenes.map((imagen, index) => (
+          <img key={index} src={imagen} alt={`Imagen ${index + 1}`} />
+        ))}
       </div>
     </div>
-    
-    <button className={styles.verMas}>
-      <a href="/" className={styles.viewMoreLink}>Ver más</a>
-    </button> 
-    </>
   );
-};
+}
 
 export default GaleriaImg;
