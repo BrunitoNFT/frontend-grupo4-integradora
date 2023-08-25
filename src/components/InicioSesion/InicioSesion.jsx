@@ -12,40 +12,48 @@ function InicioSesion() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (email.length === 0 || password.length === 0) {
+    if (email.length < 0 || password.length < 0) {
       alert("Debes completar la información");
     } else if (!email.includes("@")) {
       alert("Ingresa una dirección de correo válida");
+    } else if (password.trim() === "") {
+      alert("Clave invalida");
+    } else if (password.length < 6) {
+      alert("Clave invalida");
     } else {
       setUser({ name: "Andrea", email: "andrea@mail.com" });
       navigate("/");
     }
   };
 
-
   return (
     <>
       <div className={styles.loginContainer}>
-        <div>
-          <h2>Iniciar Sesión</h2>
+        <h2>Completá los campos</h2>
+
+        <div className={styles.labelContainer}>
+          <label> Correo electronico *</label>
           <input
-            className={styles.inputLogin}
             type="email"
-            placeholder="Correo Electrónico"
+            placeholder="Ej. dondiego@delavega.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <input
-            className={styles.inputLogin}
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />{" "}
-          <button className={styles.buttonLogin} onClick={handleSubmit}>Iniciar Sesión</button>
         </div>
+
+        <div className={styles.labelContainer}>
+          <label>Contraseña *</label>
+          <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          />{" "}
+        </div>
+        <br />
+
+        <button onClick={handleSubmit}>Iniciar Sesión</button>
       </div>
     </>
   );
