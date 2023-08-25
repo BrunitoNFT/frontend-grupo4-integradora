@@ -83,6 +83,7 @@ button {
   text-decoration: none;
 }
 
+
 .Register{
     color: #213555;
     text-decoration: none;
@@ -118,6 +119,13 @@ button {
 .BurgerButton{
   display: none;
 }
+
+.navbarAvatar {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 15px;
+}
+
 /****************Tablet************************/
 
 @media (max-width: 1023px)
