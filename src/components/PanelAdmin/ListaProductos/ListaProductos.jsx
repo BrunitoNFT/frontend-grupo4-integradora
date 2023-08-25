@@ -62,16 +62,16 @@ const ListaProductos = ({  onEditProduct }) => {
   return (
     <div className={styles.listaProductos}>
       <h2>Lista de Productos</h2>
-      <table>
+      <table className={styles.table}>
         <thead>
-          {/* <tr>
-            <th>Id</th>
+          <tr>
+            <th>ID</th>
             <th>Imagen</th>
             <th>Nombre</th>
             <th>Precio</th>
             <th>Categoria</th>
-            <th>Acciones</th>
-          </tr> */}
+            <th className={styles.botones}></th>
+          </tr>
         </thead>
         <tbody>
           {productos.map(producto => (
@@ -84,11 +84,11 @@ const ListaProductos = ({  onEditProduct }) => {
               <td>{producto.precio}</td>
               <td>{producto.categoria}</td>
               <td>
-                <button onClick={() => handleEdit(producto.id)}>
-                  <FaEdit />
+                <button className={styles.button} onClick={() => handleEdit(producto.id)}>
+                  <FaEdit/>
                 </button>
-                <button onClick={() => handleDelete(producto.id)}>
-                  <FaTrash />
+                <button className={styles.button} onClick={() => handleDelete(producto.id)}>
+                  <FaTrash/>
                 </button>
               </td>
             </tr>
@@ -96,7 +96,7 @@ const ListaProductos = ({  onEditProduct }) => {
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
 export default ListaProductos;

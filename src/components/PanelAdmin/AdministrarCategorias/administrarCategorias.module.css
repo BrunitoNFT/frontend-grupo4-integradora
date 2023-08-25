@@ -1,33 +1,29 @@
-.agregarCategoria {
+.administrarCategorias {
   margin: 20px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #A9A794;
+}
+
+.administrarCategorias h2 {
+  text-align: center;
+}
+
+/* Estilos para la sección Agregar Categoría */
+.agregarCategoria {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-}
-
-.agregarCategoria h2 {
-  align-items: center;
-}
-
-.agregarCategoria .mensajeError {
-  color: red;
-  margin-top: 10px;
-}
-
-.agregarCategoria label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
 }
 
 .agregarCategoria input[type="text"],
-.agregarCategoria textarea,
-.agregarCategoria select,
 .agregarCategoria input[type="file"] {
   width: 100%;
   padding: 8px;
@@ -36,30 +32,76 @@
   border-radius: 4px;
 }
 
-.agregarCategoria .caracteristicasContainer {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.agregarCategoria .selectSeleccionado {
-  background-color: #214f55;
-  color: #fff;
-  font-weight: bold;
-}
-
-.agregarCategoria button[type="submit"] {
-  margin-top: 15px;
+.agregarCategoria button {
+  margin-top: 10px;
   background-color: #214f55;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  align-self: center;
-  display: block;
 }
 
-.agregarCategoria button[type="submit"]:hover {
+.agregarCategoria button:hover {
   background-color: #0056b3;
+}
+
+/* Estilos para la tabla de Categorías */
+.listaCategorias {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.listaCategorias td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.listaCategorias tbody {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.img img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.titulo{
+  width: 20%;
+}
+
+.descripcion{
+  width: 45%;
+}
+
+
+.Icons{
+ width: 5%;
+}
+
+
+
+.iconContainer {
+  display: flex;
+}
+
+.iconDiv {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* Otros estilos */
+.mensajeError {
+  color: red;
+  margin-top: 10px;
+}
+
+.selectSeleccionado {
+  background-color: #214f55;
+  color: #fff;
+  font-weight: bold;
 }
