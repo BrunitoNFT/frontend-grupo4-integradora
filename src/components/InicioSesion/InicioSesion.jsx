@@ -12,18 +12,22 @@ function InicioSesion() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (email.length < 0 || password.length < 0) {
+    if (email.trim() === "" || password.trim() === "") {
       alert("Debes completar la información");
-    } else if (!email.includes("@")) {
+    } else if (!isValidEmail(email)) {
       alert("Ingresa una dirección de correo válida");
-    } else if (password.trim() === "") {
-      alert("Clave invalida");
     } else if (password.length < 6) {
-      alert("Clave invalida");
+      alert("Clave debe tener al menos 6 caracteres");
     } else {
-      setUser({ name: "Andrea", email: "andrea@mail.com" });
-      navigate("/");
+      const user = { email, password };
+      setUser(user);
+      navigate('/');
     }
+  };
+  
+  const isValidEmail = (value) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(value);
   };
 
   return (

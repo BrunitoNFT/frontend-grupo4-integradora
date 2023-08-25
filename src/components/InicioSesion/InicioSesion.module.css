@@ -41,3 +41,9 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+.emailValido{
+  background-color: green;
+}
+.emailInvalido{
+  background-color: red;
+}
