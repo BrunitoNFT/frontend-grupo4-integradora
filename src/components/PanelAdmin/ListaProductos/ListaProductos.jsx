@@ -6,15 +6,17 @@ const ListaProductos = ({  onEditProduct }) => {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    var requestOptions = {
-      method: "GET",
-      redirect: "follow",
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/data.json'); // Cambia la ruta según la ubicación de data.json en tu proyecto
+        const data = await response.json();
+        setProductos(data);
+      } catch (error) {
+        console.error('Error al obtener los datos de productos:', error);
+      }
     };
 
-    fetch("http://18.118.140.140/product", requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log('testing cors,',result))
-      .catch((error) => console.log("error cors isss", error));
+    fetchData();
   }, []);
 
   const handleDelete = (id) => {

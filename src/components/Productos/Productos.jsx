@@ -8,11 +8,15 @@ const Productos = ({ setProductosFiltrados }) => {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    // Hacer la solicitud fetch al archivo JSON
-    fetch('/data.json') // Ajusta la ruta según la ubicación de tu archivo JSON
-      .then(response => response.json())
-      .then(data => setProductos(data))
-      .catch(error => console.error('Error fetching data:', error));
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch("http://18.118.140.140/product", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log('testing cors,',result))
+      .catch((error) => console.log("error cors isss", error));
   }, []);
 
   const manejarCambioCategoria = (categoria) => {
