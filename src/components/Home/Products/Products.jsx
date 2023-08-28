@@ -82,25 +82,29 @@ const Products = () => {
       </div>
       <div className={styles.pagination}>
         <button
+        className={styles.buttonPagination}
           onClick={() => handlePageChange(1)}
           disabled={currentPage === 1}
         >
           {"<<"}
         </button>
         <button
+        className={styles.buttonPagination}
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
           {"<"}
         </button>
-        <span>{`${currentPage} / ${totalPages}`}</span>
+        <span className={styles.numeracion}>{`${currentPage} / ${totalPages}`}</span>
         <button
+        className={styles.buttonPagination}
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
           {">"}
         </button>
         <button
+        className={styles.buttonPagination}
           onClick={() => handlePageChange(totalPages)}
           disabled={currentPage === totalPages}
         >
