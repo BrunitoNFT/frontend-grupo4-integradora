@@ -57,7 +57,7 @@ function InicioSesion() {
         </div>
         <br />
 
-        <button onClick={handleSubmit}>Iniciar Sesión</button>
+        <button className={styles.buttonInicio} onClick={handleSubmit}>Iniciar Sesión</button>
       </div>
     </>
   );

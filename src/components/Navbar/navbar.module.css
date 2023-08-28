@@ -44,6 +44,9 @@
   padding: 8px;
   cursor: pointer;
   margin: 0;
+  font-size: 0.8em;
+  border-style: none;
+  box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
 }
 
 .navbarIcons {
@@ -52,28 +55,29 @@
   padding: 15px 15px;
 }
 
-
-button {
-  border-radius: 6px;
-  margin: 0px 10px;
-  padding: 5px 25px;
-  font-size: 0.8em;
-  color: whitesmoke;
-  border-style: none;
-  box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-  text-decoration: none;
-}
-
 .LoginBox {
   background-color: #213555;
   color: #f5efe7;
   text-decoration: none;
+  border-radius: 6px;
+  margin: 0px 10px;
+  padding: 5px 25px;
+  font-size: 0.8em;
+  border-style: none;
+  cursor: pointer;
+  box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
 }
 .RegisterBox {
   background-color: #f5efe7;
   color: #213555;
   text-decoration: none;
+  border-radius: 6px;
+  margin: 0px 10px;
+  padding: 5px 25px;
+  font-size: 0.8em;
+  border-style: none;
+  cursor: pointer;
+  box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
 }
 
 .seeCarrito {
@@ -98,7 +102,7 @@ button {
 .navbarBoxes{
   display: flex;
   align-items: center ;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .linksNavbar{
