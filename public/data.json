@@ -35,7 +35,7 @@
 
   {
     "id": 3,
-    "categoria": "PERCUCIÓN",
+    "categoria": "PERCUSIÓN",
     "descripcion": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti distinctio voluptate animi? Doloribus, doloremque. Ducimus alias numquam temporibus necessitatibus, voluptatem impedit incidunt deleniti assumenda id, cumque, dicta nobis beatae quia.",
     "objeto": "BATERIA DIGITAL BEHRINGER XD8USB",
     "precio": "$17,542.63",
@@ -52,7 +52,7 @@
 
   {
     "id": 4,
-    "categoria": "PERCUCIÓN",
+    "categoria": "PERCUSIÓN",
     "descripcion": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti distinctio voluptate animi? Doloribus, doloremque. Ducimus alias numquam temporibus necessitatibus, voluptatem impedit incidunt deleniti assumenda id, cumque, dicta nobis beatae quia.",
     "objeto": "BONGO REMO 6' Y 7' BG530070",
     "precio": "$32,975.05",
@@ -273,7 +273,7 @@
 
   {
     "id": 17,
-    "categoria": "PERCUCIÓN",
+    "categoria": "PERCUSIÓN",
     "descripcion": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti distinctio voluptate animi? Doloribus, doloremque. Ducimus alias numquam temporibus necessitatibus, voluptatem impedit incidunt deleniti assumenda id, cumque, dicta nobis beatae quia.",
     "objeto": "METALOFON 3.5 OCTAVAS",
     "precio": "$192,645.88",

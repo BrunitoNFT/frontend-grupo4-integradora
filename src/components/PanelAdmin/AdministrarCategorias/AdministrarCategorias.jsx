@@ -10,10 +10,6 @@ const AdministrarCategorias = () => {
     imagen: '',
   });
 
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [categoryToDeleteIndex, setCategoryToDeleteIndex] = useState(null);
-
-
   const agregarCategoria = () => {
     if (nuevaCategoria.titulo && nuevaCategoria.descripcion && nuevaCategoria.imagen) {
       setCategorias([...categorias, { ...nuevaCategoria }]);
@@ -68,16 +64,16 @@ const AdministrarCategorias = () => {
   <tbody>
     {categorias.map((categoria, indice) => (
       <tr key={indice}>
-        <td>
+        <td className={styles.titulo}>
           {categoria.titulo}
         </td>
-        <td>
+        <td className={styles.descripcion}>
           {categoria.descripcion}
         </td>
-        <td>
+        <td className={styles.img}>
           <img src={URL.createObjectURL(categoria.imagen)} alt={`Imagen de ${categoria.titulo}`} />
         </td>
-        <td>
+        <td className={styles.Icons}>
                 <div className={styles.iconContainer}>
                   <div onClick={() => editarCategoria(indice, categoria)} className={styles.iconDiv}>
                     <FaEdit />
