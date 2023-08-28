@@ -3,6 +3,12 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styles from './detalleProducto.module.css';
 
+
+import {GiMusicalScore} from "react-icons/gi";
+import { GiMusicSpell } from "react-icons/gi";
+import {GiMusicalNotes} from "react-icons/gi";
+import { GiMusicalKeyboard } from "react-icons/gi";
+
 const DetalleProducto = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -38,7 +44,13 @@ const DetalleProducto = () => {
         </header>
         <div className={styles.detalleBody}>
           
-          
+        <div className={styles.caracteristicas}> 
+          <div> <b>< GiMusicalScore />Categoria:</b> <p>{product.categoria}</p> </div>
+          <div> <b>< GiMusicSpell />Marca:</b> <p>{product.marca}</p> </div>
+          <div> <b>< GiMusicalNotes />Modelo:</b> <p>{product.modelo}</p> </div>
+          <div> <b>< GiMusicalKeyboard />Material:</b> <p>{product.material}</p> </div>
+        </div>
+
           <article className={styles.imgContainer}>
 
             <section className={styles.productImage}>
@@ -72,6 +84,14 @@ const DetalleProducto = () => {
               alt="img-product"
               className={styles.productImg}
             />
+
+            <div className={styles.contButton}>
+              <Link to={`/Galeria/${id}`}>
+               <button className={styles.VerMas}>Ver Más</button>
+              </Link>
+            </div>
+
+
             </div>
 
             </section>
@@ -80,13 +100,10 @@ const DetalleProducto = () => {
 
           <p className={styles.productDescription}>{product.descripcion}</p>
 
+          
+
         </div>
-        <div className={styles.caracteristicas}> 
-          <div> <b>Categoria:</b> <p>{product.categoria}</p> </div>
-          <div> <b>Marca:</b> <p>{product.marca}</p> </div>
-          <div> <b>Modelo:</b> <p>{product.modelo}</p> </div>
-          <div> <b>Material:</b> <p>{product.material}</p> </div>
-        </div>
+        
       </div>
     </div>
   );

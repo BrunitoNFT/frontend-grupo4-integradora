@@ -21,7 +21,7 @@ const navigation = [
   },
   {
     id: 2,
-    path: '/Galeria',
+    path: '/Galeria/:id',
     Element: Galeria,
   },
   {
