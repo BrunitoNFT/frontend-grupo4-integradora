@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styles from "./navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../DropTheBass.png";
 import { DataContext } from "../Context/DataContext";
 import { AiFillSetting } from "react-icons/ai";
@@ -8,13 +8,23 @@ import { BsCartCheck } from "react-icons/bs";
 import { FiMenu, FiSearch } from "react-icons/fi";
 
 function getInitials(mail) {
-
   const initial = mail.charAt(0).toUpperCase();
   return initial;
 }
 
 const Navbar = () => {
   const { user, setUser } = useContext(DataContext);
+  const navigate = useNavigate();
+
+
+  const handleLogout = () => {
+    try {
+      setUser({});
+      navigate('/');
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
+  };
 
   return (
     <div className={styles.navContainer}>
@@ -66,7 +76,7 @@ const Navbar = () => {
 
                 <button
                   className={styles.LoginBox}
-                  onClick={(e) => setUser({})}
+                  onClick={handleLogout}
                 >
                   Cerrar sesión
                 </button>
