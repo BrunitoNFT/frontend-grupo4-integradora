@@ -49,11 +49,11 @@ const navigation = [
     path: '/PanelUsuarios',
     Element: PanelUsuarios,
   },
-  /* {
+  {
     id: 8,
     path: '/Productos',
     Element: Productos,
-  }, */
+  },
   {
     id: 9,
     path: '/login',

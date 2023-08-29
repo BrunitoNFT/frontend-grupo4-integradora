@@ -5,19 +5,17 @@ const categorias = ['Electrónica', 'Ropa', 'Hogar', 'Deportes'];
 
 const Productos = ({ setProductosFiltrados }) => {
   const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
-  const [productos, setProductos] = useState([]);
+  const [productos, setProductos] = useState([])
+  
+  async function fetchProductos() {
+    const response = await fetch('http://18.118.140.140/product')
+    const jsonData = await response.json()
+    setProductos(jsonData)
+  }
 
   useEffect(() => {
-    var requestOptions = {
-      method: "GET",
-      redirect: "follow",
-    };
-
-    fetch("http://18.118.140.140/product", requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log('testing cors,',result))
-      .catch((error) => console.log("error cors isss", error));
-  }, []);
+    fetchProductos()
+  }, [])
 
   const manejarCambioCategoria = (categoria) => {
     if (categoriasSeleccionadas.includes(categoria)) {
@@ -26,7 +24,6 @@ const Productos = ({ setProductosFiltrados }) => {
       setCategoriasSeleccionadas([...categoriasSeleccionadas, categoria]);
     }
   };
-
   const filtrarProductos = () => {
     if (categoriasSeleccionadas.length === 0) {
       setProductosFiltrados(productos);
@@ -35,10 +32,14 @@ const Productos = ({ setProductosFiltrados }) => {
       setProductosFiltrados(filtrados);
     }
   };
+  
+  console.log("PRODUCTOS", productos);
 
   return (
+      
     <div className={estilos.filtroProductos}>
-      <h2>Filtrar por Categoría</h2>
+
+       <h2>Filtrar por Categoría</h2>
       <div className={estilos.listaCategorias}>
         {categorias.map(categoria => (
           <label key={categoria} className={estilos.etiquetaCategoria}>
@@ -56,29 +57,18 @@ const Productos = ({ setProductosFiltrados }) => {
 
       <div className={estilos.listaProductos}>
       <h2>Lista de Productos</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Categoria</th>
-            <th>Caracteristicas</th>
-            <th>Precio</th>
-          </tr>
-        </thead>
-        <tbody>
-          {productos.map(producto => (
-            <tr key={producto.id}>
-              <td>{producto.id}</td>
-              <td>{producto.objeto}</td>
-              <td>{producto.categoria}</td>
-              <td>{producto.marca}</td>
-              <td>{producto.precio}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        <div>
+          <ul>
+            {productos.map((producto) => (
+              <li key={producto.id}>
+                <img src={producto.urlImg} alt="imagenProducto" />
+                <div>{producto.name}</div>
+                <div>$ {producto.price}</div>
+              </li>
+            ))}
+          </ul>
+      </div>
+    </div> 
     </div>
   );
 };
