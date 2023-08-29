@@ -1,163 +1,132 @@
-import React, { useState } from 'react';
-import styles from './agregarProducto.module.css';
+import React, { useState, useEffect } from 'react';
 
-const AgregarProducto = ({ agregarProducto }) => {
-  const [nombre, setNombre] = useState('');
-  const [precio, setPrecio] = useState('');
+function AgregarProductos() {
+  const [name, setName] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
-  const [caracteristicaSeleccionada, setCaracteristicaSeleccionada] = useState([]);
+  const [price, setPrice] = useState(0);
+  const [stock, setStock] = useState(0);
+  const [categoria, setCategoria] = useState('');
+  const [categorias, setCategorias] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [marcasDisponibles, setMarcasDisponibles] = useState([]);
   const [imagenes, setImagenes] = useState([]);
-  const [mensajeError, setMensajeError] = useState('');
+  const [productos, setProductos] = useState([]);
 
-  const handleNombreChange = (event) => {
-    setNombre(event.target.value);
-  };
+  useEffect(() => {
+    // Obtener categorías usando fetch
+    fetch("http://18.118.140.140/categories")
+      .then(response => response.json())
+      .then(data => setCategorias(data))
+      .catch(error => console.error('Error al obtener categorías:', error));
 
-  const handleDescripcionChange = (event) => {
-    setDescripcion(event.target.value);
-  };
+    // Obtener marcas usando fetch
+    fetch("http://18.118.140.140/brand")
+      .then(response => response.json())
+      .then(data => setMarcasDisponibles(data))
+      .catch(error => console.error('Error al obtener marcas:', error));
+  }, []);
 
-  const handleImagenesChange = (event) => {
-    const files = Array.from(event.target.files);
+  const handleImagenesChange = (e) => {
+    const files = Array.from(e.target.files);
     setImagenes(files);
   };
 
-  const handleCategoriaChange = (event) => {
-    setCategoriaSeleccionada(event.target.value);
-  };
-
-  const handlePrecioChange = (event) => {
-    setPrecio(event.target.value);
-  };
-
-  const handleCaracteristicaSeleccionada = (e, caracteristicaId) => {
-    const isChecked = e.target.checked;
-
-    if (isChecked) {
-        // Agregar la categoría seleccionada al conjunto
-      setCaracteristicaSeleccionada([...caracteristicaSeleccionada, caracteristicaId]);
-    } else {
-        // Remover la categoría deseleccionada del conjunto
-      setCaracteristicaSeleccionada(caracteristicaSeleccionada.filter(id => id !== caracteristicaId));
-    }
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!nombre || !descripcion || caracteristicaSeleccionada.length === 0 || imagenes.length === 0) {
-      setMensajeError('Por favor, completa todos los campos.');
-      return;
-    }
-
+  const crearProducto = async () => {
     const formData = new FormData();
-    formData.append('nombre', nombre);
-    formData.append('precio', precio);
+    formData.append('name', name);
     formData.append('descripcion', descripcion);
-    formData.append('categoriaSeleccionada', categoriaSeleccionada);
-    caracteristicaSeleccionada.forEach(id => {
-      formData.append('caracteristicaSeleccionada', id);
-    });
-    imagenes.forEach(imagen => {
-      formData.append('imagenes', imagen);
-    });
+    formData.append('price', price);
+    formData.append('stock', stock);
+    formData.append('categoria', categoria);
+    brands.forEach(brand => formData.append('brands', brand));
+    imagenes.forEach((imagen, index) => formData.append(`imagen-${index}`, imagen));
 
     try {
-      const response = await fetch('URL_DEL_SERVIDOR', {
+      const response = await fetch("http://18.118.140.140/product", {
         method: 'POST',
-        body: formData,
+        body: formData
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        setNombre('');
-        setDescripcion('');
-        setCaracteristicaSeleccionada([]);
-        setCategoriaSeleccionada(''); 
-        setImagenes([]);
-        setMensajeError('');
+        const data = await response.json();
+        setProductos([...productos, data]);
+        alert(`Producto '${name}' creado exitosamente!`);
       } else {
-        setMensajeError('Hubo un error al agregar el producto.');
+        alert('Hubo un error al crear el producto.');
       }
     } catch (error) {
-      console.error('Error al realizar la solicitud:', error);
-      setMensajeError('Hubo un error al comunicarse con el servidor.');
+      console.error('Error al enviar la solicitud:', error);
+      alert('Hubo un error al crear el producto.');
     }
   };
 
-/// Traer el listado de Caracteristicas para armar la checklist
-
-  const [caracteristicas] = useState([
-    { id: 1, nombre: 'Yamaha' },
-    { id: 2, nombre: 'Babilon' },
-    { id: 3, nombre: 'Behringer'},
-    { id: 4, nombre: 'Guitarras'},
-    { id: 5, nombre: 'Plastico'},
-    { id: 6, nombre: 'Metal'},
-    { id: 7, nombre: 'Madera'},
-
-  ]);
-
-/// Traer el listado de Categorias
-
-  const [categorias] = useState([
-    { id: 1, nombre: 'Percusion' },
-    { id: 2, nombre: 'Viento' },
-    { id: 3, nombre: 'Cuerda'},
-  ]);
+  const toggleMarca = (brandId) => {
+    if (brands.includes(brandId)) {
+      setBrands(brands.filter(item => item !== brandId));
+    } else {
+      setBrands([...brands, brandId]);
+    }
+  };
 
   return (
-    <div className={styles.agregarProducto}>
-      <h2>Agregar Producto</h2>
-      {mensajeError && <p className={styles.mensajeError}>{mensajeError}</p>}
-      <form onSubmit={handleSubmit}>
+    <div>
+      <h1>Agregar Productos</h1>
+      <div>
         <label>Nombre:</label>
-        <input type="text" value={nombre} onChange={handleNombreChange} />
-
-        <label>Precio:</label>
-        <input type="text" value={precio} onChange={handlePrecioChange} inputmode="numeric" pattern="[0-9]*" />
-
+        <input type="text" value={name} onChange={e => setName(e.target.value)} />
+      </div>
+      <div>
         <label>Descripción:</label>
-        <textarea value={descripcion} onChange={handleDescripcionChange}></textarea>
-
-        <label>Imágenes:</label>
-        <input type="file" multiple onChange={handleImagenesChange} />  
-
+        <input type="text" value={descripcion} onChange={e => setDescripcion(e.target.value)} />
+      </div>
+      <div>
+        <label>Precio:</label>
+        <input type="number" value={price} onChange={e => setPrice(e.target.value)} />
+      </div>
+      <div>
+        <label>Stock:</label>
+        <input type="number" value={stock} onChange={e => setStock(e.target.value)} />
+      </div>
+      <div>
         <label>Categoría:</label>
-        <select
-          value={categoriaSeleccionada}
-          onChange={handleCategoriaChange}
-          className={categoriaSeleccionada ? styles.selectSeleccionado : ''}
-        >
-          <option value="">Selecciona una categoría</option>
-           {categorias.map(categoria => (
-            <option key={categoria.id} value={categoria.id}>
-              {categoria.nombre}
-            </option>
-           ))}
-        </select>
-        
-        <label>Características:</label>
-        <div className={styles.caracteristicasContainer}>
-          {caracteristicas.map(caracteristica => (
-            <label key={caracteristica.id}>
-              <input
-                type="checkbox"
-                value={caracteristica.id}
-                checked={caracteristicaSeleccionada.includes(caracteristica.id)}
-                onChange={e => handleCaracteristicaSeleccionada(e, caracteristica.id)}
-              />
-              {caracteristica.nombre}
-            </label>
-          ))}
-        </div>
-
-        <button type="submit">Agregar Producto</button>
-      </form>
+        <select value={categoria} onChange={e => setCategoria(e.target.value)}>
+  <option value="">Selecciona una categoría</option>
+  {categorias.map((cat) => (
+    <option key={cat.id} value={cat.id}>{cat.name}</option>
+  ))}
+</select>
+      </div>
+      <div>
+  <label>Marcas:</label>
+  {marcasDisponibles.map((brand) => (
+    <div key={brand.id}>
+      <input
+        type="checkbox"
+        value={brand.id}
+        name={`brand-${brand.id}`}
+        checked={brands.includes(brand.id)}
+        onChange={() => toggleMarca(brand.id)}
+      />
+      <label>{brand.name}</label>
+    </div>
+  ))}
+</div>
+      <div>
+        <label>Imágenes:</label>
+        <input type="file" multiple onChange={handleImagenesChange} />
+      </div>
+      <button onClick={crearProducto}>Crear Producto</button>
+      <h2>Lista de Productos</h2>
+      <ul>
+        {productos.map((producto, index) => (
+          <li key={index}>
+            <strong>{producto.name}</strong> - {producto.descripcion} - ${producto.price} - Stock: {producto.stock}
+            - Categoría: {producto.categoria} - Marcas: {producto.brands.join(', ')}
+          </li>
+        ))}
+      </ul>
     </div>
   );
-};
+}
 
-export default AgregarProducto;
+export default AgregarProductos;
