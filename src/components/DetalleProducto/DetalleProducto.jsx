@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useParams} from 'react-router-dom';
 import styles from './detalleProducto.module.css';
 
 
-import {GiMusicalScore} from "react-icons/gi";
-import { GiMusicSpell } from "react-icons/gi";
-import {GiMusicalNotes} from "react-icons/gi";
-import { GiMusicalKeyboard } from "react-icons/gi";
+import {GiMusicalScore, GiMusicSpell, GiMusicalNotes, GiMusicalKeyboard } from "react-icons/gi";
 
 const DetalleProducto = () => {
   const { id } = useParams();
