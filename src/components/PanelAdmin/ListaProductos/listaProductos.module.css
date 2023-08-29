@@ -1,49 +1,41 @@
 .listaProductos {
   font-family: Arial, sans-serif;
-  padding: 20px;
+  margin: 20px;
 }
 
-.listaProductos h2 {
+h2 {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-.table {
+table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  border: 2px solid #213555;
 }
 
-.table tr th .botones{
-  width: 6% ;
-}
-
-.table th, .table td {
-  border: 1px solid #ccc;
+th, td {
   padding: 10px;
   text-align: left;
+  border-bottom: 1px solid #213555;
 }
 
-.table th {
+th {
   background-color: #f2f2f2;
-  font-weight: bold;
 }
 
-.table td img {
+img {
   max-width: 50px;
   max-height: 50px;
 }
 
-.button {
-  background-color: #3498db;
-  color: #fff;
+button {
+  background: none;
   border: none;
-  padding: 5px 10px;
-  margin: 2px;
   cursor: pointer;
-  border-radius: 4px;
+  margin-right: 5px;
 }
 
-.button:hover {
-  background-color: #2980b9;
+button:hover {
+  color: #007bff;
 }

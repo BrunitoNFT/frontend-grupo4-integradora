@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import { FaAviato, FaRegSquare, FaToriiGate, GiMusicalScore } from "react-icons/fa";
+import { FaAviato, FaRegSquare, FaToriiGate } from "react-icons/fa";
 import styles from "./administrarCaracteristicas.module.css";
 
 const iconOptions = [

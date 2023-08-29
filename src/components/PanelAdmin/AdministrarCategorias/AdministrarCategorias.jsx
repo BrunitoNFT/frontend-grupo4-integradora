@@ -1,95 +1,143 @@
-import React, { useState } from 'react';
-import styles from './administrarCategorias.module.css';
+import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const AdministrarCategorias = () => {
   const [categorias, setCategorias] = useState([]);
-  const [nuevaCategoria, setNuevaCategoria] = useState({
-    titulo: '',
-    descripcion: '',
-    imagen: '',
-  });
+  const [nuevaCategoria, setNuevaCategoria] = useState('');
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
 
-  const agregarCategoria = () => {
-    if (nuevaCategoria.titulo && nuevaCategoria.descripcion && nuevaCategoria.imagen) {
-      setCategorias([...categorias, { ...nuevaCategoria }]);
-      setNuevaCategoria({
-        titulo: '',
-        descripcion: '',
-        imagen: '',
+  const fetchCategorias = async () => {
+    try {
+      const response = await fetch(`http://18.118.140.140/categories`);
+      if (response.ok) {
+        const categoriasData = await response.json();
+        setCategorias(categoriasData);
+      } else {
+        console.error('Error al obtener las categorías');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategorias();
+  }, []);
+
+  const handleCategoriaChange = (event) => {
+    setNuevaCategoria(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const nuevaCategoriaData = {
+      name: nuevaCategoria
+    };
+
+    try {
+      const response = await fetch(`http://18.118.140.140/categories`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(nuevaCategoriaData)
       });
+
+      if (response.ok) {
+        console.log('Nueva categoría creada exitosamente');
+        setNuevaCategoria('');
+        fetchCategorias();
+      } else {
+        console.error('Error al crear la categoría');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
     }
   };
 
-  const editarCategoria = (indice, nuevosDatos) => {
-    const nuevasCategorias = [...categorias];
-    nuevasCategorias[indice] = nuevosDatos;
-    setCategorias(nuevasCategorias);
+  const handleEditClick = (categoria) => {
+    setCategoriaSeleccionada(categoria);
+    setNuevaCategoria(categoria.name);
   };
 
-  const eliminarCategoria = (indice) => {
-    const confirmacion = window.confirm("¿Estás seguro de que deseas eliminar esta categoría?");
-    if (confirmacion) {
-      const nuevasCategorias = [...categorias];
-      nuevasCategorias.splice(indice, 1);
-      setCategorias(nuevasCategorias);
+  const handleDeleteClick = async (categoriaId) => {
+    try {
+      const response = await fetch(`http://18.118.140.140/categories/${categoriaId}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        console.log('Categoría eliminada exitosamente');
+        fetchCategorias();
+      } else {
+        console.error('Error al eliminar la categoría');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
     }
   };
-  
+
+  const handleUpdateClick = async () => {
+    const updatedCategoria = {
+      id: categoriaSeleccionada.id,
+      name: nuevaCategoria
+    };
+
+    try {
+      const response = await fetch(`http://18.118.140.140/categories/${categoriaSeleccionada.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedCategoria)
+      });
+
+      if (response.ok) {
+        console.log('Categoría actualizada exitosamente');
+        setCategoriaSeleccionada(null);
+        setNuevaCategoria('');
+        fetchCategorias();
+      } else {
+        console.error('Error al actualizar la categoría');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+    }
+  };
 
   return (
-    <div className={styles.administrarCategorias}>
+    <div>
       <h2>Administrar Categorías</h2>
-      <div className={styles.agregarCategoria}>
-        <input
-          type="text"
-          placeholder="Título de la Categoría"
-          value={nuevaCategoria.titulo}
-          onChange={(e) => setNuevaCategoria({ ...nuevaCategoria, titulo: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Descripción de la Categoría"
-          value={nuevaCategoria.descripcion}
-          onChange={(e) => setNuevaCategoria({ ...nuevaCategoria, descripcion: e.target.value })}
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setNuevaCategoria({ ...nuevaCategoria, imagen: e.target.files[0] })}
-        />
-        <button onClick={agregarCategoria}>Agregar Categoría</button>
-      </div>
-      <table className={styles.listaCategorias}>
-  <tbody>
-    {categorias.map((categoria, indice) => (
-      <tr key={indice}>
-        <td className={styles.titulo}>
-          {categoria.titulo}
-        </td>
-        <td className={styles.descripcion}>
-          {categoria.descripcion}
-        </td>
-        <td className={styles.img}>
-          <img src={URL.createObjectURL(categoria.imagen)} alt={`Imagen de ${categoria.titulo}`} />
-        </td>
-        <td className={styles.Icons}>
-                <div className={styles.iconContainer}>
-                  <div onClick={() => editarCategoria(indice, categoria)} className={styles.iconDiv}>
-                    <FaEdit />
-                  </div>
-                  <div onClick={() => eliminarCategoria(indice)} className={styles.iconDiv}>
-                    <FaTrash />
-                  </div>
-                </div>
-              </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-
+      <form onSubmit={handleSubmit}>
+        <label>
+          Nueva Categoría:
+          <input type="text" value={nuevaCategoria} onChange={handleCategoriaChange} />
+        </label>
+        <button type="submit">Crear Categoría</button>
+      </form>
+      <h3>Listado de Categorías</h3>
+      <ul>
+        {categorias.map((categoria) => (
+          <li key={categoria.id}>
+            {categoria.name}
+            <button onClick={() => handleEditClick(categoria)}>
+              <FaEdit />
+            </button>
+            <button onClick={() => handleDeleteClick(categoria.id)}>
+              <FaTrash />
+            </button>
+          </li>
+        ))}
+      </ul>
+      {categoriaSeleccionada && (
+        <div>
+          <h3>Editar Categoría</h3>
+          <input type="text" value={nuevaCategoria} onChange={handleCategoriaChange} />
+          <button onClick={handleUpdateClick}>Guardar Cambios</button>
+        </div>
+      )}
     </div>
-    
   );
 };
 
