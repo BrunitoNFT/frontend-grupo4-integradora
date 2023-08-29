@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { DataContext } from "../../Context/DataContext";
-import styles from "./products.module.css";
+import styles from "./recomendados.module.css";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
-const Products = () => {
+const Recomendados = () => {
   const { data, cart, setCart } = useContext(DataContext);
   const itemsPerPage = 10;
 
@@ -115,4 +115,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Recomendados;

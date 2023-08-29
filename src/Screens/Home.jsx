@@ -1,5 +1,5 @@
 import React from 'react';
-import Products from '../components/Home/Products/Products';
+import Recomendados from '../components/Home/Recomendados/Recomendados';
 import DescripcionProductosManejados from '../components/Home/DescripcionProductosManejados/DescripcionProductosManejados';
 import Confian from '../components/Home/Confian/Confian';
 import Contactanos from '../components/Home/Contactanos/Contactanos';
@@ -7,7 +7,7 @@ import Contactanos from '../components/Home/Contactanos/Contactanos';
 const Home = () => {
   return (
     <div> 
-        <Products/>
+        <Recomendados/>
         <DescripcionProductosManejados/>
         <Confian/>
         <Contactanos/>

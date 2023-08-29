@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import estilos from './productos.module.css';
+import styles from './productos.module.css';
 
 const categorias = ['Electrónica', 'Ropa', 'Hogar', 'Deportes'];
 
@@ -17,7 +17,7 @@ const Productos = ({ setProductosFiltrados }) => {
     fetchProductos()
   }, [])
 
-  const manejarCambioCategoria = (categoria) => {
+  /*const manejarCambioCategoria = (categoria) => {
     if (categoriasSeleccionadas.includes(categoria)) {
       setCategoriasSeleccionadas(categoriasSeleccionadas.filter(cat => cat !== categoria));
     } else {
@@ -31,18 +31,39 @@ const Productos = ({ setProductosFiltrados }) => {
       const filtrados = productos.filter(producto => categoriasSeleccionadas.includes(producto.categoria));
       setProductosFiltrados(filtrados);
     }
-  };
+  };*/
   
   console.log("PRODUCTOS", productos);
 
   return (
       
-    <div className={estilos.filtroProductos}>
+    <div className={styles.bodyProdutos}>
+    <h2 className={styles.tituloLista}>Productos</h2>
+      <div className={styles.listaProductosContainer}>
+          <ul className={styles.cardProductos}>
+            {productos.map((producto) => (
+              <li key={producto.id}>
+                <img className={styles.imgLista} src={producto.urlImg} alt="imagenProducto" />
+                <div className={styles.productoNombre}>{producto.name}</div>
+                <div className={styles.productoPrecio}>$ {producto.price}</div>
+              </li>
+            ))}
+          </ul>
+      </div>
+    </div>
+      
+    
+  );
+};
+
+export default Productos;
+
+/*<div className={styles.filtroProductos}>
 
        <h2>Filtrar por Categoría</h2>
-      <div className={estilos.listaCategorias}>
+      <div className={styles.listaCategorias}>
         {categorias.map(categoria => (
-          <label key={categoria} className={estilos.etiquetaCategoria}>
+          <label key={categoria} className={styles.etiquetaCategoria}>
             <input
               type="checkbox"
               checked={categoriasSeleccionadas.includes(categoria)}
@@ -52,25 +73,5 @@ const Productos = ({ setProductosFiltrados }) => {
           </label>
         ))}
       </div>
-      <button onClick={filtrarProductos}>Aplicar Filtros</button>
-      <button onClick={() => setCategoriasSeleccionadas([])}>Limpiar Filtros</button>
-
-      <div className={estilos.listaProductos}>
-      <h2>Lista de Productos</h2>
-        <div>
-          <ul>
-            {productos.map((producto) => (
-              <li key={producto.id}>
-                <img src={producto.urlImg} alt="imagenProducto" />
-                <div>{producto.name}</div>
-                <div>$ {producto.price}</div>
-              </li>
-            ))}
-          </ul>
-      </div>
-    </div> 
-    </div>
-  );
-};
-
-export default Productos;
+      <button className={styles.buttonFiltro} onClick={filtrarProductos}>Aplicar Filtros</button>
+      <button className={styles.buttonFiltro} onClick={() => setCategoriasSeleccionadas([])}>Limpiar Filtros</button>*/
