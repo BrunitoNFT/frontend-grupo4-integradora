@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import styles from './listaProductos.module.css';
-import { FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
+import { FaTrash, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 
-const ListaProductos = ({ onEditProduct }) => {
+const ListaProductos = () => {
   const [productos, setProductos] = useState([]);
   const [editingProductId, setEditingProductId] = useState(null);
-  const [editedProduct, setEditedProduct] = useState({
-    id: '',
-    name: '',
-    description: '',
-    price: '',
-    stock: '',
-  });
+  const [editedFields, setEditedFields] = useState({});
 
   useEffect(() => {
     fetch("http://18.118.140.140/product")
-      .then((response) => response.json()) 
+      .then((response) => response.json())
       .then((data) => {
-        setProductos(data); 
+        setProductos(data);
       })
       .catch((error) => console.log("Error fetching data:", error));
   }, []);
@@ -44,70 +38,46 @@ const ListaProductos = ({ onEditProduct }) => {
   };
 
   const handleEdit = (id) => {
-    const productToEdit = productos.find(producto => producto.id === id);
-    if (productToEdit) {
-      setEditingProductId(id);
-      setEditedProduct(productToEdit);
-    }
+    setEditingProductId(id);
+    setEditedFields({});
   };
 
-  const handleSaveEdit = () => {
-    const updatedFields = {
-      id: editedProduct.id,
-      name: editedProduct.name,
-      description: editedProduct.description,
-      price: editedProduct.price,
-      stock: editedProduct.stock,
+  const handleFieldChange = (fieldName, value) => {
+    setEditedFields((prevFields) => ({
+      ...prevFields,
+      [fieldName]: value,
+    }));
+  };
+
+  const handleSave = (id) => {
+    const updatedProduct = {
+      ...productos.find((producto) => producto.id === id),
+      ...editedFields,
     };
-  
-    fetch(`http://18.118.140.140/product/${editedProduct.id}`, {
+
+    fetch(`http://18.118.140.140/product/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(updatedFields),
+      body: JSON.stringify(updatedProduct),
     })
-      .then(response => response.json())
-      .then(updatedProduct => {
-        const updatedProductos = productos.map(producto =>
-          producto.id === updatedProduct.id ? updatedProduct : producto
-        );
-        setProductos(updatedProductos);
-        setEditingProductId(null);
-        setEditedProduct({
-          id: '',
-    name: '',
-    description: '',
-    price: '',
-    stock: '',
-        });
-        console.log('Producto actualizado exitosamente');
+      .then((response) => {
+        if (response.ok) {
+          const updatedProductos = productos.map((producto) =>
+            producto.id === id ? updatedProduct : producto
+          );
+          setProductos(updatedProductos);
+          setEditingProductId(null);
+          console.log('Producto actualizado exitosamente');
+        } else {
+          console.error('Error al actualizar el producto');
+        }
       })
-      .catch(error => {
-        console.error('Error al actualizar el producto:', error);
+      .catch((error) => {
+        console.error('Error al realizar la solicitud:', error);
       });
   };
-
-  const handleCancelEdit = () => {
-    setEditingProductId(null);
-    setEditedProduct({
-      id: '',
-    name: '',
-    description: '',
-    price: '',
-    stock: '',
-    });
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedProduct(prevProduct => ({
-      ...prevProduct,
-      [name]: value,
-    }));
-  };
-
-  
 
   return (
     <div className={styles.listaProductos}>
@@ -118,8 +88,7 @@ const ListaProductos = ({ onEditProduct }) => {
             <th>Id</th>
             <th>Imagen</th>
             <th>Nombre</th>
-            <th>Descripcion</th>
-            {/* ... other headers */}
+            <th>Descripción</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -128,15 +97,22 @@ const ListaProductos = ({ onEditProduct }) => {
             <tr key={producto.id}>
               <td>{producto.id}</td>
               <td>
-                <img src={producto.urlImg} alt={`Imagen de ${producto.name}`} />
-              </td>
+  {editingProductId === producto.id ? (
+    <input
+      type="text"
+      value={editedFields.imageUrl || producto.urlImg}
+      onChange={(e) => handleFieldChange('imageUrl', e.target.value)}
+    />
+  ) : (
+    <img src={producto.urlImg} alt={`Imagen de ${producto.name}`} />
+  )}
+</td>
               <td>
                 {editingProductId === producto.id ? (
                   <input
                     type="text"
-                    name="name"
-                    value={editedProduct.name}
-                    onChange={handleInputChange}
+                    value={editedFields.name || producto.name}
+                    onChange={(e) => handleFieldChange('name', e.target.value)}
                   />
                 ) : (
                   producto.name
@@ -144,36 +120,33 @@ const ListaProductos = ({ onEditProduct }) => {
               </td>
               <td>
                 {editingProductId === producto.id ? (
-                  <input
-                    type="text"
-                    name="description"
-                    value={editedProduct.description}
-                    onChange={handleInputChange}
+                  <textarea
+                    value={editedFields.description || producto.description}
+                    onChange={(e) => handleFieldChange('description', e.target.value)}
                   />
                 ) : (
                   producto.description
                 )}
               </td>
-              {/* ... other fields */}
               <td>
                 {editingProductId === producto.id ? (
-                  <div>
-                    <button onClick={handleSaveEdit}>
+                  <>
+                    <button onClick={() => handleSave(producto.id)}>
                       <FaSave />
                     </button>
-                    <button onClick={handleCancelEdit}>
+                    <button onClick={() => setEditingProductId(null)}>
                       <FaTimes />
                     </button>
-                  </div>
+                  </>
                 ) : (
-                  <div>
+                  <>
                     <button onClick={() => handleEdit(producto.id)}>
                       <FaEdit />
                     </button>
                     <button onClick={() => handleDelete(producto.id)}>
                       <FaTrash />
                     </button>
-                  </div>
+                  </>
                 )}
               </td>
             </tr>

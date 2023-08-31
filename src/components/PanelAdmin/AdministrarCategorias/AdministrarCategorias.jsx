@@ -56,12 +56,15 @@ const AdministrarCategorias = () => {
     }
   };
 
-  const handleEditClick = (categoria) => {
+  const handleEdit = (categoria) => {
     setCategoriaSeleccionada(categoria);
     setNuevaCategoria(categoria.name);
   };
 
-  const handleDeleteClick = async (categoriaId) => {
+  const handleDelete = async (categoriaId) => {
+    const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar esta categoría?");
+  
+  if (confirmDelete) {
     try {
       const response = await fetch(`http://18.118.140.140/categories/${categoriaId}`, {
         method: 'DELETE'
@@ -75,7 +78,7 @@ const AdministrarCategorias = () => {
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);
-    }
+    }}
   };
 
   const handleUpdateClick = async () => {
@@ -121,10 +124,10 @@ const AdministrarCategorias = () => {
         {categorias.map((categoria) => (
           <li key={categoria.id}>
             {categoria.name}
-            <button onClick={() => handleEditClick(categoria)}>
+            <button onClick={() => handleEdit(categoria)}>
               <FaEdit />
             </button>
-            <button onClick={() => handleDeleteClick(categoria.id)}>
+            <button onClick={() => handleDelete(categoria.id)}>
               <FaTrash />
             </button>
           </li>
