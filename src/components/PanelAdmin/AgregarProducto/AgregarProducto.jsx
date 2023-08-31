@@ -20,7 +20,7 @@ function AgregarProductos() {
       .catch(error => console.error('Error al obtener categorías:', error));
 
     // Obtener marcas usando fetch
-    fetch("http://18.118.140.140/brand")
+    fetch("http://18.118.140.140/features")
       .then(response => response.json())
       .then(data => setMarcasDisponibles(data))
       .catch(error => console.error('Error al obtener marcas:', error));
