@@ -98,14 +98,14 @@ const Navbar = () => {
 
 
       <div className={styles.navbarBoxes}>
-        <Link className={styles.linksNavbar} to={"/Novedades"}>
-          Novedades
+        <Link className={styles.linksNavbar} to={"/Favoritos"}>
+          Favoritos
         </Link>
-        <Link className={styles.linksNavbar} to={"Productos"}>
+        <Link className={styles.linksNavbar} to={"/Productos"}>
           Productos
         </Link>
-        <Link className={styles.linksNavbar} to={"Contacto"}>
-          Contacto
+        <Link className={styles.linksNavbar} to={"/Politicas"}>
+          Politicas
         </Link>
       </div>
     </div>

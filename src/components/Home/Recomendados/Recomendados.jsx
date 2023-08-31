@@ -74,7 +74,7 @@ const Recomendados = () => {
                 className={styles.button}
                 onClick={(e) => buyProducts(e, product)}
               >
-                Comprar
+                Reservar
               </button>{" "}
             </div>
           </Link>

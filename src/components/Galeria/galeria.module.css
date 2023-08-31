@@ -1,34 +1,19 @@
 /* galeria.module.css */
 
-.galleryContainer {
+.gallery {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-wrap: wrap;
 }
-
-.imagenes img{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly ;
-  width: 50rem;
-  height: 50rem;
+/* .galleryContainer{
+} */
+.imagenes{
+  border-radius: 1.5rem;
+  width: 20vw;
+  height: 30vh;
   padding: 1rem;
- }
-/*
-.imagenes img {
-  width: 0;
-  flex-grow: 1;
-  object-fit: cover;
-  opacity: 0.8;
-  transition: width 0.5s ease;
 }
-
-.imagenes img:hover {
-  cursor: crosshair;
-  width: 300px;
-  opacity: 1;
-  filter: contrast(120%);
-}*/
 
 
 @media (max-width: 768px) {
