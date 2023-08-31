@@ -3,16 +3,16 @@ import styles from "./registro.module.css";
 
 const Registro = () => {
   const [name, setName] = useState("");
-  const [apellido, setApellido] = useState("");
+  const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  const [contrasena, setContrasena] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (name.length < 0 || apellido.length < 0) {
+    if (name.length < 0 || lastname.length < 0) {
       setError("Debes ingresar nombre/ apellido");
       setTimeout(() => {
         setError("");
@@ -26,24 +26,49 @@ const Registro = () => {
         setError("");
       }, 8000);
       return;
-    } else if (contrasena.trim() === "") {
+    } else if (password.trim() === "") {
       setError("Debes ingresar tu contrasena sin espacios");
       setTimeout(() => {
         setError("");
       }, 8000);
       return;
-    } else if (contrasena.length < 6) {
+    } else if (password.length < 6) {
       setError("La contraseña debe tener al menos 6 caracteres");
       setTimeout(() => {
         setError("");
       }, 8000);
       return;
     }
+    try{
+        const response = await (
+         await fetch('http://18.118.140.140/signup', {
+             method: 'POST',
+             body: JSON.stringify({
+               name,
+               lastname,
+               email,
+               password,
+         }),
+             headers: {
+                 'Content-type': 'application/json; charset=UTF-8',
+             },
+             })
+         ).json()
+         console.log(response);
 
-    setSuccessMessage(
-      `Registro exitoso ${name}. Chequea tu correo para validar el registro`
-    );
-    setError("");
+     
+
+       if(response.ok){
+        setSuccessMessage(
+          `Registro exitoso ${name}. Chequea tu correo para validar el registro`
+        ); 
+        setError("");
+      }else{
+        setError('Hubo un error durante el registro. Por favor, intentalo de nuevo');
+      }
+    }catch(error){
+      setError('Ocurrio un error al registrar el usuario. Por favor, verifica tu conexion a internet');
+    }
   };
 
   useEffect(() => {
@@ -75,8 +100,8 @@ const Registro = () => {
             className={styles.inputs}
             placeholder="Ej. De La Vega"
             type="text"
-            value={apellido}
-            onChange={(e) => setApellido(e.target.value)}
+            value={lastname}
+            onChange={(e) => setLastname(e.target.value)}
             required
           />
         </div>
@@ -98,8 +123,8 @@ const Registro = () => {
           <input
             className={styles.inputs}
             type="password"
-            value={contrasena}
-            onChange={(e) => setContrasena(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
