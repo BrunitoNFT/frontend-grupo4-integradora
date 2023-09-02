@@ -109,7 +109,7 @@ const Navbar = () => {
         <Link className={styles.linksNavbar} to={"/Productos"}>
           Productos
         </Link>
-        <Link className={styles.linksNavbar} to={"/"}>
+        <Link className={styles.linksNavbar} to={"/politicas"}>
           Politicas
         </Link>
       </div>
