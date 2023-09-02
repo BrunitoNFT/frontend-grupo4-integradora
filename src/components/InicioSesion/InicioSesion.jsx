@@ -6,6 +6,7 @@ import { DataContext } from "../Context/DataContext";
 function InicioSesion() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState('');
   const { setUser } = useContext(DataContext);
   const navigate = useNavigate();
 
@@ -81,6 +82,7 @@ function InicioSesion() {
         <br />
 
         <button className={styles.buttonInicio} onClick={handleSubmit}>Iniciar Sesión</button>
+        {error && <p className={styles.errorIS}>{error}</p>}
       </div>
     </>
   );

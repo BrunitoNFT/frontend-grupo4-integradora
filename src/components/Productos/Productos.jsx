@@ -19,7 +19,8 @@ const Productos = () => {
   }
 
   useEffect(() => {
-    fetchProductos(), fetchCategorias();
+    fetchProductos()
+    fetchCategorias()
   }, []);
 
   console.log("CATEGORIAS", categorias);
