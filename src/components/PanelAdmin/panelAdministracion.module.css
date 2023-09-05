@@ -1,39 +1,93 @@
-.adminPanel {
-    width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .adminMenu {
-    background-color: #f0f0f0;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .adminMenu ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .adminMenu li {
-    margin-bottom: 5px;
-  }
-  
-  .adminMenu a {
-    text-decoration: none;
-    color: #333;
-    display: block;
-    padding: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .adminMenu a:hover {
-    background-color: #ddd;
-  }
+.adminContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #D8C4B6;
+}
 
-  .adminCartel{
-    display: none;
-  }
+.title {
+  font-size: 32px;
+  font-weight: bold; 
+  margin-bottom: 20px;
+  padding-top: 16px;
+}
+.adminPanel {
+  background-color: #D8C4B6;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 40px;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  align-items: center; 
+  text-align: center; 
+  width: 80vw;
+}
+
+.adminPanel h1 {
+  font-size: 32px;
+  margin-top: 0;
+  padding-bottom: 24px;
+}
+
+.adminMenu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.menuItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+  background-color: #D8C4B6;
+  border-radius: 10px;
+  padding: 16px;
+  transition: transform 0.2s;
+  flex: 1;
+  height: 240px;
+  width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menuItem:hover {
+  transform: scale(1.08);
+  background-color: #A9A794;
+}
+
+.menuItemIcon {
+  font-size: 40px;
+  margin-right: 10px;
+}
+
+.descripcion {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+button {
+  background-color: #214F55;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.adminCartel {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  text-align: center;
+  display: none;
+}
+
 
   @media (max-width: 768px) {
     .adminPanel{

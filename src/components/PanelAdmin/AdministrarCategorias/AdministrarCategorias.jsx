@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import styles from './administrarCategorias.module.css';
 
 const AdministrarCategorias = () => {
   const [categorias, setCategorias] = useState([]);
@@ -109,35 +110,55 @@ const AdministrarCategorias = () => {
     }
   };
 
-  return (
-    <div>
-      <h2>Administrar Categorías</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
+  return  (
+    <div className={styles.administrarCategorias}>
+      <h2 className={styles.titulo}>Administrar Categorías</h2>
+      <form className={styles.formulario} onSubmit={handleSubmit}>
+      <div className={styles.inputContainer}>
+        <label className={styles.etiqueta}>
           Nueva Categoría:
-          <input type="text" value={nuevaCategoria} onChange={handleCategoriaChange} />
+          <input
+            className={styles.inputCategoria}
+            type="text"
+            value={nuevaCategoria}
+            onChange={handleCategoriaChange}
+          />
         </label>
-        <button type="submit">Crear Categoría</button>
+        <button className={styles.boton} type="submit">Crear Categoría</button>
+      </div>
       </form>
       <h3>Listado de Categorías</h3>
-      <ul>
+      <ul className={styles.categoriaLista}>
         {categorias.map((categoria) => (
-          <li key={categoria.id}>
-            {categoria.name}
-            <button onClick={() => handleEdit(categoria)}>
-              <FaEdit />
-            </button>
-            <button onClick={() => handleDelete(categoria.id)}>
-              <FaTrash />
-            </button>
+          <li key={categoria.id} className={styles.categoriaItem}>
+            <span className={styles.categoriaNombre}>{categoria.name}</span>
+            <div className={styles.iconos}>
+              <button
+                className={styles.editarBoton}
+                onClick={() => handleEdit(categoria)}
+              >
+                <FaEdit />
+              </button>
+              <button
+                className={styles.eliminarBoton}
+                onClick={() => handleDelete(categoria.id)}
+              >
+                <FaTrash />
+              </button>
+            </div>
           </li>
         ))}
       </ul>
       {categoriaSeleccionada && (
         <div>
           <h3>Editar Categoría</h3>
-          <input type="text" value={nuevaCategoria} onChange={handleCategoriaChange} />
-          <button onClick={handleUpdateClick}>Guardar Cambios</button>
+          <input
+            className={styles.inputCategoria}
+            type="text"
+            value={nuevaCategoria}
+            onChange={handleCategoriaChange}
+          />
+          <button className={styles.boton} onClick={handleUpdateClick}>Guardar Cambios</button>
         </div>
       )}
     </div>

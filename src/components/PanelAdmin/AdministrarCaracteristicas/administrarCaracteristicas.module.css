@@ -3,6 +3,8 @@
   border: 1px solid #ccc;
   padding: 20px;
   margin: 20px;
+  width: 65vw;
+  border-radius: 40px;
 }
 
 .agregarCaracteristica {
