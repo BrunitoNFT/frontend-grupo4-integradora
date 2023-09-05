@@ -47,3 +47,12 @@ input[type="password"] {
 .emailInvalido{
   background-color: red;
 }
+.errorIS{
+  background-color: rosybrown;
+  width: 20vw;
+  font-weight: bold;
+  padding: 0.5rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  margin-left: 8rem;
+}

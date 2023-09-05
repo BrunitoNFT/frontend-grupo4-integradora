@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./registro.module.css";
 
 const Registro = () => {
@@ -12,33 +12,16 @@ const Registro = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (name.length < 0 || lastname.length < 0) {
+    if (name.length < 1 || lastname.length < 1) {
       setError("Debes ingresar nombre/ apellido");
-      setTimeout(() => {
-        setError("");
-      }, 8000);
-      return;
     } else if (!email.includes("@")) {
       setError(
-        "El email ingresado no es valido, ingresa tu direccion nuevamente"
-      );
-      setTimeout(() => {
-        setError("");
-      }, 8000);
-      return;
+        "El email ingresado no es valido, ingresa tu direccion nuevamente");
     } else if (password.trim() === "") {
       setError("Debes ingresar tu contrasena sin espacios");
-      setTimeout(() => {
-        setError("");
-      }, 8000);
-      return;
     } else if (password.length < 6) {
       setError("La contraseña debe tener al menos 6 caracteres");
-      setTimeout(() => {
-        setError("");
-      }, 8000);
-      return;
-    }
+    } else{
     try{
         const response = await (
          await fetch('http://18.118.140.140/signup', {
@@ -71,14 +54,11 @@ const Registro = () => {
     }
   };
 
-  useEffect(() => {
-    if (successMessage) {
-      const mssg = setTimeout(() => {
-        setSuccessMessage("");
-      }, 10000);
-      return () => clearTimeout(mssg);
-    }
-  }, [successMessage]);
+  setTimeout(() => {
+    setError("");
+    setSuccessMessage("");
+  }, 8000);
+};
 
   return (
     <div className={styles.mainForm}>

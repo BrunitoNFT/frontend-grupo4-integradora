@@ -11,6 +11,7 @@ const Register = lazy(() => import('../Screens/Register'));
 const PanelUsuarios = lazy(() => import('../Screens/PanelUsuarios'));
 const Productos = lazy(() => import('../Screens/Productos'));
 const Login = lazy (() => import ('../Screens/Login'));
+const Politicas = lazy (() => import('../Screens/Politica'));
 
 // Define la configuración de rutas
 const navigation = [
@@ -58,6 +59,11 @@ const navigation = [
     id: 9,
     path: '/login',
     Element: Login,
+  },
+  {
+    id: 10,
+    path: '/Politicas',
+    Element: Politicas,
   }
 ];
 
