@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import styles from './agregarProducto.module.css';
 
 function AgregarProductos() {
   const [name, setName] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [price, setPrice] = useState(0);
-  const [stock, setStock] = useState(0);
   const [categoria, setCategoria] = useState('');
   const [categorias, setCategorias] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -19,7 +19,7 @@ function AgregarProductos() {
       .then(data => setCategorias(data))
       .catch(error => console.error('Error al obtener categorías:', error));
 
-    // Obtener marcas usando fetch
+    // Obtener caracteristicas usando fetch
     fetch("http://18.118.140.140/features")
       .then(response => response.json())
       .then(data => setMarcasDisponibles(data))
@@ -36,7 +36,6 @@ function AgregarProductos() {
     formData.append('name', name);
     formData.append('descripcion', descripcion);
     formData.append('price', price);
-    formData.append('stock', stock);
     formData.append('categoria', categoria);
     brands.forEach(brand => formData.append('brands', brand));
     imagenes.forEach((imagen, index) => formData.append(`imagen-${index}`, imagen));
@@ -69,7 +68,7 @@ function AgregarProductos() {
   };
 
   return (
-    <div>
+    <div className={styles.agregarProducto}>
       <h1>Agregar Productos</h1>
       <div>
         <label>Nombre:</label>
@@ -82,10 +81,6 @@ function AgregarProductos() {
       <div>
         <label>Precio:</label>
         <input type="number" value={price} onChange={e => setPrice(e.target.value)} />
-      </div>
-      <div>
-        <label>Stock:</label>
-        <input type="number" value={stock} onChange={e => setStock(e.target.value)} />
       </div>
       <div>
         <label>Categoría:</label>
@@ -116,15 +111,6 @@ function AgregarProductos() {
         <input type="file" multiple onChange={handleImagenesChange} />
       </div>
       <button onClick={crearProducto}>Crear Producto</button>
-      <h2>Lista de Productos</h2>
-      <ul>
-        {productos.map((producto, index) => (
-          <li key={index}>
-            <strong>{producto.name}</strong> - {producto.descripcion} - ${producto.price} - Stock: {producto.stock}
-            - Categoría: {producto.categoria} - Marcas: {producto.brands.join(', ')}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

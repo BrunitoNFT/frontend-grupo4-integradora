@@ -2,7 +2,9 @@
   font-family: Arial, sans-serif;
   border: 1px solid #ccc;
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color: #A9A794;
+  width: 90vw;
+  border-radius: 40px;
 }
 
 .listaProductos h2 {
@@ -19,12 +21,17 @@
 .listaProductos th,
 .listaProductos td {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 2px solid black;
   text-align: left;
 }
 
 .listaProductos th {
-  background-color: #f2f2f2;
+  color:aliceblue;
+  background-color: #214F55;
+}
+
+.listaProductos td{
+  font-size: 16px;
 }
 
 .listaProductos img {
@@ -41,10 +48,13 @@
 }
 
 .listaProductos button {
-  background-color: transparent;
+  background-color:transparent;
+  color: aliceblue;
   border: none;
+  border-radius: 4px;
+  padding: 3px 8px;
+  margin-left: 5px;
   cursor: pointer;
-  margin-right: 5px;
 }
 
 .listaProductos button:hover {
@@ -53,4 +63,5 @@
 
 .listaProductos td:last-child {
   text-align: right;
+  vertical-align: middle;
 }

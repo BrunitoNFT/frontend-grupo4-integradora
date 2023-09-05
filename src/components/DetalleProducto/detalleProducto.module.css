@@ -55,6 +55,18 @@
   background-color: #213555;
 }
 
+.doubleCalendar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.calendar {
+  width: 45%;
+}
+
+.calendarSeparator {
+  width: 10px;
+}
 
 .ladoDerecho{
   display: flex;
@@ -120,3 +132,12 @@
   text-decoration: none;
 }
 
+.calendarContainer {
+  margin-top: 20px;
+}
+
+.calendar {
+  max-width: 100%;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}

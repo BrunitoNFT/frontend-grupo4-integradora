@@ -1,107 +1,86 @@
 .administrarCategorias {
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
   background-color: #A9A794;
-}
-
-.administrarCategorias h2 {
-  text-align: center;
-}
-
-/* Estilos para la sección Agregar Categoría */
-.agregarCategoria {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
+  border: 1px solid #ccc;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fff;
+  margin: 20px;
+  border-radius: 40px;
+  width: 80vw;
 }
 
-.agregarCategoria input[type="text"],
-.agregarCategoria input[type="file"] {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.titulo {
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
-.agregarCategoria button {
-  margin-top: 10px;
-  background-color: #214f55;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.formulario {
+  display: flex;
+  margin-bottom: 20px;
 }
 
-.agregarCategoria button:hover {
-  background-color: #0056b3;
+.inputContainer {
+  display: block;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 70vw;
 }
 
-/* Estilos para la tabla de Categorías */
-.listaCategorias {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
+.etiqueta {
+  display: block;
+  font-weight: bold;
 }
 
-.listaCategorias td {
+.inputCategoria {
+  flex: 1; 
   padding: 10px;
   border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.listaCategorias tbody {
-  max-height: 400px;
-  overflow-y: auto;
+.boton {
+  background-color: #213555;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-left: 10px; 
 }
 
-.img img {
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
+.categoriaLista {
+  list-style: none;
+  padding: 0;
 }
 
-.titulo{
-  width: 20%;
-}
-
-.descripcion{
-  width: 45%;
-}
-
-
-.Icons{
- width: 5%;
-}
-
-
-
-.iconContainer {
+.categoriaItem {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
 }
 
-.iconDiv {
-  margin-right: 10px;
+.categoriaItem:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.categoriaNombre {
+  font-weight: bold;
+}
+
+.iconos button {
+  background-color: #213555;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 8px;
+  margin-left: 5px;
   cursor: pointer;
 }
 
-/* Otros estilos */
-.mensajeError {
-  color: red;
-  margin-top: 10px;
-}
-
-.selectSeleccionado {
-  background-color: #214f55;
-  color: #fff;
-  font-weight: bold;
+.editarCategoria {
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
 }
