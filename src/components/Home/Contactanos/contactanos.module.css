@@ -17,11 +17,15 @@
 }
 
 .contactoButton{
-    background-color: #213555;
+    background-color: #214F55;
+    border: none;
     color: #E5E5E5;
     font-size: 1.5rem;
     border-radius: 1rem;
     width: 15vw;
+}
+.contactoButton:hover{
+    background-color: #0056b3;
 }
 
 @media (max-width:768px) {

@@ -1,77 +1,87 @@
-import React, { useState, useEffect } from 'react';
-import styles from './productos.module.css';
+import React, { useState, useEffect } from "react";
+import styles from "./productos.module.css";
 
-const categorias = ['Electrónica', 'Ropa', 'Hogar', 'Deportes'];
+const Productos = () => {
+  const [productos, setProductos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [filtroCategorias, setFiltroCategorias] = useState([]);
 
-const Productos = ({ setProductosFiltrados }) => {
-  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
-  const [productos, setProductos] = useState([])
-  
   async function fetchProductos() {
-    const response = await fetch('http://18.118.140.140/product')
-    const jsonData = await response.json()
-    setProductos(jsonData)
+    const response = await fetch("http://18.118.140.140/product");
+    const jsonData = await response.json();
+    setProductos(jsonData);
+  }
+
+  async function fetchCategorias() {
+    const response = await fetch("http://18.118.140.140/categories");
+    const jsonData = await response.json();
+    setCategorias(jsonData);
   }
 
   useEffect(() => {
     fetchProductos()
-  }, [])
+    fetchCategorias()
+  }, []);
 
-  /*const manejarCambioCategoria = (categoria) => {
-    if (categoriasSeleccionadas.includes(categoria)) {
-      setCategoriasSeleccionadas(categoriasSeleccionadas.filter(cat => cat !== categoria));
-    } else {
-      setCategoriasSeleccionadas([...categoriasSeleccionadas, categoria]);
-    }
-  };
-  const filtrarProductos = () => {
-    if (categoriasSeleccionadas.length === 0) {
-      setProductosFiltrados(productos);
-    } else {
-      const filtrados = productos.filter(producto => categoriasSeleccionadas.includes(producto.categoria));
-      setProductosFiltrados(filtrados);
-    }
-  };*/
-  
+  console.log("CATEGORIAS", categorias);
   console.log("PRODUCTOS", productos);
 
+  const handleCategoriaChange = (e) => {
+    const selectedOptions = e.target.selectedOptions;
+    const selectedCategories = Array.from(selectedOptions).map(
+      (option) => option.value
+    );
+    console.log(selectedCategories);
+    setFiltroCategorias(selectedCategories);
+    console.log('catgoria seleccionada',selectedCategories);
+  };
+
+    const productosFiltrados = filtroCategorias.length > 0 && filtroCategorias[0] != '*'
+  ? productos.filter((producto) => filtroCategorias.indexOf(producto.category.id.toString()) != -1)
+  : productos;
+
+  console.log('productos filtardos', productosFiltrados);
+
   return (
-      
     <div className={styles.bodyProdutos}>
-    <h2 className={styles.tituloLista}>Productos</h2>
+      <h2 className={styles.tituloLista}>Productos</h2>
+
+      <div className={styles.filtroCategoria}>
+        <label htmlFor="categoria">Filtrar por Categoría:</label>
+        <select
+          id="categoria"
+          multiple
+          value={filtroCategorias}
+          onChange={handleCategoriaChange}
+        >
+          <option value="*">Todas</option>
+          {categorias.map((categoria) => (
+            <option key={categoria.id} value={categoria.id}>
+              {categoria.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className={styles.listaProductosContainer}>
-          <ul className={styles.cardProductos}>
-            {productos.map((producto) => (
-              <li key={producto.id}>
-                <img className={styles.imgLista} src={producto.urlImg} alt="imagenProducto" />
-                <div className={styles.productoNombre}>{producto.name}</div>
-                <div className={styles.productoPrecio}>$ {producto.price}</div>
-              </li>
-            ))}
-          </ul>
+        <ul className={styles.cardProductos}>
+          {productosFiltrados.map((producto) => (
+            <li key={producto.id}>
+              <img
+                className={styles.imgLista}
+                src={producto.urlImg}
+                alt="imagenProducto"
+              />
+              <div className={styles.productoNombre}>{producto.name}</div>
+              <div className={styles.productoPrecio}>$ {producto.price}</div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
-      
-    
   );
 };
 
 export default Productos;
 
-/*<div className={styles.filtroProductos}>
 
-       <h2>Filtrar por Categoría</h2>
-      <div className={styles.listaCategorias}>
-        {categorias.map(categoria => (
-          <label key={categoria} className={styles.etiquetaCategoria}>
-            <input
-              type="checkbox"
-              checked={categoriasSeleccionadas.includes(categoria)}
-              onChange={() => manejarCambioCategoria(categoria)}
-            />
-            {categoria}
-          </label>
-        ))}
-      </div>
-      <button className={styles.buttonFiltro} onClick={filtrarProductos}>Aplicar Filtros</button>
-      <button className={styles.buttonFiltro} onClick={() => setCategoriasSeleccionadas([])}>Limpiar Filtros</button>*/

@@ -123,13 +123,17 @@
   font-size: 0.9rem;
 }
 .buttonPagination{
-  background-color: #213555;
+  background-color: #214F55;
   color: whitesmoke;
   padding: 0.5rem;
   margin: 0.25rem;
   border-radius: 1rem;
+  border: none;
   width: 5.2vw;
   font-weight: bold;
+}
+.buttonPagination:hover{
+  background-color: #0056b3;
 }
 
 @media (max-width: 768px) {

@@ -6,10 +6,11 @@ import { DataContext } from "../Context/DataContext";
 function InicioSesion() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState('');
   const { setUser } = useContext(DataContext);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (email.trim() === "" || password.trim() === "") {
@@ -23,7 +24,30 @@ function InicioSesion() {
       setUser(user);
       navigate('/');
     }
+
+    try{
+      const response = await (
+       await fetch('http://18.118.140.140/login', {
+           method: 'POST',
+           withCredentials: true,
+           body: JSON.stringify({
+             email,
+             password,
+       }),
+           headers: {
+               'Content-type': 'application/json; charset=UTF-8',
+           },
+           })
+       ).json()
+       console.log(response);
+      }catch(error){
+        setError('Ocurrio un error');
+      }
   };
+
+  
+
+
   
   const isValidEmail = (value) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -58,6 +82,7 @@ function InicioSesion() {
         <br />
 
         <button className={styles.buttonInicio} onClick={handleSubmit}>Iniciar Sesión</button>
+        {error && <p className={styles.errorIS}>{error}</p>}
       </div>
     </>
   );
