@@ -3,22 +3,10 @@ import { Link, useParams} from 'react-router-dom';
 import styles from './detalleProducto.module.css';
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import {GiMusicalScore, GiMusicSpell, GiMusicalNotes, GiMusicalKeyboard } from "react-icons/gi";
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css'
 
 const DetalleProducto = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [dateRange1, setDateRange1] = useState([null, null]);
-  const [dateRange2, setDateRange2] = useState([null, null]);
-
-  const handleCalendarChange1 = (value) => {
-    setDateRange1(value);
-  };
-
-  const handleCalendarChange2 = (value) => {
-    setDateRange2(value);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,25 +53,6 @@ const DetalleProducto = () => {
             <div className={styles.precioBoton}>
               <p className={styles.precio}>$ {product.price}</p>
               <button className={styles.botonReserva}>Reservar</button>
-            </div>
-            <div className={styles.calendarContainer}>
-              {/* Double Calendar */}
-              <div className={styles.doubleCalendar}>
-                <Calendar
-                  className={styles.calendar}
-                  selectRange
-                  value={dateRange1}
-                  onChange={handleCalendarChange1}
-                />
-                {/* Separator */}
-                <div className={styles.calendarSeparator}></div>
-                <Calendar
-                  className={styles.calendar}
-                  selectRange
-                  value={dateRange2}
-                  onChange={handleCalendarChange2}
-                />
-              </div>
             </div>
           </article>
 
