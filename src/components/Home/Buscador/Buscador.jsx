@@ -35,7 +35,8 @@ function Buscador() {
   };
 
   return (
-    <div className={styles.buscadorContainer}>
+    <div className={styles.buscadorContainer1}>
+      <div className={styles.buscadorContainer}>
       <h3 className={styles.buscadorH3}>
         ¿Necesitas ese producto en específico? Busquémoslo
       </h3>
@@ -109,6 +110,7 @@ function Buscador() {
       <button className={styles.buscadorButton} onClick={handleSearch}>
         Realizar Búsqueda
       </button>
+    </div>
     </div>
   );
 }

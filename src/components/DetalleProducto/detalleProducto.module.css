@@ -115,12 +115,13 @@
   color: #fff;
   cursor: pointer;
   border: none;
-  border-radius: 1.8rem;
+  border-radius: 1.2rem;
   text-align: center;
   text-decoration: none;
-  width: 18vw;
-  height: 5vh;
+  width: 14vw;
+  height: 4vh;
   font-size: 0.9rem;
+  margin-bottom: 2rem;
 }
 
 .VerMasBox:hover {

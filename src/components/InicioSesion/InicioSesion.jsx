@@ -61,7 +61,7 @@ function InicioSesion() {
   return (
     <>
       <div className={styles.loginContainer}>
-        <h2>Completa los campos</h2>
+        <h2 className={styles.inicioH2}>Completa los campos</h2>
 
         <div className={styles.labelContainer}>
           <label>Correo electrónico *</label>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import styles from "./galeria.module.css";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 
 const GaleriaImg = () => {
   const { id } = useParams();
@@ -55,6 +56,7 @@ const GaleriaImg = () => {
           />
         ))}
       </div>
+      <Link className={styles.aVolverDetalle} to={"/detalle/" + product.id}><BsFillArrowLeftCircleFill color='#214F55' size={40}/></Link>
     </section>
   );
 };
