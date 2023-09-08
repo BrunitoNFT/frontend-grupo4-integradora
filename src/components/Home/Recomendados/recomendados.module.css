@@ -66,6 +66,7 @@
 .button {
   margin: 0;
   padding: 0;
+  margin-bottom: 1rem;
   border: 0;
   color: black;
   background-color: #d8c4b6;
@@ -87,7 +88,7 @@
   justify-content: center;
 }
 
-.card button:hover {
+.card .button:hover {
   opacity: 0.7;
 }
 
@@ -135,6 +136,54 @@
 .buttonPagination:hover{
   background-color: #0056b3;
 }
+
+/* Agrega estilos para la ventana emergente */
+.sharePopup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  z-index: 1000;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.sharePopupImg {
+  max-width: 100%;
+}
+
+.sharePopupInput {
+  width: 100%;
+  margin: 10px 0;
+  padding: 5px;
+}
+
+.socialLinks {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.socialLinksA {
+  margin: 0 10px;
+  text-decoration: none;
+}
+.buttonShare{
+  border: none;
+  background: none;
+  color: inherit;
+}
+.detailLink {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: #007bff; /* Puedes cambiar el color del enlace según tu estilo */
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
 
 @media (max-width: 768px) {
   .contenedorPadre{
