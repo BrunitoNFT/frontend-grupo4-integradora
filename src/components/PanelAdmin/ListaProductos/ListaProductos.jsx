@@ -5,7 +5,17 @@ import { FaTrash, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 const ListaProductos = () => {
   const [productos, setProductos] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [editingProduct, setEditingProduct] = useState(null);
+  const [editingProduct, setEditingProduct] = useState({
+    id: null,
+    fields: {
+      name: null,
+      description: null,
+      imageUrl: null,
+      categoryId: null,
+      brand: null, // Nuevo campo "brand"
+      price: null, // Nuevo campo "price"
+    },
+  });
 
   useEffect(() => {
     fetch("http://18.118.140.140/product")
@@ -92,6 +102,13 @@ const ListaProductos = () => {
       });
   };
 
+  const formatPrice = (price) => {
+    return price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    });
+  };
+
   return (
     <div className={styles.listaProductos}>
       <h2>Lista de Productos</h2>
@@ -103,6 +120,8 @@ const ListaProductos = () => {
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Categoría</th>
+            <th>Marca</th> {/* Nuevo campo "brand" */}
+            <th>Precio</th> {/* Nuevo campo "price" */}
             <th>Acciones</th>
           </tr>
         </thead>
@@ -156,6 +175,28 @@ const ListaProductos = () => {
                   </select>
                 ) : (
                   producto.category.name
+                )}
+              </td>
+              <td>
+                {editingProduct && editingProduct.id === producto.id ? (
+                  <input
+                    type="text"
+                    value={editingProduct.fields.brand || producto.brand}
+                    onChange={(e) => handleFieldChange('brand', e.target.value)}
+                  />
+                ) : (
+                  producto.brand.name
+                )}
+              </td>
+              <td>
+                {editingProduct && editingProduct.id === producto.id ? (
+                  <input
+                    type="text"
+                    value={editingProduct.fields.price || producto.price}
+                    onChange={(e) => handleFieldChange('price', e.target.value)}
+                  />
+                ) : (
+                  formatPrice(producto.price)
                 )}
               </td>
               <td>

@@ -50,28 +50,28 @@ return (
           <div className={styles.menuItemIcon}>
             <FaPlus />
           </div>
-          <p className={styles.descripcion}>Agregar Producto</p>
+          <p className={styles.descripcion}>Agrega un producto nuevo a tu catalogo</p>
           <button onClick={handleMostrarAgregarProducto}>Agregar Producto</button>
         </div>
         <div className={styles.menuItem}>
           <div className={styles.menuItemIcon}>
             <FaList />
           </div>
-          <p className={styles.descripcion}>Lista de Productos</p>
+          <p className={styles.descripcion}>Listado de tus productos, edita o elimina a tu preferencia</p>
           <button onClick={handleMostrarListaProductos}>Ver Lista</button>
         </div>
         <div className={styles.menuItem}>
           <div className={styles.menuItemIcon}>
             <FaTag />
           </div>
-          <p className={styles.descripcion}>Administrar Categorías</p>
+          <p className={styles.descripcion}>Crea nuevas categorias, edita o elimina las existentes</p>
           <button onClick={handleMostrarAdminCategorias}>Administrar Categorías</button>
         </div>
         <div className={styles.menuItem}>
           <div className={styles.menuItemIcon}>
             <FaCog />
           </div>
-          <p className={styles.descripcion}>Administrar Características</p>
+          <p className={styles.descripcion}>Crea nuevas caracteristicas, edita o elimina las existentess</p>
           <button onClick={handleMostrarAdminCaracteristicas}>Administrar Características</button>
         </div>
       </nav>
