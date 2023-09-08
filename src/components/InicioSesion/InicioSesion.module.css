@@ -4,14 +4,15 @@
   justify-content: space-evenly;
   margin: 2rem auto;
   padding: 2rem;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 6px;
   background-color: #a9a794;
   height: 50vh;
   width: 40vw;
+
 }
 
-h2 {
+.inicioH2 {
   color: whitesmoke;
 }
 .labelContainer{

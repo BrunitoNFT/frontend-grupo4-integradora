@@ -1,0 +1,50 @@
+.tituloLista {
+    text-align: center;
+    font-size: 2.2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+.cardProductos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+  }
+  .cardProductos li {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 10px;
+    background-color: #E5E5E5;
+    width: 20vw;
+    height: 30vh;
+  }
+  
+  .imgLista {
+    width: 100%;
+    height: 20vh;
+    border-radius: 3rem;
+    margin: 0 auto;
+  }
+  .productoNombre {
+    font-size: 1rem;
+    margin-top: 10px;
+    text-align: left;
+  }
+  .productoPrecio {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 5px;
+    color: #e91e63;
+    text-align: left;
+  }
+  .favoritosButton{
+    background: none;
+    border: none;
+    width: 0;
+    padding: 0
+    ;
+  }

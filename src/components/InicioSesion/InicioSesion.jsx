@@ -45,7 +45,8 @@ function InicioSesion() {
           setUser({ email }); // Actualiza el contexto con la información del usuario
           navigate("/"); // Redirige a la página de inicio o a donde sea necesario
         } else {
-          setError("Credenciales incorrectas");
+          const errorData = await response.json();
+          setError(errorData.message || "Credenciales incorrectas");
         }
       } catch (error) {
         setError("Ocurrió un error");
@@ -61,7 +62,7 @@ function InicioSesion() {
   return (
     <>
       <div className={styles.loginContainer}>
-        <h2>Completa los campos</h2>
+        <h2 className={styles.inicioH2}>Completa los campos</h2>
 
         <div className={styles.labelContainer}>
           <label>Correo electrónico *</label>

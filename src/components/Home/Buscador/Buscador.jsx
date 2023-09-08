@@ -8,7 +8,11 @@ function Buscador() {
   const [fechaFin, setFechaFin] = useState(null);
   const [productos, setProductos] = useState([]);
   const [productoSeleccionado, setProductoSeleccionado] = useState("");
-  /* const [disponibilidadProductos, setDisponibilidadProductos] = useState({}); */
+  const [fechasOcupadas, setFechasOcupadas] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  
+
 
   useEffect(() => {
     fetch("http://18.118.140.140/product")
@@ -16,99 +20,107 @@ function Buscador() {
       .then((data) => {
         console.log("Datos de productos cargados correctamente:", data);
         setProductos(data);
-
-        /* const disponibilidad = {};
-        data.forEach((product) => {
-          disponibilidad[product.id] = product.disponibilidad; // Pendiente agregar la 'disponibilidad' como atributo del producto
-        });
-        setDisponibilidadProductos(disponibilidad); */
       })
       .catch((error) => console.error("Error al obtener productos:", error));
   }, []);
 
-  console.log("Producto seleccionado:", productoSeleccionado);
+  useEffect(() => {
+    if (productoSeleccionado) {
+      setLoading(true);
+      fetch(`http://18.118.140.140/booking/${productoSeleccionado}/occupied-dates`)
+        .then((response) => response.json())
+        .then((data) => {
+          setFechasOcupadas(data.map((dateString) => new Date(dateString)));
+          setLoading(false);
+          console.log("Fechas ocupadas cargadas correctamente:", data);
+          console.log('aaaaaaaaaa', fechasOcupadas);
+          console.log('');
+        })
+        .catch((error) => {
+          console.error("Error al obtener fechas ocupadas:", error);
+          setLoading(false);
+        });
+    }
+  }, [productoSeleccionado]);
+
   const handleSearch = () => {
-    // Colocar la redireccion a la pantalla de la busqueda (mockup Franco)
     console.log("Producto seleccionado:", productoSeleccionado);
     console.log("Fecha de inicio:", fechaInicio);
     console.log("Fecha de fin:", fechaFin);
   };
 
   return (
-    <div className={styles.buscadorContainer}>
-      <h3 className={styles.buscadorH3}>
-        ¿Necesitas ese producto en específico? Busquémoslo
-      </h3>
+    <div className={styles.buscadorContainer1}>
+      <div className={styles.buscadorContainer}>
+        <h3 className={styles.buscadorH3}>
+          ¿Necesitas ese producto en específico? Busquémoslo
+        </h3>
 
-      <div className={styles.selectContainer}>
-        <select
-          className={styles.buscadorSelect}
-          value={productoSeleccionado}
-          onChange={(e) => setProductoSeleccionado(e.target.value)}
-        >
-          <option value="" disabled hidden>
-            ¿Qué instrumento buscas?
-          </option>
-          {productos.map((product) => {
-            console.log("Nombre del producto:", product.name);
-            return (
-              <option
-                className={styles.producto}
-                key={product.id}
-                value={product.id}
-              >
-                {product.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-
-      <div className={styles.datePickerContainer}>
-        <div className={styles.datePicker}>
-          <label className={styles.buscadorLabels}>Desde:</label> <br />
-          <DatePicker
-            className={styles.datePicker1}
-            selected={fechaInicio}
-            onChange={(date) => setFechaInicio(date)}
-            selectsStart
-            startDate={fechaInicio}
-            endDate={fechaFin}
-            dateFormat="dd/MM/yyyy"
-            placeholderText="Selecciona una fecha"
-            minDate={new Date()}
-            /* maxDate={fechaFin || new Date()}
-            disabled={
-              productoSeleccionado
-                ? !disponibilidadProductos[productoSeleccionado]
-                : false
-            } */
-          />
+        <div className={styles.selectContainer}>
+          <select
+            className={styles.buscadorSelect}
+            value={productoSeleccionado}
+            onChange={(e) => setProductoSeleccionado(e.target.value)}
+          >
+            <option value="" disabled hidden>
+              ¿Qué instrumento buscas?
+            </option>
+            {productos.map((product) => {
+              console.log("Nombre del producto:", product.name);
+              return (
+                <option
+                  className={styles.producto}
+                  key={product.id}
+                  value={product.id}
+                >
+                  {product.name}
+                </option>
+              );
+            })}
+          </select>
         </div>
-        <div className={styles.datePicker}>
-          <label className={styles.buscadorLabels}>Hasta:</label> <br />
-          <DatePicker
-            className={styles.datePicker1}
-            selected={fechaFin}
-            onChange={(date) => setFechaFin(date)}
-            selectsEnd
-            startDate={fechaInicio}
-            endDate={fechaFin}
-            dateFormat="dd/MM/yyyy"
-            placeholderText="Selecciona una fecha"
-            minDate={fechaInicio}
-            /* disabled={
-                productoSeleccionado
-                  ? !disponibilidadProductos[productoSeleccionado]
-                  : false
-              } */
-          />
-        </div>
-      </div>
 
-      <button className={styles.buscadorButton} onClick={handleSearch}>
-        Realizar Búsqueda
-      </button>
+        <div className={styles.datePickerContainer}>
+          <div className={styles.datePicker}>
+            <label className={styles.buscadorLabels}>Desde:</label> <br />
+            <DatePicker
+              className={styles.datePicker1}
+              selected={fechaInicio}
+              onChange={(date) => setFechaInicio(date)}
+              selectsStart
+              startDate={fechaInicio}
+              endDate={fechaFin}
+              dateFormat="yyyy/MM/dd"
+              placeholderText="Selecciona una fecha"
+              minDate={new Date()}
+              maxDate={fechaFin || undefined}
+              excludeDates={fechasOcupadas}
+              disabled={loading}
+            />
+          </div>
+          <div className={styles.datePicker}>
+            <label className={styles.buscadorLabels}>Hasta:</label> <br />
+            <DatePicker
+              className={styles.datePicker1}
+              selected={fechaFin}
+              onChange={(date) => setFechaFin(date)}
+              selectsEnd
+              startDate={fechaInicio}
+              endDate={fechaFin}
+              dateFormat="yyyy/MM/dd"
+              placeholderText="Selecciona una fecha"
+              minDate={fechaInicio}
+              maxDate={fechaFin || undefined}
+              excludeDates={fechasOcupadas}
+              disabled={loading}
+            />
+          </div>
+        </div>
+
+        <button className={styles.buscadorButton} onClick={handleSearch}>
+          Realizar Búsqueda
+        </button>
+      </div>
     </div>
   );
 }

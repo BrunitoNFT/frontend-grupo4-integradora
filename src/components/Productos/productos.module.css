@@ -49,31 +49,11 @@
   text-align: left;
 }
 
-/*.filtroProductos {
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.listaCategorias {
-  margin-top: 10px;
-}
-
-.etiquetaCategoria {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.buttonFiltro {
-  margin-top: 10px;
-  background-color: #007bff;
-  color: #fff;
+.favoritosButton{
+  background: none;
   border: none;
-  border-radius: 5px;
-  padding: 8px 15px;
-  cursor: pointer;
+  width: 0;
+  padding: 0
+  ;
 }
 
-.buttonFiltro:hover {
-  background-color: #0056b3;
-}*/

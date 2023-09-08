@@ -63,6 +63,7 @@ const Registro = () => {
   return (
     <div className={styles.mainForm}>
       <form className={styles.formulario} onSubmit={handleSubmit}>
+      <h2 className={styles.registroH2}>Registrate</h2>
         <div className={styles.labelContainer}>
           <label>Nombre:</label>
           <input
