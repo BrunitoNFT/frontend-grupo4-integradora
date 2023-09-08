@@ -14,21 +14,25 @@ function App() {
     <Suspense fallback={<h1>Hola, Cargando tu página...</h1>}>
       <DataProvider>
         <BrowserRouter>
-          <Routes>
-            {navigation.map(({ id, path, Element }) => (
-              <Route
-                key={id}
-                path={path}
-                element={
-                  <>
-                    <Navbar />
-                    <Element />
-                    <Footer />
-                  </>
-                }
-              />
-            ))}
-          </Routes>
+        <div className="app-container">
+            <Routes>
+              {navigation.map(({ id, path, Element }) => (
+                <Route
+                  key={id}
+                  path={path}
+                  element={
+                    <>
+                      <Navbar />
+                      <div className="main-content">
+                        <Element />
+                      </div>
+                      <Footer />
+                    </>
+                  }
+                />
+              ))}
+            </Routes>
+          </div>
         </BrowserRouter>
         <Toaster position="top-center" expand={true} richColors />
       </DataProvider>
