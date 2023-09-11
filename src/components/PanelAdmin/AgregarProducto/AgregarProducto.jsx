@@ -12,6 +12,8 @@ function AgregarProductos() {
   const [imagenes, setImagenes] = useState([]);
   const [productos, setProductos] = useState([]);
 
+  let token = localStorage.getItem("jwtToken")
+
   useEffect(() => {
     // Obtener categorías usando fetch
     fetch("http://18.118.140.140/categories")
@@ -43,6 +45,7 @@ function AgregarProductos() {
     try {
       const response = await fetch("http://18.118.140.140/product", {
         method: 'POST',
+        headers: {Authorization: `Bearer ${token}`},
         body: formData
       });
 
