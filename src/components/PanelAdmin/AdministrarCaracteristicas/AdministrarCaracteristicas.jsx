@@ -49,7 +49,7 @@ const AdministrarCaracteristicas = () => {
 
   const handleDelete = (indice) => {
     const confirmDelete = window.confirm(
-      "¿Estás seguro de que deseas eliminar este producto?"
+      "¿Estás seguro de que deseas eliminar esta característica?"
     );
     if (confirmDelete) {
       const nuevasCaracteristicas = caracteristicas.filter(
