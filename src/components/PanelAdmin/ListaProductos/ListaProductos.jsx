@@ -84,6 +84,7 @@ const ListaProductos = () => {
     fetch(`http://18.118.140.140/product/${id}`, {
       method: 'PUT',
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(editedProduct),
