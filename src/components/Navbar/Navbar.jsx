@@ -7,6 +7,8 @@ import { AiFillSetting } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 
+let token = localStorage.getItem("jwtToken")
+
 function getInitials(name, lastName) {
   if (!name || !lastName) return "";
 
@@ -61,7 +63,7 @@ const Navbar = () => {
         </div> */}
 
         <div className={styles.navbarIcons}>
-          {JSON.stringify(user) === "{}" ? (
+          {JSON.stringify(user) === "{}" && token === null ? (
             <>
             <button className={styles.RegisterBox}>
               <Link className="Register" to={"/register"}>
