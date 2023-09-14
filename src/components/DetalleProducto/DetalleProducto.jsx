@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+/* import DatePicker from 'react-datepicker'; */
+/* import 'react-datepicker/dist/react-datepicker.css'; */
 import styles from './detalleProducto.module.css';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import {
@@ -118,7 +118,7 @@ const DetalleProducto = () => {
               <p className={styles.precio}>$ {product.price}</p>
               <button className={styles.botonReserva}>Reservar</button>
             </div>
-            <div className={styles.calendarios}>
+            {/* <div className={styles.calendarios}>
               <div className={styles.calendario}>
                 <h4>Fecha de inicio</h4>
                 <DatePicker
@@ -143,7 +143,7 @@ const DetalleProducto = () => {
                   minDate={startDate || new Date()}
                 />
               </div>
-            </div>
+            </div> */}
           </article>
 
           <article className={styles.ladoDerecho}>

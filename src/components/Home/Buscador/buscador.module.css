@@ -1,128 +1,78 @@
-.buscadorContainer1{
+.buscadorContainer1 {
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-  url(https://lh5.googleusercontent.com/p/AF1QipM2YSrofPd9fHl5cA_k2KrYxCsav2jqXnX2vMDt=w600);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url(https://lh5.googleusercontent.com/p/AF1QipM2YSrofPd9fHl5cA_k2KrYxCsav2jqXnX2vMDt=w600);
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 0;
-  margin-top: 0;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.buscadorContainer {
-    width: 90vw;
-    margin: 0 auto;
-    /* padding: 1.5rem; */
-    border-radius: 5px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    /* background-color: #A9A794; */
-   /*  margin-top: 2.5rem; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.buscadorH3 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: whitesmoke;
+  text-align: center;
 }
-  
+
+.inputBuscador{
+  width: 50vw;
+  height: 5vh;
+  border-radius: 0.7rem;
+  border: none;
+  font-size: 1rem;
+}
+
+.datePicker{
+  margin: 1.5rem;
+}
+
+
+.inputLi{
+  color: whitesmoke;
+  font-weight: bold;
+  list-style-type: none;
+  margin: 0.3rem;
+}
+
+.buscadorButton {
+  background-color: #4f709c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 20vw;
+  margin-bottom: 1.5rem;
+}
+
+.buscadorButton:hover {
+  background-color: #0056b3;
+}
+
+
+@media (max-width: 768px) {
   .buscadorH3 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: whitesmoke;
-    text-align: center;
-  }
-  
-  .selectContainer {
-    margin-bottom: 2rem;
-
-  }
-  
-  .buscadorSelect {
-    width: 45vw;
-    padding: 10px;
-    font-size: 0.9rem;
-    border-radius: 5px;
-    background-color: #D9D9D9;
-    border: none;
-    height: 2.6rem;
-  }
-  .producto{
-    color: black;
-  }
-  
-  .datePickerContainer {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 3rem;
-    gap: 6rem;
-  }
-  
-  .datePicker {
-    width: 48%;
-  }
-  .datePicker1{
-    background-color: #D9D9D9;
-    border: none;
-    border-radius: 0.5rem;
-    width: 15vw;
-    height: 4vh;
-  }
-  
-  .buscadorLabels {
-    font-weight: bold;
-    color: whitesmoke;
-  }
-  
-  .buscadorButton {
-    background-color: #4F709C;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 0.5rem 1.5rem;
-    cursor: pointer;
     font-size: 1rem;
-    width: 20vw;
-    margin-bottom: 1.5rem;
   }
-  
-  .buscadorButton:hover {
-    background-color: #0056b3;
+  .inputBuscador{
+    width: 55vw;
+    height: 5vh;
+    border-radius: 0.5rem;
+    border: none;
+    font-size: 0.8rem;
   }
-  
-  .productList {
-    margin-top: 20px;
-  }
-  
-  .productList h4 {
-    font-size: 1.2rem;
+  .datePicker {
+    width: 30vw;
+    font-size: 0.4rem;
     margin-bottom: 10px;
   }
-  
-
-  
-  @media (max-width: 768px) {
-    .buscadorH3{
-      font-size: 1rem;
-    }
-    .datePickerContainer {
-      flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .buscadorSelect {
-      width: 65vw;
-      font-size: 0.8rem;
-    }  
-    .datePicker {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-    .buscadorButton {
-      width: 50vw;
-      height: 6vh;
-      font-size: 0.8rem;
-    }
-    .datePicker1{
-      width: 50vw;
-      height: 5vh;
-      font-size: 0.8rem;
-    }
+  .buscadorButton {
+    width: 50vw;
+    height: 6vh;
+    font-size: 0.8rem;
   }
+}

@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./productos.module.css";
-import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
+import { MdFavoriteBorder, MdFavorite, MdKeyboardArrowDown } from "react-icons/md";
+import {
+  BsFacebook,
+  BsInstagram,
+  BsTwitter,
+  BsShareFill,
+} from "react-icons/bs";
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
@@ -9,6 +15,7 @@ const Productos = () => {
   const [filtroCategorias, setFiltroCategorias] = useState([]);
   const [favoritos, setFavoritos] = useState([]);
   const [isFavorito, setIsFavorito] = useState({});
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     fetchProductos();
@@ -27,24 +34,27 @@ const Productos = () => {
     const jsonData = await response.json();
     setProductos(jsonData);
   }
-  
+
   async function fetchCategorias() {
     const response = await fetch("http://18.118.140.140/categories");
     const jsonData = await response.json();
     setCategorias(jsonData);
   }
-  
+
   console.log("CATEGORIAS", categorias);
   console.log("PRODUCTOS", productos);
-  
+
   const handleCategoriaChange = (e) => {
-    const selectedOptions = e.target.selectedOptions;
-    const selectedCategories = Array.from(selectedOptions).map(
-      (option) => option.value
-      );
-      console.log(selectedCategories);
-      setFiltroCategorias(selectedCategories);
-    console.log('catgoria seleccionada',selectedCategories);
+    console.log("handleCategoriaChange se está ejecutando");
+    const checkbox = e.target;
+    console.log('checkboxxxx', checkbox.checked);
+    
+    if (checkbox.checked) {
+      setFiltroCategorias([...filtroCategorias, checkbox.value]);
+    } else {
+      const nuevosFiltros = filtroCategorias.filter((categoria) => categoria !== checkbox.value);
+      setFiltroCategorias(nuevosFiltros);
+    }
   };
 
   const addToFavoritos = (producto) => {
@@ -61,47 +71,63 @@ const Productos = () => {
     }
   };
 
-    const productosFiltrados = filtroCategorias.length > 0 && filtroCategorias[0] != '*'
-  ? productos.filter((producto) => filtroCategorias.indexOf(producto.category.id.toString()) != -1)
-  : productos;
+  const productosFiltrados =
+    filtroCategorias.length > 0 && filtroCategorias[0] != "*"
+      ? productos.filter(
+          (producto) =>
+            filtroCategorias.indexOf(producto.category.id.toString()) != -1
+        )
+      : productos;
 
-  console.log('productos filtardos', productosFiltrados);
+  console.log("productos filtardos", productosFiltrados);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+    console.log("drooooopppppp", dropdownOpen);
+  };
 
   return (
     <div className={styles.bodyProdutos}>
       <h2 className={styles.tituloLista}>Productos</h2>
 
       <div className={styles.filtroCategoria}>
-        <label htmlFor="categoria">Filtrar por Categoría:</label>
-        <select
-          id="categoria"
-          multiple
-          value={filtroCategorias}
-          onChange={handleCategoriaChange}
-        >
-          <option value="*">Todas</option>
-          {categorias.map((categoria) => (
-            <option key={categoria.id} value={categoria.id}>
-              {categoria.name}
-            </option>
-          ))}
-        </select>
+        <div className={styles.selectWrapper}>
+          <div className={styles.selectedItems} onClick={toggleDropdown}>
+            <span>Categorias <MdKeyboardArrowDown color="whitesmoke"/></span>
+            <i className={`fas fa-caret-${dropdownOpen ? "up" : "down"}`}></i>
+          </div>
+          {dropdownOpen && (
+            <div className={styles.dropdown}>
+              {categorias.map((categoria) => (
+                <label key={categoria.id} className={styles.dropdownItem}>
+                  <input
+                    type="checkbox"
+                    value={categoria.id}
+                    checked={filtroCategorias.includes(categoria.id.toString())}
+                    onChange={handleCategoriaChange}
+                  />
+                  {categoria.name}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className={styles.listaProductosContainer}>
-        
         <ul className={styles.cardProductos}>
           {productosFiltrados.map((producto) => (
             <li key={producto.id}>
               <Link
-            className={styles.card}
-            key={producto.id}
-            to={"/detalle/" + producto.id}>
-              <img
-                className={styles.imgLista}
-                src={producto.urlImg}
-                alt="imagenProducto"
-              />
+                className={styles.card}
+                key={producto.id}
+                to={"/detalle/" + producto.id}
+              >
+                <img
+                  className={styles.imgLista}
+                  src={producto.urlImg}
+                  alt="imagenProducto"
+                />
               </Link>
               <div className={styles.productoNombre}>{producto.name}</div>
               <div className={styles.productoPrecio}>$ {producto.price}</div>
@@ -109,10 +135,13 @@ const Productos = () => {
                 onClick={() => addToFavoritos(producto)}
                 className={styles.favoritosButton}
               >
-                {isFavorito[producto.id] ? <MdFavorite color="red" size={25}/> : <MdFavoriteBorder color="red" size={25}/>}
+                {isFavorito[producto.id] ? (
+                  <MdFavorite color="#4F709C" size={25} />
+                ) : (
+                  <MdFavoriteBorder color="#4F709C" size={25} />
+                )}
               </button>
             </li>
-  
           ))}
         </ul>
       </div>
