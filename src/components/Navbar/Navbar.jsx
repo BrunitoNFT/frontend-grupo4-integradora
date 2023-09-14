@@ -38,6 +38,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     try {
+      localStorage.removeItem("jwtToken")
       setUser({});
       navigate("/");
     } catch (error) {
