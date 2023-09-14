@@ -66,14 +66,14 @@ const Navbar = () => {
             <img className={styles.logo} src={logo} alt="logoDropBass" />
           </Link>
 
-          <div className={styles.navbarIcons}>
-            {JSON.stringify(user) === "{}" && token === null ? (
-              <>
-                <button className={styles.RegisterBox}>
-                  <Link className="Register" to={"/register"}>
-                    Crear cuenta
-                  </Link>
-                </button>
+        <div className={styles.navbarIcons}>
+          {JSON.stringify(user) === "{}" && token === null ? (
+            <>
+            <button className={styles.RegisterBox}>
+              <Link className="Register" to={"/register"}>
+                Crear cuenta
+              </Link>
+            </button>
 
                 <button className={styles.LoginBox}>
                   <Link className={styles.Login} to={"/login"}>
