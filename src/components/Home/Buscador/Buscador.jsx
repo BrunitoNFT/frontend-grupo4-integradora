@@ -1,30 +1,70 @@
 import React, { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { DateRangePicker } from "react-dates";
+import "react-dates/initialize";
+import "react-dates/lib/css/_datepicker.css";
 import styles from "../Buscador/buscador.module.css";
+import moment from "moment";
 
 function Buscador() {
-  const [fechaInicio, setFechaInicio] = useState(null);
-  const [fechaFin, setFechaFin] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [focusedInput, setFocusedInput] = useState(null);
+  /* const [fechasOcupadas, setFechasOcupadas] = useState([]); */
+  const [filtro, setFiltro] = useState("");
   const [productos, setProductos] = useState([]);
+  const [mostrarLista, setMostrarLista] = useState(false);
   const [productoSeleccionado, setProductoSeleccionado] = useState("");
-  const [fechasOcupadas, setFechasOcupadas] = useState([]);
-  const [loading, setLoading] = useState(false);
 
-  
-
+  const URL = "http://18.118.140.140/product";
+  const showData = async () => {
+    try {
+      const response = await fetch(URL);
+      if (!response.ok) {
+        throw new Error("La solicitud a la API no fue exitosa");
+      }
+      const data = await response.json();
+      setProductos(data);
+    } catch (error) {
+      console.error("Error al obtener la lista de productos:", error);
+    }
+  };
 
   useEffect(() => {
-    fetch("http://18.118.140.140/product")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Datos de productos cargados correctamente:", data);
-        setProductos(data);
-      })
-      .catch((error) => console.error("Error al obtener productos:", error));
+    showData();
   }, []);
 
-  useEffect(() => {
+  const handleInputChange = (e) => {
+    const textoFiltro = e.target.value.toLowerCase();
+    setFiltro(textoFiltro);
+    // Se va a mostrar la lista solo si el input no está vacío
+    setMostrarLista(textoFiltro.trim() !== "");
+  };
+
+  const handleNameClick = (nombre) => {
+    setProductoSeleccionado(nombre);
+    setMostrarLista(false);
+
+    // aqui agregaria la logica de busqueda con la api /occupied-dates
+
+    console.log("Nombre seleccionado:", nombre);
+  };
+
+  const results = productos.filter((producto) =>
+    producto.name.toLowerCase().includes(filtro)
+  );
+
+  const handleDatesChange = ({ startDate, endDate }) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
+  };
+  const isOutsideRange = (day) => {
+    // Obtén la fecha de hoy
+    const today = moment();
+    // Compara si el día seleccionado es anterior a hoy
+    return day.isBefore(today, "day");
+  };
+
+  /* useEffect(() => {
     if (productoSeleccionado) {
       setLoading(true);
       fetch(`http://18.118.140.140/booking/${productoSeleccionado}/occupied-dates`)
@@ -41,86 +81,59 @@ function Buscador() {
           setLoading(false);
         });
     }
-  }, [productoSeleccionado]);
+  }, [productoSeleccionado]); */
 
   const handleSearch = () => {
     console.log("Producto seleccionado:", productoSeleccionado);
-    console.log("Fecha de inicio:", fechaInicio);
-    console.log("Fecha de fin:", fechaFin);
+    console.log("Fecha de inicio:", startDate);
+    console.log("Fecha de fin:", endDate);
   };
 
   return (
     <div className={styles.buscadorContainer1}>
-      <div className={styles.buscadorContainer}>
-        <h3 className={styles.buscadorH3}>
-          ¿Necesitas ese producto en específico? Busquémoslo
-        </h3>
+      <h3 className={styles.buscadorH3}>
+        ¿Necesitas ese producto en específico? Busquémoslo
+      </h3>
 
-        <div className={styles.selectContainer}>
-          <select
-            className={styles.buscadorSelect}
-            value={productoSeleccionado}
-            onChange={(e) => setProductoSeleccionado(e.target.value)}
-          >
-            <option value="" disabled hidden>
-              ¿Qué instrumento buscas?
-            </option>
-            {productos.map((product) => {
-              console.log("Nombre del producto:", product.name);
-              return (
-                <option
-                  className={styles.producto}
-                  key={product.id}
-                  value={product.id}
-                >
-                  {product.name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-
-        <div className={styles.datePickerContainer}>
-          <div className={styles.datePicker}>
-            <label className={styles.buscadorLabels}>Desde:</label> <br />
-            <DatePicker
-              className={styles.datePicker1}
-              selected={fechaInicio}
-              onChange={(date) => setFechaInicio(date)}
-              selectsStart
-              startDate={fechaInicio}
-              endDate={fechaFin}
-              dateFormat="yyyy/MM/dd"
-              placeholderText="Selecciona una fecha"
-              minDate={new Date()}
-              maxDate={fechaFin || undefined}
-              excludeDates={fechasOcupadas}
-              disabled={loading}
-            />
-          </div>
-          <div className={styles.datePicker}>
-            <label className={styles.buscadorLabels}>Hasta:</label> <br />
-            <DatePicker
-              className={styles.datePicker1}
-              selected={fechaFin}
-              onChange={(date) => setFechaFin(date)}
-              selectsEnd
-              startDate={fechaInicio}
-              endDate={fechaFin}
-              dateFormat="yyyy/MM/dd"
-              placeholderText="Selecciona una fecha"
-              minDate={fechaInicio}
-              maxDate={fechaFin || undefined}
-              excludeDates={fechasOcupadas}
-              disabled={loading}
-            />
-          </div>
-        </div>
-
-        <button className={styles.buscadorButton} onClick={handleSearch}>
-          Realizar Búsqueda
-        </button>
+      <div className={styles.inputContainer}>
+        <input
+          className={styles.inputBuscador}
+          type="text"
+          placeholder="Ingrese un producto"
+          value={productoSeleccionado || filtro}
+          onChange={handleInputChange}
+        />
+        {mostrarLista && (
+          <ul className={styles.inputUl}>
+            {results.map((producto) => (
+              <li
+                className={styles.inputLi}
+                key={producto.id}
+                onClick={() => handleNameClick(producto.name)}
+              >
+                {producto.name}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
+
+      <div className={styles.datePicker}>
+        <DateRangePicker
+          startDate={startDate}
+          startDateId="start_date"
+          endDate={endDate}
+          endDateId="end_date"
+          onDatesChange={handleDatesChange}
+          focusedInput={focusedInput}
+          onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
+          isOutsideRange={isOutsideRange}
+        />
+      </div>
+
+      <button className={styles.buscadorButton} onClick={handleSearch}>
+        Realizar Búsqueda
+      </button>
     </div>
   );
 }
