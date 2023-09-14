@@ -50,7 +50,7 @@ function AgregarProductos() {
     formData.append('category', categoria);
     formData.append('features', feature);
     brands.forEach(brand => formData.append('brands', brand));
-    //imagenes.forEach((imagen, index) => formData.append(`imagen-${index}`, imagen));
+    imagenes.forEach((imagen, index) => formData.append(`imagen-${index}`, imagen));
 
     try {
       const response = await fetch("http://18.118.140.140/product", {
