@@ -7,7 +7,7 @@ import { AiFillSetting } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 
-let token = localStorage.getItem("jwtToken")
+
 
 function getInitials(name, lastName) {
   if (!name || !lastName) return "";
@@ -19,6 +19,7 @@ function getInitials(name, lastName) {
 }
 
 const Navbar = () => {
+  let token = localStorage.getItem("jwtToken")
   const { user, setUser } = useContext(DataContext);
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
@@ -36,11 +37,21 @@ const Navbar = () => {
       });
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async (e) => {
+    e.preventDefault();
     try {
-      localStorage.removeItem("jwtToken")
-      setUser({});
-      navigate("/");
+      const response = await fetch("http://18.118.140.140/auth/logout", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-type": "application/json; charset=UTF-8",
+        }
+      })
+      if (response.ok) {
+        localStorage.removeItem("jwtToken")
+        setUser({});
+        navigate("/");
+      }
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }
