@@ -43,8 +43,9 @@ const Navbar = () => {
       const response = await fetch("http://18.118.140.140/auth/logout", {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-type": "application/json; charset=UTF-8",
+          "authorization": `Bearer ${token}`,
+          "content-type": 'application/json; charset=UTF-8',
+          "mode":'no-cors'
         }
       })
       if (response.ok) {
