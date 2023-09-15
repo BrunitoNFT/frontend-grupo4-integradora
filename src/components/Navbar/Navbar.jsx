@@ -7,6 +7,8 @@ import { AiFillSetting } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 
+
+
 function getInitials(name, lastName) {
   if (!name || !lastName) return "";
 
@@ -17,6 +19,7 @@ function getInitials(name, lastName) {
 }
 
 const Navbar = () => {
+  let token = localStorage.getItem("jwtToken")
   const { user, setUser } = useContext(DataContext);
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
@@ -34,10 +37,22 @@ const Navbar = () => {
       });
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async (e) => {
+    e.preventDefault();
     try {
-      setUser({});
-      navigate("/");
+      const response = await fetch("http://18.118.140.140/auth/logout", {
+        method: "GET",
+        headers: {
+          "authorization": `Bearer ${token}`,
+          "content-type": 'application/json; charset=UTF-8',
+          "mode":'no-cors'
+        }
+      })
+      if (response.ok) {
+        localStorage.removeItem("jwtToken")
+        setUser({});
+        navigate("/");
+      }
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }
@@ -63,14 +78,14 @@ const Navbar = () => {
             <img className={styles.logo} src={logo} alt="logoDropBass" />
           </Link>
 
-          <div className={styles.navbarIcons}>
-            {JSON.stringify(user) === "{}" ? (
-              <>
-                <button className={styles.RegisterBox}>
-                  <Link className="Register" to={"/register"}>
-                    Crear cuenta
-                  </Link>
-                </button>
+        <div className={styles.navbarIcons}>
+          {JSON.stringify(user) === "{}" && token === null ? (
+            <>
+            <button className={styles.RegisterBox}>
+              <Link className="Register" to={"/register"}>
+                Crear cuenta
+              </Link>
+            </button>
 
                 <button className={styles.LoginBox}>
                   <Link className={styles.Login} to={"/login"}>

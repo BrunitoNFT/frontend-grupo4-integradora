@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styles from './listaProductos.module.css';
 import { FaTrash, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 
+let token = localStorage.getItem("jwtToken")
+
 const ListaProductos = () => {
   const [productos, setProductos] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -40,6 +42,7 @@ const ListaProductos = () => {
     if (confirmDelete) {
       fetch(`http://18.118.140.140/product/${id}`, {
         method: 'DELETE',
+        headers: {Authorization: `Bearer ${token}`},
       })
         .then(response => {
           if (response.ok) {
@@ -81,6 +84,7 @@ const ListaProductos = () => {
     fetch(`http://18.118.140.140/product/${id}`, {
       method: 'PUT',
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(editedProduct),

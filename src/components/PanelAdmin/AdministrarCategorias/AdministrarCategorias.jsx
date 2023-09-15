@@ -7,6 +7,8 @@ const AdministrarCategorias = () => {
   const [nuevaCategoria, setNuevaCategoria] = useState('');
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
 
+  let token = localStorage.getItem("jwtToken")
+
   const fetchCategorias = async () => {
     try {
       const response = await fetch(`http://18.118.140.140/categories`);
@@ -40,6 +42,7 @@ const AdministrarCategorias = () => {
       const response = await fetch(`http://18.118.140.140/categories`, {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(nuevaCategoriaData)
@@ -68,7 +71,8 @@ const AdministrarCategorias = () => {
   if (confirmDelete) {
     try {
       const response = await fetch(`http://18.118.140.140/categories/${categoriaId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {Authorization: `Bearer ${token}`}
       });
 
       if (response.ok) {
@@ -92,6 +96,7 @@ const AdministrarCategorias = () => {
       const response = await fetch(`http://18.118.140.140/categories/${categoriaSeleccionada.id}`, {
         method: 'PUT',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(updatedCategoria)
