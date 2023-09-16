@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
+import { DataContext } from "../../Context/DataContext";
 import { DateRangePicker } from "react-dates";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import styles from "../Buscador/buscador.module.css";
+import { BsCartCheck } from "react-icons/bs";
 import moment from "moment";
 
 function Buscador() {
+  const { cart, setCart } = useContext(DataContext);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [focusedInput, setFocusedInput] = useState(null);
-  /* const [fechasOcupadas, setFechasOcupadas] = useState([]); */
   const [filtro, setFiltro] = useState("");
   const [productos, setProductos] = useState([]);
   const [mostrarLista, setMostrarLista] = useState(false);
-  const [productoSeleccionado, setProductoSeleccionado] = useState("");
+  const [productosSeleccionados, setProductosSeleccionados] = useState([]);
 
   const URL = "http://18.118.140.140/product";
+
   const showData = async () => {
     try {
       const response = await fetch(URL);
@@ -36,17 +39,12 @@ function Buscador() {
   const handleInputChange = (e) => {
     const textoFiltro = e.target.value.toLowerCase();
     setFiltro(textoFiltro);
-    // Se va a mostrar la lista solo si el input no está vacío
     setMostrarLista(textoFiltro.trim() !== "");
   };
 
   const handleNameClick = (nombre) => {
-    setProductoSeleccionado(nombre);
+    setFiltro(nombre);
     setMostrarLista(false);
-
-    // aqui agregaria la logica de busqueda con la api /occupied-dates
-
-    console.log("Nombre seleccionado:", nombre);
   };
 
   const results = productos.filter((producto) =>
@@ -57,36 +55,31 @@ function Buscador() {
     setStartDate(startDate);
     setEndDate(endDate);
   };
+
   const isOutsideRange = (day) => {
-    // Obtén la fecha de hoy
     const today = moment();
-    // Compara si el día seleccionado es anterior a hoy
     return day.isBefore(today, "day");
   };
 
-  /* useEffect(() => {
-    if (productoSeleccionado) {
-      setLoading(true);
-      fetch(`http://18.118.140.140/booking/${productoSeleccionado}/occupied-dates`)
-        .then((response) => response.json())
-        .then((data) => {
-          setFechasOcupadas(data.map((dateString) => new Date(dateString)));
-          setLoading(false);
-          console.log("Fechas ocupadas cargadas correctamente:", data);
-          console.log('aaaaaaaaaa', fechasOcupadas);
-          console.log('');
-        })
-        .catch((error) => {
-          console.error("Error al obtener fechas ocupadas:", error);
-          setLoading(false);
-        });
-    }
-  }, [productoSeleccionado]); */
+  const handleAddToCart = (e, producto) => {
+    e.preventDefault();
+    setCart([...cart, producto]);
+
+  };
 
   const handleSearch = () => {
-    console.log("Producto seleccionado:", productoSeleccionado);
+    console.log("Producto seleccionado:", filtro);
     console.log("Fecha de inicio:", startDate);
     console.log("Fecha de fin:", endDate);
+
+    
+    const productoSeleccionado = {
+      name: filtro,
+      startDate,
+      endDate,
+    };
+    setProductosSeleccionados([...productosSeleccionados, productoSeleccionado]);
+    setFiltro("");
   };
 
   return (
@@ -100,7 +93,7 @@ function Buscador() {
           className={styles.inputBuscador}
           type="text"
           placeholder="Ingrese un producto"
-          value={productoSeleccionado || filtro}
+          value={filtro}
           onChange={handleInputChange}
         />
         {mostrarLista && (
@@ -134,6 +127,24 @@ function Buscador() {
       <button className={styles.buscadorButton} onClick={handleSearch}>
         Realizar Búsqueda
       </button>
+
+      {/* Mostrar productos seleccionados */}
+      {productosSeleccionados.length > 0 && (
+        <div className={styles.productosSeleccionadosContainer}>
+          <h3 className={styles.tarjetaH3}>Productos Seleccionados:</h3>
+          <div className={styles.tarjetasCarrito}>
+          {productosSeleccionados.map((producto, index) => (
+            <div key={index} className={styles.productoCard}>
+              <img className={styles.productoCardImg} src={producto.urlImg} alt={producto.name} />
+              <h4 className={styles.productoCardH4}>{producto.name}</h4>
+              <p className={styles.productoCardP}>Fecha de inicio: {moment(producto.startDate).format("YYYY-MM-DD")}</p>
+              <p className={styles.productoCardP}>Fecha de fin: {moment(producto.endDate).format("YYYY-MM-DD")}</p>
+              <button className={styles.productoCardButton} onClick={(e) => handleAddToCart(e, producto)}><BsCartCheck/></button>
+            </div>
+          ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

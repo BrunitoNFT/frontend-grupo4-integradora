@@ -37,9 +37,11 @@ function InicioSesion() {
           // La autenticación fue exitosa
           const data = await response.json();
           const jwtToken = data.jwtToken;
+          const firstLetterNameAndLastname = data.firstLetterNameAndLastname;
 
           // Almacenar el token en el almacenamiento local (localStorage o sessionStorage)
           localStorage.setItem("jwtToken", jwtToken);
+          localStorage.setItem("firstLetterNameAndLastname", firstLetterNameAndLastname)
 
           // Actualizar el estado del usuario o redirigir a la página de inicio
           setUser({ email }); // Actualiza el contexto con la información del usuario

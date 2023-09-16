@@ -8,29 +8,21 @@ import { BsCartCheck } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 
 
-
-function getInitials(name, lastName) {
-  if (!name || !lastName) return "";
-
-  const initials = `${name.charAt(0).toUpperCase()}${lastName
-    .charAt(0)
-    .toUpperCase()}`;
-  return initials;
-}
-
 const Navbar = () => {
   let token = localStorage.getItem("jwtToken")
+  let avatar = localStorage.getItem("firstLetterNameAndLastname")
   const { user, setUser } = useContext(DataContext);
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    fetch("http://18.118.140.140/users")
+    fetch("http://18.118.140.140/auth/login")
       .then((response) => response.json())
       .then((data) => {
+        console.log('Respuesta User Data', data);
         setUserData(data);
-        console.log("AQUIIIII", userData);
+        console.log("USERDATA", userData);
       })
       .catch((error) => {
         console.error("Error al obtener datos del usuario:", error);
@@ -51,7 +43,7 @@ const Navbar = () => {
       if (response.ok) {
         localStorage.removeItem("jwtToken")
         setUser({});
-        navigate("/");
+        navigate("/login");
       }
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
@@ -100,7 +92,7 @@ const Navbar = () => {
             ) : (
               <div className={styles.navbarAvatar}>
                 <div className={styles.avatar}>
-                  {getInitials(userData.name, userData.lastName)}
+                {avatar}
                 </div>
                 <div className={styles.SelectWrapper}>
                   <div
@@ -137,9 +129,6 @@ const Navbar = () => {
           </Link>
           <Link className={styles.linksNavbar} to={"/Productos"}>
             Productos
-          </Link>
-          <Link className={styles.linksNavbar} to={"/politicas"}>
-            Politicas
           </Link>
         </div>
       </div>
