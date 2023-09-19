@@ -16,7 +16,7 @@ function AgregarProductos() {
   
 
   let stock = '3';
-  let token = localStorage.getItem("jwtToken")
+  let token = sessionStorage.getItem("jwtToken")
 
   useEffect(() => {
     // Obtener categorías usando fetch

@@ -19,7 +19,7 @@ function getInitials(name, lastName) {
 }
 
 const Navbar = () => {
-  let token = localStorage.getItem("jwtToken")
+  let token = sessionStorage.getItem("jwtToken")
   const { user, setUser } = useContext(DataContext);
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
@@ -49,7 +49,7 @@ const Navbar = () => {
         }
       })
       if (response.ok) {
-        localStorage.removeItem("jwtToken")
+        sessionStorage.removeItem("jwtToken")
         setUser({});
         navigate("/");
       }

@@ -39,7 +39,7 @@ function InicioSesion() {
           const jwtToken = data.jwtToken;
 
           // Almacenar el token en el almacenamiento local (localStorage o sessionStorage)
-          localStorage.setItem("jwtToken", jwtToken);
+          sessionStorage.setItem("jwtToken", jwtToken);
 
           // Actualizar el estado del usuario o redirigir a la página de inicio
           setUser({ email }); // Actualiza el contexto con la información del usuario
