@@ -4,16 +4,18 @@ import styles from './agregarProducto.module.css';
 function AgregarProductos() {
   const [name, setName] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(0.00);
   const [categoria, setCategoria] = useState('');
   const [categorias, setCategorias] = useState([]);
   const [brands, setBrands] = useState([]);
-  const [marcasDisponibles, setMarcasDisponibles] = useState([]);
+  const [brand, setBrand] = useState('');
   const [imagenes, setImagenes] = useState([]);
   const [productos, setProductos] = useState([]);
   const [features, setFeatures] = useState([]);
-  const [feature, setFeature] = useState('');
+  const [featuresElegidas, setFeaturesElegidas] = useState([]);
+  
 
+  let stock = '3';
   let token = localStorage.getItem("jwtToken")
 
   useEffect(() => {
@@ -24,9 +26,9 @@ function AgregarProductos() {
       .catch(error => console.error('Error al obtener categorías:', error));
 
     // Obtener caracteristicas usando fetch
-    fetch("http://18.118.140.140/features")
+    fetch("http://18.118.140.140/brand")
       .then(response => response.json())
-      .then(data => setMarcasDisponibles(data))
+      .then(data => setBrands(data))
       .catch(error => console.error('Error al obtener marcas:', error));
   }, []);
 
@@ -43,20 +45,25 @@ function AgregarProductos() {
   };
 
   const crearProducto = async () => {
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('description', descripcion);
-    formData.append('price', price);
-    formData.append('category', categoria);
-    formData.append('features', feature);
-    brands.forEach(brand => formData.append('brands', brand));
-    imagenes.forEach((imagen, index) => formData.append(`imagen-${index}`, imagen));
-
     try {
       const response = await fetch("http://18.118.140.140/product", {
         method: 'POST',
         headers: {Authorization: `Bearer ${token}`},
-        body: formData
+        body: JSON.stringify({
+          "name": name,
+          "description": descripcion,
+          "price": price,
+          "stock": stock,
+          "brand": {
+            "id": brand
+          },
+          "category": {
+            "id": categoria
+          },
+          "features": [{
+            "id": featuresElegidas
+          }]
+        })
       });
 
       if (response.ok) {
@@ -72,11 +79,11 @@ function AgregarProductos() {
     }
   };
 
-  const toggleMarca = (brandId) => {
-    if (brands.includes(brandId)) {
-      setBrands(brands.filter(item => item !== brandId));
+  const toggleFeatureElegidas = (featureId) => {
+    if (featuresElegidas.includes(featureId)) {
+      setFeaturesElegidas(featuresElegidas.filter(item => item !== featureId));
     } else {
-      setBrands([...brands, brandId]);
+      setFeaturesElegidas([...featuresElegidas, featureId]);
     }
   };
 
@@ -105,26 +112,26 @@ function AgregarProductos() {
         </select>
       </div>
       <div>
-        <label>Features:</label>
-        <select value={feature} onChange={e => setFeature(e.target.value)}>
-          <option value="">Selecciona una feature</option>
-          {features.map((feature) => (
-            <option key={feature.id} value={feature.id}>{feature.name}</option>
+        <label>Marcas:</label>
+        <select value={brand} onChange={e => setBrand(e.target.value)}>
+          <option value="">Selecciona una marca</option>
+          {brands.map((brand) => (
+            <option key={brand.id} value={brand.name}>{brand.name}</option>
           ))}
         </select>
       </div>
-      <div>
-        <label>Marcas:</label>
-        {marcasDisponibles.map((brand) => (
-          <div key={brand.id}>
+      <div className={styles.featuresFather}>
+        <label>Características:</label>
+        {features.map((feature) => (
+          <div className={styles.features} key={feature.id}>
+            <span>{feature.name}</span>
             <input
               type="checkbox"
-              value={brand.id}
-              name={`brand-${brand.id}`}
-              checked={brands.includes(brand.id)}
-              onChange={() => toggleMarca(brand.id)}
+              value={feature.name}
+              name={`feature-${feature.id}`}
+              checked={featuresElegidas.includes(feature.id)}
+              onChange={() => toggleFeatureElegidas(feature.id)}
             />
-            <label>{brand.name}</label>
           </div>
         ))}
       </div>
