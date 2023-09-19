@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext} from "react";
+import { useNavigate } from "react-router-dom";
 import { DataContext } from "../../Context/DataContext";
 import { DateRangePicker } from "react-dates";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import styles from "../Buscador/buscador.module.css";
-import { BsCartCheck } from "react-icons/bs";
+import { GiGuitar } from "react-icons/gi";
 import moment from "moment";
 
 function Buscador() {
@@ -16,7 +17,7 @@ function Buscador() {
   const [productos, setProductos] = useState([]);
   const [mostrarLista, setMostrarLista] = useState(false);
   const [productosSeleccionados, setProductosSeleccionados] = useState([]);
-
+  const navigate = useNavigate();
   const URL = "http://18.118.140.140/product";
 
   const showData = async () => {
@@ -61,10 +62,8 @@ function Buscador() {
     return day.isBefore(today, "day");
   };
 
-  const handleAddToCart = (e, producto) => {
-    e.preventDefault();
-    setCart([...cart, producto]);
-
+  const handleAddReserve = (e, producto) => {
+    navigate("/reservas");
   };
 
   const handleSearch = () => {
@@ -80,6 +79,7 @@ function Buscador() {
     };
     setProductosSeleccionados([...productosSeleccionados, productoSeleccionado]);
     setFiltro("");
+
   };
 
   return (
@@ -139,7 +139,7 @@ function Buscador() {
               <h4 className={styles.productoCardH4}>{producto.name}</h4>
               <p className={styles.productoCardP}>Fecha de inicio: {moment(producto.startDate).format("YYYY-MM-DD")}</p>
               <p className={styles.productoCardP}>Fecha de fin: {moment(producto.endDate).format("YYYY-MM-DD")}</p>
-              <button className={styles.productoCardButton} onClick={(e) => handleAddToCart(e, producto)}><BsCartCheck/></button>
+              <button className={styles.productoCardButton} onClick={(e) => handleAddReserve(e, producto)}><GiGuitar size={25} color='whitesmoke'/></button>
             </div>
           ))}
           </div>

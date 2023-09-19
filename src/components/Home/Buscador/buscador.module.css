@@ -96,12 +96,11 @@
   margin: 5px 0;
 }
 .productoCardButton {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #4f709c;
   border: none;
-  padding: 8px 16px;
+  padding: 0.4rem 0.6rem;
   cursor: pointer;
-  font-size: 14px;
+  border-radius: 1rem;
 }
 
 .productoCardButton:hover {

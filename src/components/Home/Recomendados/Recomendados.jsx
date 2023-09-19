@@ -1,8 +1,6 @@
-import React, { useContext, useState, useEffect } from "react";
-import { DataContext } from "../../Context/DataContext";
+import React, { useState, useEffect } from "react";
 import styles from "./recomendados.module.css";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
 import {
   BsFacebook,
   BsInstagram,
@@ -13,7 +11,6 @@ import {
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
 const Recomendados = () => {
-  const { cart, setCart } = useContext(DataContext);
   const itemsPerPage = 10;
   const [productos, setProductos] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,7 +34,9 @@ const Recomendados = () => {
 
   const openSharePopup = (product) => {
     const popup = document.getElementById(`popup${product.id}`);
-    popup.style.display = "block";
+    if (popup) {
+      popup.style.display = "block";
+    }
   };
 
   const closePopup = (product) => {
@@ -103,15 +102,6 @@ const Recomendados = () => {
 
   console.log("data products: ", productos);
 
-  const buyProducts = (e, product) => {
-    // Agrega 'product' como parámetro
-
-    e.preventDefault();
-
-    console.log("Comprando: ", product);
-    toast.success(`${product.objeto} añadido al carrito!`);
-    setCart([...cart, product]);
-  };
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -126,30 +116,30 @@ const Recomendados = () => {
       <span className={styles.title}>Lo que te recomendamos</span>
 
       <div className={styles.loginPop}>
-          {mostrarPopup && (
-            <div className={styles.loginPopup}>
-              <p className={styles.loginPopupP}>Por favor, inicia sesión para marcar como favorito.</p>
-            </div>
-          )}
-        <div/>
+        {mostrarPopup && (
+          <div className={styles.loginPopup}>
+            <p className={styles.loginPopupP}>Por favor, inicia sesión para marcar como favorito.</p>
+          </div>
+        )}
+      <div/>
 
       <div className={styles.cardConteiner}>
         {currentItems.map((producto) => (
-          <div key={producto.id} className={styles.card}>
-            <div className={styles.botonesFavshare}>
-              <button
-                onClick={() => addToFavoritos(producto)}
-                className={styles.favoritosButton}
+        <div key={producto.id} className={styles.card}>
+          <div className={styles.botonesFavshare}>
+            <button
+              onClick={() => addToFavoritos(producto)}
+              className={styles.favoritosButton}
               >
-                {isFavorito[producto.id] ? (
-                  <MdFavorite color="#4F709C" size={25} />
-                ) : (
-                  <MdFavoriteBorder color="#4F709C" size={25} />
-                )}
-              </button>
+              {isFavorito[producto.id] ? (
+              <MdFavorite color="#4F709C" size={25} />
+              ) : (
+              <MdFavoriteBorder color="#4F709C" size={25} />
+              )}
+            </button>
               <button
                 className={styles.buttonShare}
-                onClick={() => openSharePopup(productos)}
+                onClick={() => openSharePopup(producto)}
               >
                 <BsShareFill color="#4F709C" size={19} />
               </button>
@@ -172,14 +162,6 @@ const Recomendados = () => {
                 <br />
                 <span className={styles.h4}>{producto.price}</span>
               </div>
-              <br />
-              <button
-                className={styles.button}
-                onClick={(e) => buyProducts(e, producto)}
-              >
-                Reservar
-              </button>{" "}
-              {/* Elementos para la ventana emergente de compartir */}
               <div className={styles.sharePopup} id={`popup${producto.id}`}>
                 <img
                   className={styles.sharePopupImg}
@@ -236,7 +218,7 @@ const Recomendados = () => {
                 </div>
                 <button
                   className={styles.closeButton}
-                  onClick={() => closePopup(productos)}
+                  onClick={() => closePopup(producto)}
                 >
                   Cerrar
                 </button>
@@ -244,41 +226,43 @@ const Recomendados = () => {
             </div>
           </div>
         ))}
-      </div>
-      <div className={styles.pagination}>
-        <button
+        </div>
+        </div>
+        <div className={styles.pagination}>
+          <button
           className={styles.buttonPagination}
           onClick={() => handlePageChange(1)}
           disabled={currentPage === 1}
-        >
+          >
           {"<<"}
-        </button>
-        <button
+          </button>
+          <button
           className={styles.buttonPagination}
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-        >
+          >
           {"<"}
-        </button>
-        <span
+          </button>
+          <span
           className={styles.numeracion}
-        >{`${currentPage} / ${totalPages}`}</span>
-        <button
-          className={styles.buttonPagination}
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          {">"}
-        </button>
-        <button
-          className={styles.buttonPagination}
-          onClick={() => handlePageChange(totalPages)}
-          disabled={currentPage === totalPages}
-        >
-          {">>"}
-        </button>
+          >{`${currentPage} / ${totalPages}`}</span>
+          <button
+            className={styles.buttonPagination}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            {">"}
+          </button>
+          <button
+            className={styles.buttonPagination}
+            onClick={() => handlePageChange(totalPages)}
+            disabled={currentPage === totalPages}
+          >
+            {">>"}
+          </button>
+
+
       </div>
-    </div>
     </div>
   );
 };
