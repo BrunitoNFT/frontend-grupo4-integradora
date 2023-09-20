@@ -6,7 +6,7 @@ import "react-dates/lib/css/_datepicker.css";
 import styles from "../Buscador/buscador.module.css";
 import { GiGuitar } from "react-icons/gi";
 import moment from "moment";
-
+console.log("merge conflict fixed");
 function Buscador() {
   const { cart, setCart } = useContext(DataContext);
   const [startDate, setStartDate] = useState(null);
