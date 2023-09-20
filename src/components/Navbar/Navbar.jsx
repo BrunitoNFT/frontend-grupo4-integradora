@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./navbar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../DropTheBass.png";
 import { DataContext } from "../Context/DataContext";
 import { AiFillSetting } from "react-icons/ai";
-import { BsCartCheck } from "react-icons/bs";
+import { BsBookmarkCheck } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 
 
@@ -74,11 +74,12 @@ const Navbar = () => {
                   Iniciar sesión
                 </Link>
               </button>
-              {/* <Link className={styles.seeCarrito} to={"/cart"}>
+              <Link className={styles.seeCarrito} to={"/cart"}>
                 <BsCartCheck color="whitesmoke" />
-              </Link> */}
+              </Link>
             </>
             ) : (
+              <>
               <div className={styles.navbarAvatar}>
                 <div className={styles.SelectWrapper}>
                   <div
@@ -94,16 +95,20 @@ const Navbar = () => {
                     </ul>
                   )}
                 </div>
+                <div className={styles.avatarLogout}>
                 <div className={styles.avatar}>
                   {avatar}
                 </div>
                 <button className={styles.LoginBox} onClick={handleLogout}>
                   Cerrar sesión
                 </button>
-                {/* <Link className={styles.seeCarrito} to={"/cart"}>
-                  <BsCartCheck color="whitesmoke" />
-                </Link> */}
+                </div>
+                <Link className={styles.seeCarrito} to={"/reservas"}>
+                  <BsBookmarkCheck color="whitesmoke" />
+                </Link>
               </div>
+              </>
+
             )}
           </div>
 

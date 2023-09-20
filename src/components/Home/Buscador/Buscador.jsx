@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext} from "react";
-import { useNavigate } from "react-router-dom";
 import { DataContext } from "../../Context/DataContext";
 import { DateRangePicker } from "react-dates";
 import "react-dates/initialize";
@@ -17,9 +16,9 @@ function Buscador() {
   const [productos, setProductos] = useState([]);
   const [mostrarLista, setMostrarLista] = useState(false);
   const [productosSeleccionados, setProductosSeleccionados] = useState([]);
-  const navigate = useNavigate();
-  const URL = "http://18.118.140.140/product";
 
+  
+  const URL = "http://18.118.140.140/product";
   const showData = async () => {
     try {
       const response = await fetch(URL);
@@ -62,8 +61,32 @@ function Buscador() {
     return day.isBefore(today, "day");
   };
 
-  const handleAddReserve = (e, producto) => {
-    navigate("/reservas");
+  
+  async function handleAddToCart (e, productosSeleccionados){
+    e.preventDefault();
+  
+    const data = {
+      product: {
+        id: productosSeleccionados.id, // Asegúrate de que productoSeleccionado tenga una propiedad 'id'
+      },
+      amount: 1,
+      startBooking: productosSeleccionados.startDate, // Utiliza la fecha de inicio seleccionada
+      endBooking: productosSeleccionados.endDate, // Utiliza la fecha de fin seleccionada
+    };
+  
+    try {
+      const response = await fetch("http://18.118.140.140/shopping-cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+      console.log ('Prodcuto', data);
+    }catch (error){
+      console.log("error", error);
+    }
   };
 
   const handleSearch = () => {
@@ -139,7 +162,7 @@ function Buscador() {
               <h4 className={styles.productoCardH4}>{producto.name}</h4>
               <p className={styles.productoCardP}>Fecha de inicio: {moment(producto.startDate).format("YYYY-MM-DD")}</p>
               <p className={styles.productoCardP}>Fecha de fin: {moment(producto.endDate).format("YYYY-MM-DD")}</p>
-              <button className={styles.productoCardButton} onClick={(e) => handleAddReserve(e, producto)}><GiGuitar size={25} color='whitesmoke'/></button>
+              <button className={styles.productoCardButton} onClick={(e) => handleAddToCart(e, productosSeleccionados)}><GiGuitar size={25} color='whitesmoke'/></button>
             </div>
           ))}
           </div>

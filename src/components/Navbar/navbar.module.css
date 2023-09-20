@@ -103,6 +103,14 @@
   gap: 1rem;
   align-items: center;
 }
+
+.avatarLogout{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .avatar {
   width: 5vw;
   height: 2.7rem;
@@ -114,8 +122,8 @@
   justify-content: center;
   font-size: 1.2rem;
   font-weight: bold;
+  margin-bottom: 0.2rem;
 }
-
 .SelectWrapper {
   position: relative;
   display: inline-block;

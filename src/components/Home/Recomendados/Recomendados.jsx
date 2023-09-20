@@ -12,7 +12,7 @@ import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
 const Recomendados = () => {
   const itemsPerPage = 10;
-  const [productos, setProductos] = useState([])
+  const [productos, setProductos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [randomizedData, setRandomizedData] = useState([]);
   const [favoritos, setFavoritos] = useState([]);
@@ -26,7 +26,7 @@ const Recomendados = () => {
     const jsonData = await response.json();
     setProductos(jsonData);
   }
-  
+
   const checkAuthentication = () => {
     const isAutenticado = localStorage.getItem("jwtToken");
     setIsAutenticado(isAutenticado);
@@ -102,7 +102,6 @@ const Recomendados = () => {
 
   console.log("data products: ", productos);
 
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -118,154 +117,154 @@ const Recomendados = () => {
       <div className={styles.loginPop}>
         {mostrarPopup && (
           <div className={styles.loginPopup}>
-            <p className={styles.loginPopupP}>Por favor, inicia sesión para marcar como favorito.</p>
+            <p className={styles.loginPopupP}>
+              Por favor, inicia sesión para marcar como favorito.
+            </p>
           </div>
         )}
-      <div/>
+        <div />
 
-      <div className={styles.cardConteiner}>
-        {currentItems.map((producto) => (
-        <div key={producto.id} className={styles.card}>
-          <div className={styles.botonesFavshare}>
-            <button
-              onClick={() => addToFavoritos(producto)}
-              className={styles.favoritosButton}
+        <div className={styles.cardConteiner}>
+          {currentItems.map((producto) => (
+            <div key={producto.id} className={styles.card}>
+              <Link
+                className={styles.imgContainer}
+                key={producto.id}
+                to={"/detalle/" + producto.id}
               >
-              {isFavorito[producto.id] ? (
-              <MdFavorite color="#4F709C" size={25} />
-              ) : (
-              <MdFavoriteBorder color="#4F709C" size={25} />
-              )}
-            </button>
-              <button
-                className={styles.buttonShare}
-                onClick={() => openSharePopup(producto)}
-              >
-                <BsShareFill color="#4F709C" size={19} />
-              </button>
-            </div>
-
-            <Link
-              className={styles.imgContainer}
-              key={producto.id}
-              to={"/detalle/" + producto.id}
-            >
-              <img
-                src={producto.urlImg}
-                alt="img-product-card"
-                className={styles.img}
-              />
-            </Link>
-            <div className={styles.dataContainer}>
-              <div className={styles.dataContainerChildren}>
-                <span className={styles.h3}>{producto.name}</span>
-                <br />
-                <span className={styles.h4}>{producto.price}</span>
-              </div>
-              <div className={styles.sharePopup} id={`popup${producto.id}`}>
                 <img
-                  className={styles.sharePopupImg}
                   src={producto.urlImg}
-                  alt="img-product-popup"
+                  alt="img-product-card"
+                  className={styles.img}
                 />
-                <p>{producto.name}</p>
-                <a
-                  href={`/detalle/${producto.id}`}
-                  className={styles.detailLink}
-                >
-                  Ver mas
-                </a>
-                <input
-                  className={styles.sharePopupInput}
-                  type="text"
-                  placeholder="Escribe tu comentario"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                />
-                <div className={styles.socialLinks}>
-                  <a
-                    className={styles.socialLinksA}
-                    href={`https://www.facebook.com/share?url=${window.location.href}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsFacebook color="#214F55" />
-                  </a>
-                  <a
-                    className={styles.socialLinksA}
-                    href={`https://www.instagram.com/share?url=${window.location.href}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsInstagram color="#214F55" />
-                  </a>
-                  <a
-                    className={styles.socialLinksA}
-                    href={`https://twitter.com/share?url=${window.location.href}&text=${producto.name}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsTwitter color="#214F55" />
-                  </a>
-                  <a
-                    className={styles.socialLinksA}
-                    href={`whatsapp://send?text=${encodeURIComponent(`¡Mira este producto: ${producto.name}! ${document.location.href}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsWhatsapp color="#214F55" />
-                  </a>
+                
+              </Link>
+              <div className={styles.dataContainer}>
+                <span className={styles.h3}>{producto.name}</span>
+                <span className={styles.h4}>{producto.price}</span>
+                <div className={styles.dataContainerChildren}>
+                  <div className={styles.botonesFavshare}>
+                    <button
+                      onClick={() => addToFavoritos(producto)}
+                      className={styles.favoritosButton}
+                      >
+                      {isFavorito[producto.id] ? (
+                        <MdFavorite color="#4F709C" size={25} />
+                      ) : (
+                        <MdFavoriteBorder color="#4F709C" size={25} />
+                      )}
+                    </button>
+                    <button
+                      className={styles.buttonShare}
+                      onClick={() => openSharePopup(producto)}
+                      >
+                      <BsShareFill color="#4F709C" size={19} />
+                    </button>
+                  </div>
                 </div>
-                <button
-                  className={styles.closeButton}
-                  onClick={() => closePopup(producto)}
-                >
-                  Cerrar
-                </button>
+                <div className={styles.sharePopup} id={`popup${producto.id}`}>
+                  <img
+                    className={styles.sharePopupImg}
+                    src={producto.urlImg}
+                    alt="img-product-popup"
+                  />
+                  <p>{producto.name}</p>
+                  <a
+                    href={`/detalle/${producto.id}`}
+                    className={styles.detailLink}
+                  >
+                    Ver mas
+                  </a>
+                  <input
+                    className={styles.sharePopupInput}
+                    type="text"
+                    placeholder="Escribe tu comentario"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                  <div className={styles.socialLinks}>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://www.facebook.com/share?url=${window.location.href}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsFacebook color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://www.instagram.com/share?url=${window.location.href}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsInstagram color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://twitter.com/share?url=${window.location.href}&text=${producto.name}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsTwitter color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`whatsapp://send?text=${encodeURIComponent(
+                        `¡Mira este producto: ${producto.name}! ${document.location.href}`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsWhatsapp color="#214F55" />
+                    </a>
+                  </div>
+                  <button
+                    className={styles.closeButton}
+                    onClick={() => closePopup(producto)}
+                  >
+                    Cerrar
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
         </div>
-        </div>
-        <div className={styles.pagination}>
-          <button
+      </div>
+      <div className={styles.pagination}>
+        <button
           className={styles.buttonPagination}
           onClick={() => handlePageChange(1)}
           disabled={currentPage === 1}
-          >
+        >
           {"<<"}
-          </button>
-          <button
+        </button>
+        <button
           className={styles.buttonPagination}
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          >
+        >
           {"<"}
-          </button>
-          <span
+        </button>
+        <span
           className={styles.numeracion}
-          >{`${currentPage} / ${totalPages}`}</span>
-          <button
-            className={styles.buttonPagination}
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            {">"}
-          </button>
-          <button
-            className={styles.buttonPagination}
-            onClick={() => handlePageChange(totalPages)}
-            disabled={currentPage === totalPages}
-          >
-            {">>"}
-          </button>
-
-
+        >{`${currentPage} / ${totalPages}`}</span>
+        <button
+          className={styles.buttonPagination}
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          {">"}
+        </button>
+        <button
+          className={styles.buttonPagination}
+          onClick={() => handlePageChange(totalPages)}
+          disabled={currentPage === totalPages}
+        >
+          {">>"}
+        </button>
       </div>
     </div>
   );
 };
 
 export default Recomendados;
-
