@@ -13,7 +13,8 @@ function AgregarProductos() {
   const [productos, setProductos] = useState([]);
   const [features, setFeatures] = useState([]);
   const [featuresElegidas, setFeaturesElegidas] = useState([]);
-  
+  const featuresArray = featuresElegidas.map(feature => ({ id: `${feature}`}));
+  const [invocarCreacion, setInvocarCreacion] = useState(false)
 
   let stock = '3';
   let token = sessionStorage.getItem("jwtToken")
@@ -44,40 +45,45 @@ function AgregarProductos() {
     setImagenes(files);
   };
 
-  const crearProducto = async () => {
-    try {
-      const response = await fetch("http://18.118.140.140/product", {
-        method: 'POST',
-        headers: {Authorization: `Bearer ${token}`},
-        body: JSON.stringify({
-          "name": name,
-          "description": descripcion,
-          "price": price,
-          "stock": stock,
-          "brand": {
-            "id": brand
+  useEffect(()=>{
+    const crearProducto = async () => {
+      try {
+        const response = await fetch("http://18.118.140.140/product", {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           },
-          "category": {
-            "id": categoria
-          },
-          "features": [{
-            "id": featuresElegidas
-          }]
-        })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setProductos([...productos, data]);
-        alert(`Producto '${name}' creado exitosamente!`);
-      } else {
+          body: JSON.stringify({
+            name: name,
+            description: descripcion,
+            price: price,
+            stock: stock,
+            brand: {
+              "id": brand
+            },
+            category: {
+              "id": categoria
+            },
+            features: featuresArray
+            
+          })
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setProductos([...productos, data]);
+          alert(`Producto '${name}' creado exitosamente!`);
+        }
+      } catch (error) {
+        console.error('Error al enviar la solicitud:', error);
         alert('Hubo un error al crear el producto.');
       }
-    } catch (error) {
-      console.error('Error al enviar la solicitud:', error);
-      alert('Hubo un error al crear el producto.');
+    };
+    
+    if (invocarCreacion) {
+      crearProducto();
     }
-  };
+  }, [invocarCreacion])
 
   const toggleFeatureElegidas = (featureId) => {
     if (featuresElegidas.includes(featureId)) {
@@ -86,7 +92,7 @@ function AgregarProductos() {
       setFeaturesElegidas([...featuresElegidas, featureId]);
     }
   };
-
+  
   return (
     <div className={styles.agregarProducto}>
       <h1>Agregar Productos</h1>
@@ -116,7 +122,7 @@ function AgregarProductos() {
         <select value={brand} onChange={e => setBrand(e.target.value)}>
           <option value="">Selecciona una marca</option>
           {brands.map((brand) => (
-            <option key={brand.id} value={brand.name}>{brand.name}</option>
+            <option key={brand.id} value={brand.id}>{brand.name}</option>
           ))}
         </select>
       </div>
@@ -139,7 +145,7 @@ function AgregarProductos() {
         <label>Imágenes:</label>
         <input type="file" multiple onChange={handleImagenesChange} />
       </div>
-      <button onClick={crearProducto}>Crear Producto</button>
+      <button onClick={()=>setInvocarCreacion(true)}>Crear Producto</button>
     </div>
   );
 }
