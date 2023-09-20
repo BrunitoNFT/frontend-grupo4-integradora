@@ -11,8 +11,8 @@ const Register = lazy(() => import('../Screens/Register'));
 const PanelUsuarios = lazy(() => import('../Screens/PanelUsuarios'));
 const Productos = lazy(() => import('../Screens/Productos'));
 const Login = lazy (() => import ('../Screens/Login'));
-const Politicas = lazy (() => import('../Screens/Politica'));
-const Favoritos = lazy(() => import ('../Screens/Favorito'))
+const Favoritos = lazy(() => import ('../Screens/Favorito'));
+const Reserva = lazy(() => import('../Screens/ReservaInstrumento'));
 
 // Define la configuración de rutas
 const navigation = [
@@ -63,13 +63,13 @@ const navigation = [
   },
   {
     id: 10,
-    path: '/Politicas',
-    Element: Politicas,
+    path: '/Favoritos',
+    Element: Favoritos,
   },
   {
     id: 11,
-    path: '/Favoritos',
-    Element: Favoritos,
+    path: '/reservas',
+    Element: Reserva,
   }
 ];
 

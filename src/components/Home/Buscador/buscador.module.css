@@ -53,6 +53,61 @@
   background-color: #0056b3;
 }
 
+/* Estilos para el contenedor de las cards */
+.productosSeleccionadosContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tarjetaH3{
+  font-size: 1.4rem;
+  color: whitesmoke;
+  text-decoration: underline;
+}
+.tarjetasCarrito{
+  display: flex;
+  flex-direction: row;
+}
+
+.productoCard {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  text-align: center;
+  background-color: #fff;
+  margin-right: 10px;
+  border-radius: 1rem;
+}
+.productoCardImg {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+.productoCardH4 {
+  font-size: 0.7rem;
+  margin: 0;
+  text-align: center;
+  flex-grow: 1; 
+}
+.productoCardP {
+  font-size: 0.7rem;
+  margin: 5px 0;
+}
+.productoCardButton {
+  background-color: #4f709c;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+
+.productoCardButton:hover {
+  background-color: #0056b3;
+}
+
+
 
 @media (max-width: 768px) {
   .buscadorH3 {

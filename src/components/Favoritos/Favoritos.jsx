@@ -24,7 +24,13 @@ const Favoritos = () => {
       <h2 className={styles.tituloLista}>Tus Favoritos</h2>
       <ul className={styles.cardProductos}>
         {favoritos.map((producto) => (
-          <li key={producto.id}>
+          <li className={styles.cardProductosLi} key={producto.id}>
+            <button 
+                onClick={() => handleRemoveFavorito(producto)}
+                className={styles.favoritosButton}
+            >
+                <MdFavorite color="#4F709C" size={25} />
+            </button>
             <img
                 className={styles.imgLista}
                 src={producto.urlImg}
@@ -32,12 +38,6 @@ const Favoritos = () => {
             />
             <div className={styles.productoNombre}>{producto.name}</div>
             <div className={styles.productoPrecio}>$ {producto.price}</div>
-            <button 
-                onClick={() => handleRemoveFavorito(producto)}
-                className={styles.favoritosButton}
-            >
-                <MdFavorite color="red" size={25}/>
-            </button>
           </li>
         ))}
       </ul>
