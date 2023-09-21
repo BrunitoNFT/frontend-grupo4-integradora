@@ -23,7 +23,6 @@
 
 .botonesFavshare{
   display: flex;
-  margin-left: 5rem;
   gap: 0.4rem;
 }
 .buttonShare{

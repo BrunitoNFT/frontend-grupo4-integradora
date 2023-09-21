@@ -74,8 +74,8 @@ const Navbar = () => {
                   Iniciar sesión
                 </Link>
               </button>
-              <Link className={styles.seeCarrito} to={"/cart"}>
-                <BsCartCheck color="whitesmoke" />
+              <Link className={styles.seeCarrito} to={"/reservas"}>
+                <BsBookmarkCheck color="whitesmoke" />
               </Link>
             </>
             ) : (

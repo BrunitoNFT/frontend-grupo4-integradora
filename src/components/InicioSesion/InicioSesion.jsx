@@ -38,10 +38,18 @@ function InicioSesion() {
           const data = await response.json();
           const jwtToken = data.jwtToken;
           const firstLetterNameAndLastname = data.firstLetterNameAndLastname;
+          const nombre = data.name;
+          const apellido = data.lastname;
+          const correo = data.email;
+
 
           // Almacenar el token en el almacenamiento local (localStorage o sessionStorage)
           localStorage.setItem("jwtToken", jwtToken);
-          localStorage.setItem("firstLetterNameAndLastname", firstLetterNameAndLastname)
+          localStorage.setItem("firstLetterNameAndLastname", firstLetterNameAndLastname);
+          localStorage.setItem("name", nombre);
+          localStorage.setItem("lastname", apellido);
+          localStorage.setItem("email", correo)
+
 
           // Actualizar el estado del usuario o redirigir a la página de inicio
           setUser({ email }); // Actualiza el contexto con la información del usuario

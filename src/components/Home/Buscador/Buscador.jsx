@@ -1,114 +1,104 @@
-import React, { useState, useEffect, useContext} from "react";
-import { DataContext } from "../../Context/DataContext";
+import React, { useState, useEffect } from "react";
 import { DateRangePicker } from "react-dates";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import styles from "../Buscador/buscador.module.css";
-import { GiGuitar } from "react-icons/gi";
+import { BsBookmarkCheck } from "react-icons/bs";
 import moment from "moment";
-console.log("merge conflict fixed");
+
 function Buscador() {
-  const { cart, setCart } = useContext(DataContext);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [dateRange, setDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
   const [focusedInput, setFocusedInput] = useState(null);
-  const [filtro, setFiltro] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [agregarProducto, setAgregarProducto] = useState(false);
   const [productos, setProductos] = useState([]);
-  const [mostrarLista, setMostrarLista] = useState(false);
-  const [productosSeleccionados, setProductosSeleccionados] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-  
-  const URL = "http://18.118.140.140/product";
-  const showData = async () => {
-    try {
-      const response = await fetch(URL);
-      if (!response.ok) {
-        throw new Error("La solicitud a la API no fue exitosa");
-      }
-      const data = await response.json();
-      setProductos(data);
-    } catch (error) {
-      console.error("Error al obtener la lista de productos:", error);
+  let token = localStorage.getItem("jwtToken");
+  let amount = 1;
+
+  /// FORMATEA LAS FECHAS DEL CALENDARIO PARA OBTENER UN FORMATO YYYY-MM-DD
+  const startDateAsMoment = dateRange.startDate;
+  const startDateFormatted = startDateAsMoment
+    ? startDateAsMoment.format("YYYY-MM-DD")
+    : null;
+
+  const endDateAsMoment = dateRange.endDate;
+  const endDateFormatted = endDateAsMoment
+    ? endDateAsMoment.format("YYYY-MM-DD")
+    : null;
+
+  /// BUSCADOR -- pendiente agregar condicional de que input debe tener al menos 3 letras para generar resultados
+  const handleBuscar = () => {
+    if (searchKeyword.length >= 3) {
+      fetch(`http://18.118.140.140/product/search?keyword=${searchKeyword}`)
+        .then((response) => response.json())
+        .then((data) => setSearchResults(data))
+        .catch((error) =>
+          console.error("Error al realizar la solicitud:", error)
+        );
+    } else {
+      setSearchResults([]); // Borrar resultados si no hay palabra clave de búsqueda
     }
+    console.log("resultado", searchResults);
+    console.log("fechaInicioooooo", startDateFormatted);
+    console.log("fechaFiiiiiiin", endDateFormatted);
   };
 
-  useEffect(() => {
-    showData();
-  }, []);
-
-  const handleInputChange = (e) => {
-    const textoFiltro = e.target.value.toLowerCase();
-    setFiltro(textoFiltro);
-    setMostrarLista(textoFiltro.trim() !== "");
-  };
-
-  const handleNameClick = (nombre) => {
-    setFiltro(nombre);
-    setMostrarLista(false);
-  };
-
-  const results = productos.filter((producto) =>
-    producto.name.toLowerCase().includes(filtro)
-  );
-
-  const handleDatesChange = ({ startDate, endDate }) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
-  };
-
+  /// LO UTILIZA EL CALENDARIO PARA RESTRINGIR FECHAS PASADAS
   const isOutsideRange = (day) => {
     const today = moment();
     return day.isBefore(today, "day");
   };
 
+  /// FUNCION PARA HACER LA RESERVA HACIENDO POST AL SHOPPING-CART
+  useEffect(() => {
+    const addProducto = async () => {
+      try {
+        if (selectedProduct && startDateFormatted && endDateFormatted) {
+          const response = await fetch("http://18.118.140.140/shopping-cart", {
+            method: 'POST',
+            mode:'no-cors',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              product:{
+                "id": selectedProduct.id
+              },
+              amount: amount,
+              startBooking: startDateFormatted,
+              endBooking: endDateFormatted,
+            })
+          });
   
-  async function handleAddToCart (e, productosSeleccionados){
-    e.preventDefault();
-  
-    const data = {
-      product: {
-        id: productosSeleccionados.id, // Asegúrate de que productoSeleccionado tenga una propiedad 'id'
-      },
-      amount: 1,
-      startBooking: productosSeleccionados.startDate, // Utiliza la fecha de inicio seleccionada
-      endBooking: productosSeleccionados.endDate, // Utiliza la fecha de fin seleccionada
+          if (response.ok) {
+            const data = await response.json();
+            setProductos([...productos, data]);
+            alert(`Se ha agregado '${selectedProduct.name}' a Reservas!`);
+            setAgregarProducto(false); // Vuelve a desactivar la acción de agregar producto
+          }
+        }
+      } catch (error) {
+        console.error('Error al enviar la solicitud:', error);
+      }
     };
   
-    try {
-      const response = await fetch("http://18.118.140.140/shopping-cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-      });
-      console.log ('Prodcuto', data);
-    }catch (error){
-      console.log("error", error);
+    if (agregarProducto) {
+      addProducto();
     }
-  };
+  }, [agregarProducto])
 
-  const handleSearch = () => {
-    console.log("Producto seleccionado:", filtro);
-    console.log("Fecha de inicio:", startDate);
-    console.log("Fecha de fin:", endDate);
-
-    
-    const productoSeleccionado = {
-      name: filtro,
-      startDate,
-      endDate,
-    };
-    setProductosSeleccionados([...productosSeleccionados, productoSeleccionado]);
-    setFiltro("");
-
-  };
 
   return (
     <div className={styles.buscadorContainer1}>
       <h3 className={styles.buscadorH3}>
-        ¿Necesitas ese producto en específico? Busquémoslo
+        ¿Necesitas ese producto en específico? Búscalo aquí
       </h3>
 
       <div className={styles.inputContainer}>
@@ -116,58 +106,57 @@ function Buscador() {
           className={styles.inputBuscador}
           type="text"
           placeholder="Ingrese un producto"
-          value={filtro}
-          onChange={handleInputChange}
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
         />
-        {mostrarLista && (
-          <ul className={styles.inputUl}>
-            {results.map((producto) => (
-              <li
-                className={styles.inputLi}
-                key={producto.id}
-                onClick={() => handleNameClick(producto.name)}
-              >
-                {producto.name}
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
 
       <div className={styles.datePicker}>
         <DateRangePicker
-          startDate={startDate}
-          startDateId="start_date"
-          endDate={endDate}
-          endDateId="end_date"
-          onDatesChange={handleDatesChange}
+          startDate={dateRange.startDate}
+          startDateId="start_date_id"
+          endDate={dateRange.endDate}
+          endDateId="end_date_id"
+          onDatesChange={({ startDate, endDate }) => {
+            setDateRange({ startDate, endDate });
+          }}
           focusedInput={focusedInput}
           onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
           isOutsideRange={isOutsideRange}
         />
       </div>
 
-      <button className={styles.buscadorButton} onClick={handleSearch}>
+      <button className={styles.buscadorButton} onClick={handleBuscar}>
         Realizar Búsqueda
       </button>
 
-      {/* Mostrar productos seleccionados */}
-      {productosSeleccionados.length > 0 && (
-        <div className={styles.productosSeleccionadosContainer}>
-          <h3 className={styles.tarjetaH3}>Productos Seleccionados:</h3>
-          <div className={styles.tarjetasCarrito}>
-          {productosSeleccionados.map((producto, index) => (
-            <div key={index} className={styles.productoCard}>
-              <img className={styles.productoCardImg} src={producto.urlImg} alt={producto.name} />
-              <h4 className={styles.productoCardH4}>{producto.name}</h4>
-              <p className={styles.productoCardP}>Fecha de inicio: {moment(producto.startDate).format("YYYY-MM-DD")}</p>
-              <p className={styles.productoCardP}>Fecha de fin: {moment(producto.endDate).format("YYYY-MM-DD")}</p>
-              <button className={styles.productoCardButton} onClick={(e) => handleAddToCart(e, productosSeleccionados)}><GiGuitar size={25} color='whitesmoke'/></button>
+      <ul className={styles.inputUl}>
+        {searchResults.map((product) => (
+          <li className={styles.inputLi} key={product.id}>
+            {/* Renderizar los productos encontrados en tarjetas */}
+            <div className={styles.tarjetasCarrito}>
+              <div key={product.id} className={styles.productoCard}>
+                <h4 className={styles.productoCardH4}>{product.name}</h4>
+                <p className={styles.productoCardP}>
+                  Fecha de inicio: {startDateFormatted}
+                </p>
+                <p className={styles.productoCardP}>
+                  Fecha de fin: {endDateFormatted}
+                </p>
+                <button
+                  className={styles.productoCardButton}
+                  onClick={() => {
+                    setSelectedProduct(product); // Almacena el producto seleccionado
+                    setAgregarProducto(true); // Activa la acción de agregar producto
+                  }}
+                >
+                  <BsBookmarkCheck size={18} color="whitesmoke" />
+                </button>
+              </div>
             </div>
-          ))}
-          </div>
-        </div>
-      )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
