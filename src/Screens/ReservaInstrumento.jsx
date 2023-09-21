@@ -1,5 +1,5 @@
 import React from 'react'
-import Reserva from '../components/CartContent/Reserva'
+import Reserva from '../components/Reserva/Reserva'
 
 
 

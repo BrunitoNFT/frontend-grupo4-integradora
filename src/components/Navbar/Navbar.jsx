@@ -30,6 +30,9 @@ const Navbar = () => {
         localStorage.removeItem("jwtToken")
         localStorage.removeItem("firstLetterNameAndLastname")
         localStorage.removeItem("favoritos")
+        localStorage.removeItem("name")
+        localStorage.removeItem("lastname")
+        localStorage.removeItem("email")
         setUser({});
         navigate("/login");
       }

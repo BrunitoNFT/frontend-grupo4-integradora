@@ -52,7 +52,6 @@ function Buscador() {
     console.log("fechaFiiiiiiin", endDateFormatted);
   };
 
-  
 
   /// LO UTILIZA EL CALENDARIO PARA RESTRINGIR FECHAS PASADAS
   const isOutsideRange = (day) => {
@@ -60,37 +59,38 @@ function Buscador() {
     return day.isBefore(today, "day");
   };
 
+
   /// FUNCION PARA HACER LA RESERVA HACIENDO POST AL SHOPPING-CART
   useEffect(() => {
     const addProducto = async () => {
+      const bookProduct = {
+        product:{
+          "id": selectedProduct.id
+        },
+        amount: amount,
+        startBooking: startDateFormatted,
+        endBooking: endDateFormatted,
+      };
       try {
         if (selectedProduct && startDateFormatted && endDateFormatted) {
           const response = await fetch("http://18.118.140.140/shopping-cart", {
             method: 'POST',
-            mode:'no-cors',
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-              product:{
-                "id": selectedProduct.id
-              },
-              amount: amount,
-              startBooking: startDateFormatted,
-              endBooking: endDateFormatted,
-            })
+            body: JSON.stringify(bookProduct)
           });
   
           if (response.ok) {
-            const data = await response.json();
-            setProductos([...productos, data]);
+            setProductos(... productos, bookProduct);
             alert(`Se ha agregado '${selectedProduct.name}' a Reservas!`);
-            setAgregarProducto(false); // Vuelve a desactivar la acción de agregar producto
+            setAgregarProducto(false);
           }
         }
       } catch (error) {
         console.error('Error al enviar la solicitud:', error);
+        alert('')
       }
     };
   
@@ -157,6 +157,7 @@ function Buscador() {
                 >
                   <BsBookmarkCheck size={18} color="whitesmoke" />
                 </button>
+                
               </div>
           
           </li>
