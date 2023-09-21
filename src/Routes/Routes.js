@@ -73,7 +73,7 @@ const navigation = [
     Element: Favoritos,
   },
   {
-    id: 12,
+    id: 13,
     path: '/AdministrarCaracteristicas',
     Element: AdministrarCaracteristicas,
   }
