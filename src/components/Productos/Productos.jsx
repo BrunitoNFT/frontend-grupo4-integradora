@@ -219,41 +219,41 @@ const Productos = () => {
                   onChange={(e) => setComment(e.target.value)}
                 />
                 <div className={styles.socialLinks}>
-                  <a
-                    className={styles.socialLinksA}
-                    href={`https://www.facebook.com/share?url=${window.location.href}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsFacebook color="#214F55" />
-                  </a>
-                  <a
-                    className={styles.socialLinksA}
-                    href={`https://www.instagram.com/share?url=${window.location.href}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsInstagram color="#214F55" />
-                  </a>
-                  <a
-                    className={styles.socialLinksA}
-                    href={`https://twitter.com/share?url=${window.location.href}&text=${productos.objeto}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsTwitter color="#214F55" />
-                  </a>
-                  <a
-                    className={styles.socialLinksA}
-                    href={`whatsapp://send?text=${encodeURIComponent(
-                      `¡Mira este producto: ${productos.objeto}! ${document.location.href}`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsWhatsapp color="#214F55" />
-                  </a>
-                </div>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://www.facebook.com/share?url=https://frontend-grupo4-integradora.vercel.app`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsFacebook color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://www.instagram.com/share?url=https://frontend-grupo4-integradora.vercel.app`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsInstagram color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://twitter.com/share?url=https://frontend-grupo4-integradora.vercel.app&text=${producto.name}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsTwitter color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`whatsapp://send?text=${encodeURIComponent(
+                        `¡Mira este producto: ${producto.name}! https://frontend-grupo4-integradora.vercel.app`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsWhatsapp color="#214F55" />
+                    </a>
+                  </div>
                 <button
                   className={styles.closeButton}
                   onClick={() => closePopup(productos)}

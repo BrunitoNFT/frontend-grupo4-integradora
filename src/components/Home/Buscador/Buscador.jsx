@@ -37,17 +37,22 @@ function Buscador() {
     if (searchKeyword.length >= 3) {
       fetch(`http://18.118.140.140/product/search?keyword=${searchKeyword}`)
         .then((response) => response.json())
-        .then((data) => setSearchResults(data))
+        .then((data) => {
+          setSearchResults(data);
+          setSearchKeyword("");
+        })
         .catch((error) =>
           console.error("Error al realizar la solicitud:", error)
         );
     } else {
-      setSearchResults([]); // Borrar resultados si no hay palabra clave de búsqueda
+      setSearchResults([]);
     }
     console.log("resultado", searchResults);
     console.log("fechaInicioooooo", startDateFormatted);
     console.log("fechaFiiiiiiin", endDateFormatted);
   };
+
+  
 
   /// LO UTILIZA EL CALENDARIO PARA RESTRINGIR FECHAS PASADAS
   const isOutsideRange = (day) => {
@@ -134,7 +139,7 @@ function Buscador() {
         {searchResults.map((product) => (
           <li className={styles.inputLi} key={product.id}>
             {/* Renderizar los productos encontrados en tarjetas */}
-            <div className={styles.tarjetasCarrito}>
+            
               <div key={product.id} className={styles.productoCard}>
                 <h4 className={styles.productoCardH4}>{product.name}</h4>
                 <p className={styles.productoCardP}>
@@ -153,7 +158,7 @@ function Buscador() {
                   <BsBookmarkCheck size={18} color="whitesmoke" />
                 </button>
               </div>
-            </div>
+          
           </li>
         ))}
       </ul>

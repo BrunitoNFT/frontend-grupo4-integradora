@@ -137,7 +137,6 @@ const Recomendados = () => {
                   alt="img-product-card"
                   className={styles.img}
                 />
-                
               </Link>
               <div className={styles.dataContainer}>
                 <span className={styles.h3}>{producto.name}</span>
@@ -147,7 +146,7 @@ const Recomendados = () => {
                     <button
                       onClick={() => addToFavoritos(producto)}
                       className={styles.favoritosButton}
-                      >
+                    >
                       {isFavorito[producto.id] ? (
                         <MdFavorite color="#4F709C" size={25} />
                       ) : (
@@ -157,7 +156,7 @@ const Recomendados = () => {
                     <button
                       className={styles.buttonShare}
                       onClick={() => openSharePopup(producto)}
-                      >
+                    >
                       <BsShareFill color="#4F709C" size={19} />
                     </button>
                   </div>
@@ -185,7 +184,7 @@ const Recomendados = () => {
                   <div className={styles.socialLinks}>
                     <a
                       className={styles.socialLinksA}
-                      href={`https://www.facebook.com/share?url=${window.location.href}`}
+                      href={`https://www.facebook.com/share?url=https://frontend-grupo4-integradora.vercel.app`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -193,7 +192,7 @@ const Recomendados = () => {
                     </a>
                     <a
                       className={styles.socialLinksA}
-                      href={`https://www.instagram.com/share?url=${window.location.href}`}
+                      href={`https://www.instagram.com/share?url=https://frontend-grupo4-integradora.vercel.app`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -201,7 +200,7 @@ const Recomendados = () => {
                     </a>
                     <a
                       className={styles.socialLinksA}
-                      href={`https://twitter.com/share?url=${window.location.href}&text=${producto.name}`}
+                      href={`https://twitter.com/share?url=https://frontend-grupo4-integradora.vercel.app&text=${producto.name}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -210,7 +209,7 @@ const Recomendados = () => {
                     <a
                       className={styles.socialLinksA}
                       href={`whatsapp://send?text=${encodeURIComponent(
-                        `¡Mira este producto: ${producto.name}! ${document.location.href}`
+                        `¡Mira este producto: ${producto.name}! https://frontend-grupo4-integradora.vercel.app`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -218,6 +217,7 @@ const Recomendados = () => {
                       <BsWhatsapp color="#214F55" />
                     </a>
                   </div>
+
                   <button
                     className={styles.closeButton}
                     onClick={() => closePopup(producto)}
