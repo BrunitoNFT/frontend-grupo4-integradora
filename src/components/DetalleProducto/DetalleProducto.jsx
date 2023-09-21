@@ -137,7 +137,7 @@ const DetalleProducto = () => {
               <p>{product.material}</p>
             </div>
           </div>
-          <Link to="/">
+          <Link className={styles.flecha} to="/">
             <BsFillArrowLeftCircleFill color="#214F55" size={40} />
           </Link>
         </section>

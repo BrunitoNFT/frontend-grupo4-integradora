@@ -1,5 +1,6 @@
 
 import { lazy } from 'react';
+import Contacto from '../components/Home/Contactanos/Contacto';
 
 // Define los componentes lazy
 const Home = lazy(() => import('../Screens/Home'));
@@ -73,10 +74,15 @@ const navigation = [
     Element: Favoritos,
   },
   {
+    id:12,
+    path:'/Contacto',
+    Element: Contacto,
+  },
+  {
     id: 13,
     path: '/AdministrarCaracteristicas',
     Element: AdministrarCaracteristicas,
-  }
+  },
 ];
 
 
