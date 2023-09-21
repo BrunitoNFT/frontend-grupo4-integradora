@@ -13,6 +13,7 @@ const PanelUsuarios = lazy(() => import('../Screens/PanelUsuarios'));
 const Productos = lazy(() => import('../Screens/Productos'));
 const Login = lazy (() => import ('../Screens/Login'));
 const Politicas = lazy (() => import('../Screens/Politica'));
+const AdministrarCaracteristicas = lazy (() => import('../Screens/AdministrarCaracteristicas'));
 const Favoritos = lazy(() => import ('../Screens/Favorito'))
 
 // Define la configuración de rutas
@@ -76,7 +77,12 @@ const navigation = [
     id:12,
     path:'/Contacto',
     Element: Contacto,
-  }
+  },
+  {
+    id: 13,
+    path: '/AdministrarCaracteristicas',
+    Element: AdministrarCaracteristicas,
+  },
 ];
 
 
