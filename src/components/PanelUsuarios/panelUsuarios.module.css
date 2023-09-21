@@ -18,7 +18,7 @@
 
 /* Estilos para el campo de búsqueda */
 .searchInput {
-  width: 100%;
+  width: calc(100% - 30px);
   padding: 10px;
   margin-top: 10px;
   border: 1px solid #ccc;
@@ -54,7 +54,7 @@
 /* Establece un ancho específico para cada columna */
 .usuarioTable td:nth-child(1),
 .usuarioTable th:nth-child(1) {
-  width: 25%; /* Ancho para la columna "Nombre" */
+  width: 3%; /* Ancho para la columna "Nombre" */
 }
 
 .usuarioTable td:nth-child(2),
@@ -75,3 +75,28 @@
 .usuarioTable tbody tr:nth-child(even) {
   background-color: #e0e0e0;
 }
+
+.greenLight {
+  background-color: green;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.blackLight {
+  background-color: black;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.adminButton {
+  background-color: #213555; 
+  color: whitesmoke; 
+  border: none;
+  padding: 8px 16px; 
+  cursor: pointer; 
+  border-radius: 5px; 
+  font-size: 14px; 
+}
+

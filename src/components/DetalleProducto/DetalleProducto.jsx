@@ -14,6 +14,34 @@ import {
 import { FaStar, FaRegStar } from 'react-icons/fa';
 import moment from 'moment';
 
+const opcionesDePoliticas = [
+  "Condiciones de entrega, horarios: Nuestra empresa ofrece entregas programadas de instrumentos musicales en horarios convenientes para nuestros clientes. Garantizamos la puntualidad y la integridad de los productos durante la entrega, asegurando que estén listos para su uso inmediato.",
+  "Condiciones de devolución: Facilitamos el proceso de devolución de los instrumentos al finalizar el período de alquiler. Los clientes deben asegurarse de que los instrumentos estén en las mismas condiciones en las que fueron entregados para evitar cargos adicionales.",
+  "Condiciones de uso: Los clientes son responsables de utilizar los instrumentos de manera apropiada y cuidadosa. Cualquier daño causado por un mal uso estará sujeto a cargos adicionales.",
+  "Condiciones por producto dañado: En caso de daño accidental a un instrumento durante el período de alquiler, nuestros clientes deben notificarnos de inmediato. Se aplicarán tarifas de reparación o reemplazo según la magnitud del daño.",
+  "Condición de producto perdido/robado (seguro): Ofrecemos opciones de seguro para proteger a nuestros clientes en caso de pérdida o robo de los instrumentos. Los detalles sobre las tarifas y coberturas se proporcionan al momento de la reserva.",
+  "Condición de privacidad de datos: Respetamos la privacidad de nuestros clientes y sus datos personales. La información recopilada durante el proceso de reserva se utiliza únicamente con fines relacionados con el alquiler de instrumentos y se mantiene segura y confidencial."
+];
+
+const opcionesAleatorias = shuffle(opcionesDePoliticas).slice(0, 2);
+
+function shuffle(array) {
+  let currentIndex = array.length,
+    randomIndex,
+    temporaryValue;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 const DetalleProducto = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -263,18 +291,12 @@ const DetalleProducto = () => {
         </section>
         <section className={styles.politicasContainer}>
           <h4>Políticas</h4>
-          
-        </section>
-
-        <section className={styles.tarjetasContainer}>
-          <div className={styles.tarjeta}>
-          Condiciones de entrega, horarios: Nuestra empresa ofrece entregas programadas de instrumentos musicales en horarios convenientes para nuestros clientes. Garantizamos la puntualidad y la integridad de los productos durante la entrega, asegurando que estén listos para su uso inmediato.
-          </div>
-          <div className={styles.tarjeta}>
-          Condiciones de devolución: Facilitamos el proceso de devolución de los instrumentos al finalizar el período de alquiler. Los clientes deben asegurarse de que los instrumentos estén en las mismas condiciones en las que fueron entregados para evitar cargos adicionales
-          </div>
-          <div className={styles.tarjeta}>
-          Condiciones de uso: Los clientes son responsables de utilizar los instrumentos de manera apropiada y cuidadosa. Cualquier daño causado por un mal uso estará sujeto a cargos adicionales.
+          <div className={styles.tarjetasContainer}>
+            {opcionesAleatorias.map((opcion, index) => (
+              <div className={styles.tarjeta} key={index}>
+                {opcion}
+              </div>
+            ))}
           </div>
         </section>
       </div>
