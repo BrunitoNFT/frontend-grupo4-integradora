@@ -16,54 +16,52 @@ const Registro = () => {
       setError("Debes ingresar nombre/ apellido");
     } else if (!email.includes("@")) {
       setError(
-        "El email ingresado no es valido, ingresa tu direccion nuevamente");
+        "El email ingresado no es valido, ingresa tu direccion nuevamente"
+      );
     } else if (password.trim() === "") {
-      setError("Debes ingresar tu contrasena sin espacios");
+      setError("Debes ingresar tu contraseña sin espacios");
     } else if (password.length < 6) {
       setError("La contraseña debe tener al menos 6 caracteres");
-    } else{
-    try{
-        const response = await (
-         await fetch('http://18.118.140.140/signup', {
-             method: 'POST',
-             body: JSON.stringify({
-               name,
-               lastname,
-               email,
-               password,
-         }),
-             headers: {
-                 'Content-type': 'application/json; charset=UTF-8',
-             },
-             })
-         ).json()
-         console.log(response);
+    } else {
+      try {
+        const response = await fetch("http://18.118.140.140/signup", {
+          method: "POST",
+          body: JSON.stringify({
+            name,
+            lastname,
+            email,
+            password,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
 
-     
-
-       if(response.ok){
-        setSuccessMessage(
-          `Registro exitoso ${name}. Chequea tu correo para validar el registro`
-        ); 
-        setError("");
-      }else{
-        setError('Hubo un error durante el registro. Por favor, intentalo de nuevo');
+        if (response.status >= 200 && response.status < 300) {
+          setSuccessMessage(
+            `Registro exitoso ${name}. Chequea tu correo para validar el registro`
+          );
+          setError("");
+        } else {
+          setError("Hubo un error durante el registro. Por favor, inténtalo de nuevo");
+        }
+      } catch (error) {
+        setError(
+          "Ocurrió un error al registrar el usuario. Por favor, verifica tu conexión a internet"
+        );
       }
-    }catch(error){
-      setError('Ocurrio un error al registrar el usuario. Por favor, verifica tu conexion a internet');
     }
-  };
 
-  setTimeout(() => {
-    setError("");
-    setSuccessMessage("");
-  }, 8000);
-};
+    setTimeout(() => {
+      setError("");
+      setSuccessMessage("");
+    }, 8000);
+  };
 
   return (
     <div className={styles.mainForm}>
       <form className={styles.formulario} onSubmit={handleSubmit}>
-      <h2 className={styles.registroH2}>Registrate</h2>
+        <h2 className={styles.registroH2}>Regístrate</h2>
         <div className={styles.labelContainer}>
           <label>Nombre:</label>
           <input
