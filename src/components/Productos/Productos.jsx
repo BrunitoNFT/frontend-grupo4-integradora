@@ -191,7 +191,7 @@ const Productos = () => {
               >
                 <img
                   className={styles.imgLista}
-                  src={producto.urlImg}
+                  src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
                   alt="imagenProducto"
                 />
               </Link>
