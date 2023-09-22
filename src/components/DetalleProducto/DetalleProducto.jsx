@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { DateRangePicker } from 'react-dates';
-import 'react-dates/initialize'; // Importa esto para inicializar react-dates
-import 'react-dates/lib/css/_datepicker.css';
-import styles from './detalleProducto.module.css';
-import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
-import {
-  GiMusicalScore,
-  GiMusicSpell,
-  GiMusicalNotes,
-  GiMusicalKeyboard,
-} from 'react-icons/gi';
-import { FaStar, FaRegStar } from 'react-icons/fa';
-import moment from 'moment';
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { DateRangePicker } from "react-dates";
+import "react-dates/initialize";
+import "react-dates/lib/css/_datepicker.css";
+import styles from "./detalleProducto.module.css";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import { GiMusicalScore, GiMusicSpell } from "react-icons/gi";
+import { FaStar, FaRegStar } from "react-icons/fa";
+import moment from "moment";
 
 const opcionesDePoliticas = [
   "Condiciones de entrega, horarios: Nuestra empresa ofrece entregas programadas de instrumentos musicales en horarios convenientes para nuestros clientes. Garantizamos la puntualidad y la integridad de los productos durante la entrega, asegurando que estén listos para su uso inmediato.",
@@ -20,7 +15,7 @@ const opcionesDePoliticas = [
   "Condiciones de uso: Los clientes son responsables de utilizar los instrumentos de manera apropiada y cuidadosa. Cualquier daño causado por un mal uso estará sujeto a cargos adicionales.",
   "Condiciones por producto dañado: En caso de daño accidental a un instrumento durante el período de alquiler, nuestros clientes deben notificarnos de inmediato. Se aplicarán tarifas de reparación o reemplazo según la magnitud del daño.",
   "Condición de producto perdido/robado (seguro): Ofrecemos opciones de seguro para proteger a nuestros clientes en caso de pérdida o robo de los instrumentos. Los detalles sobre las tarifas y coberturas se proporcionan al momento de la reserva.",
-  "Condición de privacidad de datos: Respetamos la privacidad de nuestros clientes y sus datos personales. La información recopilada durante el proceso de reserva se utiliza únicamente con fines relacionados con el alquiler de instrumentos y se mantiene segura y confidencial."
+  "Condición de privacidad de datos: Respetamos la privacidad de nuestros clientes y sus datos personales. La información recopilada durante el proceso de reserva se utiliza únicamente con fines relacionados con el alquiler de instrumentos y se mantiene segura y confidencial.",
 ];
 
 const opcionesAleatorias = shuffle(opcionesDePoliticas).slice(0, 2);
@@ -45,22 +40,42 @@ function shuffle(array) {
 const DetalleProducto = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [images, setImages] = useState([]);
+  const [agregarProducto, setAgregarProducto] = useState(false);
+  /* const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null); */
   const [focusedInput, setFocusedInput] = useState(null);
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
-  const [currentReview, setCurrentReview] = useState('');
+  const [currentReview, setCurrentReview] = useState("");
+  const [dateRange, setDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
+  let token = sessionStorage.getItem("jwtToken");
+  let amount = 1;
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('/data.json');
-      const productsData = await response.json();
-      const foundProduct = productsData.find(
-        (product) => product.id.toString() === id
+      const responseProduct = await fetch(
+        `http://18.118.140.140/product/${id}`
       );
-
-      setProduct(foundProduct);
+      const productJSON = await responseProduct.json();
+      const responseImages = await fetch(
+        `http://18.118.140.140/s3/product-images/${id}`
+      );
+      const imagesJSON = await responseImages.json();
+      const imagesArray = [];
+      imagesJSON.forEach((_, index) => {
+        imagesArray.push(
+          `http://18.118.140.140/s3/product-images/${id}/${index}`
+        );
+      });
+      setProduct(productJSON);
+      setImages(imagesArray);
+      console.log("PRODUCTOS DE LA APIIIIIIII", productJSON);
+      console.log("IMAGES DE LA APIIIIIIII", imagesArray);
     };
 
     fetchData();
@@ -87,18 +102,18 @@ const DetalleProducto = () => {
 
   const handleSubmitReview = () => {
     if (rating === 0) {
-      alert('Por favor, seleccione una valoración antes de enviar la reseña.');
+      alert("Por favor, seleccione una valoración antes de enviar la reseña.");
       return;
     }
 
-    if (currentReview !== '') {
+    if (currentReview !== "") {
       const newReview = {
         rating,
         text: currentReview,
-        date: moment().format('YYYY-MM-DD'),
+        date: moment().format("YYYY-MM-DD"),
       };
       setReviews([...reviews, newReview]);
-      setCurrentReview('');
+      setCurrentReview("");
       setRating(0);
     }
   };
@@ -107,6 +122,65 @@ const DetalleProducto = () => {
     return <p>Producto no encontrado</p>;
   }
 
+  /// LO UTILIZA EL CALENDARIO PARA RESTRINGIR FECHAS PASADAS
+  const isOutsideRange = (day) => {
+    const today = moment();
+    return day.isBefore(today, "day");
+  };
+  
+  /// FORMATEA LAS FECHAS DEL CALENDARIO PARA OBTENER UN FORMATO YYYY-MM-DD
+  const startDateAsMoment = dateRange.startDate;
+  const startDateFormatted = startDateAsMoment
+    ? startDateAsMoment.format("YYYY-MM-DD")
+    : null;
+
+  const endDateAsMoment = dateRange.endDate;
+  const endDateFormatted = endDateAsMoment
+    ? endDateAsMoment.format("YYYY-MM-DD")
+    : null;
+
+  /// FUNCION PARA HACER LA RESERVA HACIENDO POST AL SHOPPING-CART
+  //useEffect(() => {
+    const addProducto = async () => {
+
+      console.log("addProduct()");
+      const bookProduct = {
+        product: {
+          "id": product.id
+        },
+        amount: amount,
+        startBooking: startDateFormatted,
+        endBooking: endDateFormatted,
+      };
+      try {
+        if (startDateFormatted && endDateFormatted) {
+          const response = await fetch("http://18.118.140.140/shopping-cart", {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bookProduct)
+          });
+  
+          if (response.ok) {
+            alert(`Se ha agregado '${product.name}' a Reservas!`);
+            setAgregarProducto(false);
+          }
+        } else {
+          alert("Selecciona las fechas de incio y final antes de reservar.");
+        }
+      } catch (error) {
+        console.error('Error al enviar la solicitud:', error);
+        alert('Error al enviar la solicitud');
+      }
+    };
+  
+  //  if (agregarProducto) {
+  //    addProducto();
+  //  }
+  //}, [agregarProducto]);
+
   return (
     <div className={styles.detalleProducto}>
       <div key={product.id}>
@@ -114,27 +188,17 @@ const DetalleProducto = () => {
           <div className={styles.caracteristicas}>
             <div className={styles.caracteristicasIndiv}>
               <b>
-                <GiMusicalScore />Categoria:
+                <GiMusicalScore />
+                Categoria:
               </b>
-              <p>{product.categoria}</p>
+              <p>{product.category.name}</p>
             </div>
             <div className={styles.caracteristicasIndiv}>
               <b>
-                <GiMusicSpell />Marca:
+                <GiMusicSpell />
+                Marca:
               </b>
-              <p>{product.marca}</p>
-            </div>
-            <div className={styles.caracteristicasIndiv}>
-              <b>
-                <GiMusicalNotes />Modelo:
-              </b>
-              <p>{product.modelo}</p>
-            </div>
-            <div className={styles.caracteristicasIndiv}>
-              <b>
-                <GiMusicalKeyboard />Material:
-              </b>
-              <p>{product.material}</p>
+              <p>{product.brand.name}</p>
             </div>
           </div>
           <Link className={styles.flecha} to="/">
@@ -144,26 +208,32 @@ const DetalleProducto = () => {
 
         <section className={styles.detalleBody}>
           <article className={styles.ladoIzquierdo}>
-            <h3 className={styles.h3}>{product.objeto}</h3>
-            <p className={styles.productDescription}>{product.descripcion}</p>
+            <h3 className={styles.h3}>{product.name}</h3>
+            <p className={styles.productDescription}>{product.description}</p>
             <div className={styles.precioBoton}>
               <p className={styles.precio}>$ {product.price}</p>
-              <button className={styles.botonReserva}>Reservar</button>
+              <button
+                className={styles.botonReserva}
+                onClick={() => {
+                  addProducto();
+                }}
+              >
+                Reservar
+              </button>
             </div>
             <div className={styles.calendario}>
               <h4>Selecciona un rango de fechas</h4>
               <DateRangePicker
-                startDate={startDate}
-                startDateId="start_date"
-                endDate={endDate}
-                endDateId="end_date"
+                startDate={dateRange.startDate}
+                startDateId="start_date_id"
+                endDate={dateRange.endDate}
+                endDateId="end_date_id"
                 onDatesChange={({ startDate, endDate }) => {
-                  setStartDate(startDate);
-                  setEndDate(endDate);
+                  setDateRange({ startDate, endDate });
                 }}
                 focusedInput={focusedInput}
                 onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
-                isOutsideRange={(day) => day.isBefore(moment())}
+                isOutsideRange={isOutsideRange}
               />
             </div>
           </article>
@@ -172,7 +242,7 @@ const DetalleProducto = () => {
             <div className={styles.imgContainer}>
               <div className={styles.productImageBox}>
                 <img
-                  src={product.img}
+                  src={images[0]}
                   alt="img-product"
                   className={styles.productImage}
                 />
@@ -180,24 +250,24 @@ const DetalleProducto = () => {
               <div className={styles.product4}>
                 <div className={styles.product2}>
                   <img
-                    src={product.img1}
+                    src={images[0]}
                     alt="img-product"
                     className={styles.productImg}
                   />
                   <img
-                    src={product.img2}
+                    src={images[1]}
                     alt="img-product"
                     className={styles.productImg}
                   />
                 </div>
                 <div className={styles.product2}>
                   <img
-                    src={product.img3}
+                    src={images[2]}
                     alt="img-product"
                     className={styles.productImg}
                   />
                   <img
-                    src={product.img4}
+                    src={images[3]}
                     alt="img-product"
                     className={styles.productImg}
                   />
@@ -219,29 +289,34 @@ const DetalleProducto = () => {
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
-                    className={`${star <= averageRating ? styles.starActive : styles.starInactive
-                      }`}
+                    className={`${
+                      star <= averageRating
+                        ? styles.starActive
+                        : styles.starInactive
+                    }`}
                   >
                     <FaStar />
                   </span>
                 ))}
               </div>
-              <span className={styles.averageRatingNumber}>{averageRating.toFixed(1)}</span>
+              <span className={styles.averageRatingNumber}>
+                {averageRating.toFixed(1)}
+              </span>
               <p className={styles.reviewCount}>
                 ({reviews.length} valoraciones)
               </p>
             </div>
           </div>
           <div className={styles.reviewDerecha}>
-
             <div className={styles.reviewSection}>
               <h4>Puntuación</h4>
               <div className={styles.ratingStars}>
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
-                    className={`${star <= rating ? styles.starActive : styles.starInactive
-                      }`}
+                    className={`${
+                      star <= rating ? styles.starActive : styles.starInactive
+                    }`}
                     onClick={() => handleRatingChange(star)}
                   >
                     {star <= rating ? <FaStar /> : <FaRegStar />}
@@ -262,8 +337,6 @@ const DetalleProducto = () => {
               </button>
             </div>
 
-
-
             <div className={styles.reviewsUsers}>
               <h4 className={styles.reviewsTitle}>Reseñas</h4>
               <ul className={styles.reviewsList}>
@@ -276,9 +349,12 @@ const DetalleProducto = () => {
                           {Array.from({ length: review.rating }, (_, index) => (
                             <FaStar key={index} />
                           ))}
-                          {Array.from({ length: 5 - review.rating }, (_, index) => (
-                            <FaRegStar key={index} />
-                          ))}
+                          {Array.from(
+                            { length: 5 - review.rating },
+                            (_, index) => (
+                              <FaRegStar key={index} />
+                            )
+                          )}
                         </span>
                       </div>
                     </div>

@@ -59,8 +59,9 @@ function AgregarImagenes() {
                     ))}
                 </select>
             </section>
-
+            
             <input id="images" type="file" onChange={handleImagenesChange} className={styles.imagenes}/>
+
            
             <button type="submit">Subir imagenes</button>
         </form>

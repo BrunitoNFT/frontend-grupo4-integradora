@@ -10,14 +10,30 @@
     width: 50vw;
 }
 
-.imagenes {
-    background-color: #ccc;
-    width: 60%;
-    height: 100%;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
+
+/* Estilos para el botón de selección de archivos */
+input[type="file"]::-webkit-file-upload-button {
+    background-color: #214f55; /* Cambia el color de fondo */
+    color: #fff; /* Cambia el color del texto */
+    padding: 10px 20px; /* Ajusta el relleno (padding) para cambiar el tamaño */
+    border: none; /* Elimina el borde predeterminado */
+    border-radius: 5px; /* Añade bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
 }
+
+input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: #0056b3; /* Cambia el color de fondo al pasar el mouse */
+}
+
+.imagenes {
+    background-color: transparent; /* Elimina el color de fondo */
+    width: auto; /* Permite que el ancho se ajuste automáticamente al contenido */
+    height: auto; /* Permite que la altura se ajuste automáticamente al contenido */
+    border-radius: 0; /* Elimina el radio de borde */
+    display: block; /* Cambia el valor a 'block' si no quieres flexbox */
+    justify-content: initial; /* Elimina la alineación del contenido */
+}
+
 
 button[type="submit"] {
     margin-top: 15px;
@@ -37,4 +53,5 @@ button[type="submit"]:hover {
 
 .allProducts {
     width: 50%;
+    margin-bottom: 0.5rem;
 }

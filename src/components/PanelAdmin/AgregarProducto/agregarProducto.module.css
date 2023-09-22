@@ -59,6 +59,7 @@ button[type="submit"]:hover {
 .featuresFather {
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
 }
 
 .father {
