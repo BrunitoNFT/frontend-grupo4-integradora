@@ -18,7 +18,8 @@ const AdministracionPanel = () => {
     setMostrarAgregarProducto(!mostrarAgregarProducto);
     setMostrarListaProductos(false);
     setMostrarAdminCaracteristicas(false);
-    setMostrarAdminCategorias(false); 
+    setMostrarAdminCategorias(false);
+    setMostrarAgregarImagenes(false);
   };
 
   const handleMostrarAgregarImagenes = () => {
@@ -33,7 +34,8 @@ const AdministracionPanel = () => {
     setMostrarAgregarProducto(false);
     setMostrarListaProductos(!mostrarListaProductos);
     setMostrarAdminCaracteristicas(false);
-    setMostrarAdminCategorias(false); 
+    setMostrarAdminCategorias(false);
+    setMostrarAgregarImagenes(false);
   };
 
   const handleMostrarAdminCaracteristicas = () => {
@@ -41,6 +43,7 @@ const AdministracionPanel = () => {
     setMostrarListaProductos(false);
     setMostrarAdminCaracteristicas(!mostrarAdminCaracteristicas);
     setMostrarAdminCategorias(false);
+    setMostrarAgregarImagenes(false);
   };
 
   const handleMostrarAdminCategorias = () => {
@@ -48,6 +51,7 @@ const AdministracionPanel = () => {
     setMostrarListaProductos(false);
     setMostrarAdminCaracteristicas(false);
     setMostrarAdminCategorias(!mostrarAdminCategorias);
+    setMostrarAgregarImagenes(false);
   };
 
 return (
