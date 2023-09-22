@@ -7,7 +7,7 @@ const AdministrarCategorias = () => {
   const [nuevaCategoria, setNuevaCategoria] = useState('');
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
 
-  let token = localStorage.getItem("jwtToken")
+  let token = sessionStorage.getItem("jwtToken")
 
   const fetchCategorias = async () => {
     try {

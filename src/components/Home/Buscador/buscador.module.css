@@ -9,34 +9,22 @@
   flex-direction: column;
   align-items: center;
 }
-
 .buscadorH3 {
   font-size: 2rem;
   margin-bottom: 2rem;
   color: whitesmoke;
   text-align: center;
 }
-
 .inputBuscador{
   width: 50vw;
-  height: 5vh;
+  height: 6vh;
   border-radius: 0.7rem;
   border: none;
   font-size: 1rem;
 }
-
 .datePicker{
   margin: 1.5rem;
 }
-
-
-.inputLi{
-  color: whitesmoke;
-  font-weight: bold;
-  list-style-type: none;
-  margin: 0.3rem;
-}
-
 .buscadorButton {
   background-color: #4f709c;
   color: #fff;
@@ -48,10 +36,62 @@
   width: 20vw;
   margin-bottom: 1.5rem;
 }
-
 .buscadorButton:hover {
   background-color: #0056b3;
 }
+
+/* Estilos para el contenedor de las cards */
+.inputUl{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.1rem;
+}
+.inputLi{
+  color: black;
+  font-weight: bold;
+  list-style-type: none;
+}
+.productoCard {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 20vw;
+  height: 18vh;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 1rem;
+}
+
+.productoCardH4 {
+  font-size: 0.8rem;
+  margin: 0;
+  text-align: center;
+  flex-grow: 1; 
+  padding-bottom: 1rem;
+}
+.productoCardP {
+  font-size: 0.6rem;
+  margin: 5px 0;
+}
+.productoCardButton {
+  background-color: #4f709c;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  border-radius: 1rem;
+  position: absolute; 
+  bottom: 0.6rem;
+  right: 0.6rem; 
+
+}
+
+.productoCardButton:hover {
+  background-color: #0056b3;
+}
+
 
 
 @media (max-width: 768px) {
@@ -71,8 +111,41 @@
     margin-bottom: 10px;
   }
   .buscadorButton {
-    width: 50vw;
+    width: 40vw;
     height: 6vh;
     font-size: 0.8rem;
+  }
+ 
+  .productoCard {
+    position: relative;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 22vw;
+    height: 18vh;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 1rem;
+  }
+  
+  .productoCardH4 {
+    font-size: 0.6rem;
+    margin: 0;
+    padding-bottom: 1.3rem;
+  }
+  .productoCardP {
+    font-size: 0.5rem;
+    margin: 0;
+  }
+  .productoCardButton {
+    background-color: #4f709c;
+    border: none;
+    padding: 0.3rem 0.4rem;
+    cursor: pointer;
+    border-radius: 1rem;
+    position: absolute; 
+    bottom: 0.6rem;
+    right: 0.6rem; 
   }
 }

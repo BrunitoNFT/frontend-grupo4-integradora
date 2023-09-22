@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./productos.module.css";
-import { MdFavoriteBorder, MdFavorite, MdKeyboardArrowDown } from "react-icons/md";
+import {
+  MdFavoriteBorder,
+  MdFavorite,
+  MdKeyboardArrowDown,
+} from "react-icons/md";
 import {
   BsFacebook,
   BsInstagram,
   BsTwitter,
+  BsWhatsapp,
   BsShareFill,
 } from "react-icons/bs";
 
@@ -16,18 +21,24 @@ const Productos = () => {
   const [favoritos, setFavoritos] = useState([]);
   const [isFavorito, setIsFavorito] = useState({});
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [comment, setComment] = useState("");
+  const [isAutenticado, setIsAutenticado] = useState(false);
+  const [mostrarPopup, setMostrarPopup] = useState(false);
 
-  useEffect(() => {
-    fetchProductos();
-    fetchCategorias();
-    const storedFavoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-    setFavoritos(storedFavoritos);
-    const favoritosMap = {};
-    storedFavoritos.forEach((favorito) => {
-      favoritosMap[favorito.id] = true;
-    });
-    setIsFavorito(favoritosMap);
-  }, []);
+  const checkAuthentication = () => {
+    const isAutenticado = sessionStorage.getItem("jwtToken");
+    setIsAutenticado(isAutenticado);
+  };
+
+  const openSharePopup = (product) => {
+    const popup = document.getElementById(`popup${product.id}`);
+    popup.style.display = "block";
+  };
+
+  const closePopup = (product) => {
+    const popup = document.getElementById(`popup${product.id}`);
+    popup.style.display = "none";
+  };
 
   async function fetchProductos() {
     const response = await fetch("http://18.118.140.140/product");
@@ -45,29 +56,58 @@ const Productos = () => {
   console.log("PRODUCTOS", productos);
 
   const handleCategoriaChange = (e) => {
-    console.log("handleCategoriaChange se está ejecutando");
     const checkbox = e.target;
-    console.log('checkboxxxx', checkbox.checked);
-    
     if (checkbox.checked) {
       setFiltroCategorias([...filtroCategorias, checkbox.value]);
     } else {
-      const nuevosFiltros = filtroCategorias.filter((categoria) => categoria !== checkbox.value);
+      const nuevosFiltros = filtroCategorias.filter(
+        (categoria) => categoria !== checkbox.value
+      );
       setFiltroCategorias(nuevosFiltros);
     }
   };
 
+  useEffect(() => {
+    fetchProductos();
+    fetchCategorias();
+    checkAuthentication();
+    const storedFavoritos = JSON.parse(sessionStorage.getItem("favoritos")) || [];
+    setFavoritos(storedFavoritos);
+    const favoritosMap = {};
+    storedFavoritos.forEach((favorito) => {
+      favoritosMap[favorito.id] = true;
+    });
+    setIsFavorito(favoritosMap);
+  }, []);
+
+  useEffect(() => {
+    if (mostrarPopup) {
+      const timer = setTimeout(() => {
+        setMostrarPopup(false);
+      }, 5000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [mostrarPopup]);
+
   const addToFavoritos = (producto) => {
-    if (!favoritos.find((fav) => fav.id === producto.id)) {
-      const nuevosFavoritos = [...favoritos, producto];
-      setFavoritos(nuevosFavoritos);
-      localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
-      setIsFavorito({ ...isFavorito, [producto.id]: true });
+    if (isAutenticado) {
+      if (!favoritos.find((fav) => fav.id === producto.id)) {
+        const nuevosFavoritos = [...favoritos, producto];
+        setFavoritos(nuevosFavoritos);
+        sessionStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
+        setIsFavorito({ ...isFavorito, [producto.id]: true });
+      } else {
+        const nuevosFavoritos = favoritos.filter(
+          (fav) => fav.id !== producto.id
+        );
+        setFavoritos(nuevosFavoritos);
+        sessionStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
+        setIsFavorito({ ...isFavorito, [producto.id]: false });
+      }
     } else {
-      const nuevosFavoritos = favoritos.filter((fav) => fav.id !== producto.id);
-      setFavoritos(nuevosFavoritos);
-      localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
-      setIsFavorito({ ...isFavorito, [producto.id]: false });
+      setMostrarPopup(true);
     }
   };
 
@@ -79,11 +119,10 @@ const Productos = () => {
         )
       : productos;
 
-  console.log("productos filtardos", productosFiltrados);
+  console.log("productos filtrados", productosFiltrados);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
-    console.log("drooooopppppp", dropdownOpen);
   };
 
   return (
@@ -93,7 +132,9 @@ const Productos = () => {
       <div className={styles.filtroCategoria}>
         <div className={styles.selectWrapper}>
           <div className={styles.selectedItems} onClick={toggleDropdown}>
-            <span>Categorias <MdKeyboardArrowDown color="whitesmoke"/></span>
+            <span>
+              Categorias <MdKeyboardArrowDown color="whitesmoke" />
+            </span>
             <i className={`fas fa-caret-${dropdownOpen ? "up" : "down"}`}></i>
           </div>
           {dropdownOpen && (
@@ -115,9 +156,34 @@ const Productos = () => {
       </div>
 
       <div className={styles.listaProductosContainer}>
+        <div className={styles.loginPop}>
+          {mostrarPopup && (
+            <div className={styles.loginPopup}>
+              <p className={styles.loginPopupP}>Por favor, inicia sesión para marcar como favorito.</p>
+            </div>
+          )}
+        <div/>
         <ul className={styles.cardProductos}>
           {productosFiltrados.map((producto) => (
-            <li key={producto.id}>
+            <li className={styles.cardProductosLi} key={producto.id}>
+              <div className={styles.botonesFavshare}>
+                <button
+                  onClick={() => addToFavoritos(producto)}
+                  className={styles.favoritosButton}
+                >
+                  {isFavorito[producto.id] ? (
+                    <MdFavorite color="#4F709C" size={25} />
+                  ) : (
+                    <MdFavoriteBorder color="#4F709C" size={25} />
+                  )}
+                </button>
+                <button
+                  className={styles.buttonShare}
+                  onClick={() => openSharePopup(productos)}
+                >
+                  <BsShareFill color="#4F709C" size={19} />
+                </button>
+              </div>
               <Link
                 className={styles.card}
                 key={producto.id}
@@ -131,21 +197,76 @@ const Productos = () => {
               </Link>
               <div className={styles.productoNombre}>{producto.name}</div>
               <div className={styles.productoPrecio}>$ {producto.price}</div>
-              <button
-                onClick={() => addToFavoritos(producto)}
-                className={styles.favoritosButton}
-              >
-                {isFavorito[producto.id] ? (
-                  <MdFavorite color="#4F709C" size={25} />
-                ) : (
-                  <MdFavoriteBorder color="#4F709C" size={25} />
-                )}
-              </button>
+              {/* Elementos para la ventana emergente de compartir */}
+              <div className={styles.sharePopup} id={`popup${productos.id}`}>
+                <img
+                  className={styles.sharePopupImg}
+                  src={productos.img}
+                  alt="img-product-popup"
+                />
+                <p>{productos.objeto}</p>
+                <a
+                  href={`/detalle/${productos.id}`}
+                  className={styles.detailLink}
+                >
+                  Ver mas
+                </a>
+                <input
+                  className={styles.sharePopupInput}
+                  type="text"
+                  placeholder="Escribe tu comentario"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+                <div className={styles.socialLinks}>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://www.facebook.com/share?url=http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsFacebook color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://www.instagram.com/`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsInstagram color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://twitter.com/share?url=https://http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com&text=${producto.name}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsTwitter color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`whatsapp://send?text=${encodeURIComponent(
+                        `¡Mira este producto: ${producto.name}! http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsWhatsapp color="#214F55" />
+                    </a>
+                  </div>
+                <button
+                  className={styles.closeButton}
+                  onClick={() => closePopup(productos)}
+                >
+                  Cerrar
+                </button>
+              </div>
             </li>
           ))}
         </ul>
       </div>
     </div>
+  </div>
   );
 };
 
