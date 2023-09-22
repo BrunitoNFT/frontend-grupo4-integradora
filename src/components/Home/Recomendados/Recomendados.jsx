@@ -184,7 +184,7 @@ const Recomendados = () => {
                   <div className={styles.socialLinks}>
                     <a
                       className={styles.socialLinksA}
-                      href={`https://www.facebook.com/share?url=https://frontend-grupo4-integradora.vercel.app`}
+                      href={`https://www.facebook.com/share?url=http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -192,7 +192,7 @@ const Recomendados = () => {
                     </a>
                     <a
                       className={styles.socialLinksA}
-                      href={`https://www.instagram.com/share?url=https://frontend-grupo4-integradora.vercel.app`}
+                      href={`https://www.instagram.com`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -200,7 +200,7 @@ const Recomendados = () => {
                     </a>
                     <a
                       className={styles.socialLinksA}
-                      href={`https://twitter.com/share?url=https://frontend-grupo4-integradora.vercel.app&text=${producto.name}`}
+                      href={`https://twitter.com/share?url=http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com&text=${producto.name}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -209,7 +209,7 @@ const Recomendados = () => {
                     <a
                       className={styles.socialLinksA}
                       href={`whatsapp://send?text=${encodeURIComponent(
-                        `¡Mira este producto: ${producto.name}! https://frontend-grupo4-integradora.vercel.app`
+                        `¡Mira este producto: ${producto.name}! http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
