@@ -20,7 +20,6 @@ function AgregarImagenes() {
         try {
             await fetch(`http://18.118.140.140/s3/product-images/${id}`, {
                     method: 'POST',
-                    mode: 'no-cors',
                     headers: {
                         'Authorization': `Bearer ${token}`
                     },
@@ -61,7 +60,7 @@ function AgregarImagenes() {
                 </select>
             </section>
 
-            <input id="images" type="file" multiple onChange={handleImagenesChange} className={styles.imagenes}/>
+            <input id="images" type="file" onChange={handleImagenesChange} className={styles.imagenes}/>
            
             <button type="submit">Subir imagenes</button>
         </form>
