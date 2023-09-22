@@ -15,8 +15,8 @@ const Favoritos = () => {
     const nuevosFavoritos = favoritos.filter((fav) => fav.id !== producto.id);
     setFavoritos(nuevosFavoritos);
 
-    // Actualiza el localStorage
-    localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
+    // Actualiza el sessionStorage
+    sessionStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
   };
 
   return (
