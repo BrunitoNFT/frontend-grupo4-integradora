@@ -47,7 +47,7 @@ const Navbar = () => {
 
   const handleOptionClick = (option) => {
     if (option === "admin") {
-      window.location.href = "/paneladmin";
+      window.location.href = "/administracion";
     } else if (option === "usuarios") {
       window.location.href = "/panelusuarios";
     }
