@@ -9,8 +9,8 @@ import { FiMenu } from "react-icons/fi";
 
 
 const Navbar = () => {
-  let token = localStorage.getItem("jwtToken")
-  let avatar = localStorage.getItem("firstLetterNameAndLastname")
+  let token = sessionStorage.getItem("jwtToken")
+  let avatar = sessionStorage.getItem("firstLetterNameAndLastname")
   const { user, setUser } = useContext(DataContext);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -28,11 +28,11 @@ const Navbar = () => {
       })
       if (response.ok) {
         sessionStorage.removeItem("jwtToken")
-        localStorage.removeItem("firstLetterNameAndLastname")
-        localStorage.removeItem("favoritos")
-        localStorage.removeItem("name")
-        localStorage.removeItem("lastname")
-        localStorage.removeItem("email")
+        sessionStorage.removeItem("firstLetterNameAndLastname")
+        sessionStorage.removeItem("favoritos")
+        sessionStorage.removeItem("name")
+        sessionStorage.removeItem("lastname")
+        sessionStorage.removeItem("email")
         setUser({});
         navigate("/login");
       }
