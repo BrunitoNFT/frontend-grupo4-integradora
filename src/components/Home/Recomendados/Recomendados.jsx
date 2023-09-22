@@ -133,7 +133,7 @@ const Recomendados = () => {
                 to={"/detalle/" + producto.id}
               >
                 <img
-                  src={producto.urlImg}
+                  src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
                   alt="img-product-card"
                   className={styles.img}
                 />
