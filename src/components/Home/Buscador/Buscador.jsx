@@ -18,7 +18,7 @@ function Buscador() {
   const [productos, setProductos] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  let token = localStorage.getItem("jwtToken");
+  let token = sessionStorage.getItem("jwtToken");
   let amount = 1;
 
   /// FORMATEA LAS FECHAS DEL CALENDARIO PARA OBTENER UN FORMATO YYYY-MM-DD
