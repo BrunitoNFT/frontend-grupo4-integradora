@@ -1,25 +1,42 @@
-import React, { useContext, useState, useEffect } from "react";
-import { DataContext } from "../../Context/DataContext";
+import React, { useState, useEffect } from "react";
 import styles from "./recomendados.module.css";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
 import {
   BsFacebook,
   BsInstagram,
   BsTwitter,
+  BsWhatsapp,
   BsShareFill,
 } from "react-icons/bs";
+import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
 const Recomendados = () => {
-  const { data, cart, setCart } = useContext(DataContext);
   const itemsPerPage = 10;
+  const [productos, setProductos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [randomizedData, setRandomizedData] = useState([]);
+  const [favoritos, setFavoritos] = useState([]);
+  const [isFavorito, setIsFavorito] = useState({});
   const [comment, setComment] = useState("");
+  const [isAutenticado, setIsAutenticado] = useState(false);
+  const [mostrarPopup, setMostrarPopup] = useState(false);
+
+  async function fetchProductos() {
+    const response = await fetch("http://18.118.140.140/product");
+    const jsonData = await response.json();
+    setProductos(jsonData);
+  }
+
+  const checkAuthentication = () => {
+    const isAutenticado = localStorage.getItem("jwtToken");
+    setIsAutenticado(isAutenticado);
+  };
 
   const openSharePopup = (product) => {
     const popup = document.getElementById(`popup${product.id}`);
-    popup.style.display = "block";
+    if (popup) {
+      popup.style.display = "block";
+    }
   };
 
   const closePopup = (product) => {
@@ -29,32 +46,67 @@ const Recomendados = () => {
 
   useEffect(() => {
     // Mezcla el orden de los productos aleatoriamente
-    const shuffledData = [...data].sort(() => Math.random() - 0.5);
+    const shuffledData = [...productos].sort(() => Math.random() - 0.5);
     setRandomizedData(shuffledData);
-  }, [data]);
+  }, [productos]);
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  useEffect(() => {
+    fetchProductos();
+    checkAuthentication();
+    const storedFavoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    if (Array.isArray(storedFavoritos)) {
+      setFavoritos(storedFavoritos);
+      const favoritosMap = {};
+      storedFavoritos.forEach((favorito) => {
+        favoritosMap[favorito.id] = true;
+      });
+      setIsFavorito(favoritosMap);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (mostrarPopup) {
+      const timer = setTimeout(() => {
+        setMostrarPopup(false);
+      }, 5000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [mostrarPopup]);
+
+  const addToFavoritos = (producto) => {
+    if (isAutenticado) {
+      if (!favoritos.find((fav) => fav.id === producto.id)) {
+        const nuevosFavoritos = [...favoritos, producto];
+        setFavoritos(nuevosFavoritos);
+        localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
+        setIsFavorito({ ...isFavorito, [producto.id]: true });
+      } else {
+        const nuevosFavoritos = favoritos.filter(
+          (fav) => fav.id !== producto.id
+        );
+        setFavoritos(nuevosFavoritos);
+        localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
+        setIsFavorito({ ...isFavorito, [producto.id]: false });
+      }
+    } else {
+      setMostrarPopup(true);
+    }
+  };
+
+  const totalPages = Math.ceil(productos.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = randomizedData.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log("data products: ", data);
-
-  const buyProducts = (e, product) => {
-    // Agrega 'product' como parámetro
-    
-    e.preventDefault();
-
-    console.log("Comprando: ", product);
-    toast.success(`${product.objeto} añadido al carrito!`);
-    setCart([...cart, product]);
-  };
+  console.log("data products: ", productos);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-  if (!data) {
+  if (!productos) {
     return <p>Loading...</p>;
   }
 
@@ -62,93 +114,121 @@ const Recomendados = () => {
     <div className={styles.contenedorPadre}>
       <span className={styles.title}>Lo que te recomendamos</span>
 
-      <div className={styles.cardConteiner}>
-        {currentItems.map((product) => (
-          <div className={styles.card}>
-            <Link
-              className={styles.imgContainer}
-              key={product.id}
-              to={"/detalle/" + product.id}
-            >
-              <img
-                src={product.img}
-                alt="img-product-card"
-                className={styles.img}
-              />
-            </Link>
-            <div className={styles.dataContainer}>
-              <div className={styles.dataContainerChildren}>
-                <span className={styles.h3}>{product.objeto}</span>
-                <br />
-                <span className={styles.h4}>{product.precio}</span>
-              </div>
-              <br />
-              <button
-                className={styles.button}
-                onClick={(e) => buyProducts(e, product)}
+      <div className={styles.loginPop}>
+        {mostrarPopup && (
+          <div className={styles.loginPopup}>
+            <p className={styles.loginPopupP}>
+              Por favor, inicia sesión para marcar como favorito.
+            </p>
+          </div>
+        )}
+        <div />
+
+        <div className={styles.cardConteiner}>
+          {currentItems.map((producto) => (
+            <div key={producto.id} className={styles.card}>
+              <Link
+                className={styles.imgContainer}
+                key={producto.id}
+                to={"/detalle/" + producto.id}
               >
-                Reservar
-              </button>{" "}
-              <button
-                className={styles.buttonShare}
-                onClick={() => openSharePopup(product)}
-              >
-                <BsShareFill color="#4F709C" size={15}/>
-              </button>
-              {/* Elementos para la ventana emergente de compartir */}
-              <div className={styles.sharePopup} id={`popup${product.id}`}>
                 <img
-                  className={styles.sharePopupImg}
-                  src={product.img}
-                  alt="img-product-popup"
+                  src={producto.urlImg}
+                  alt="img-product-card"
+                  className={styles.img}
                 />
-                <p>{product.objeto}</p>
-                <a href={`/detalle/${product.id}`} className={styles.detailLink}>
-                    Ver mas
-                </a>
-                <input
-                  className={styles.sharePopupInput}
-                  type="text"
-                  placeholder="Escribe tu comentario"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                />
-                <div className={styles.socialLinks}>
-                  <a
-                    className={styles.socialLinksA}
-                    href={`https://www.facebook.com/share?url=${window.location.href}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsFacebook color="#214F55"/>
-                  </a>
-                  <a
-                    className={styles.socialLinksA}
-                    href={`https://www.instagram.com/share?url=${window.location.href}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsInstagram color="#214F55"/>
-                  </a>
-                  <a
-                    className={styles.socialLinksA}
-                    href={`https://twitter.com/share?url=${window.location.href}&text=${product.objeto}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsTwitter color="#214F55"/>
-                  </a>
+              </Link>
+              <div className={styles.dataContainer}>
+                <span className={styles.h3}>{producto.name}</span>
+                <span className={styles.h4}>{producto.price}</span>
+                <div className={styles.dataContainerChildren}>
+                  <div className={styles.botonesFavshare}>
+                    <button
+                      onClick={() => addToFavoritos(producto)}
+                      className={styles.favoritosButton}
+                    >
+                      {isFavorito[producto.id] ? (
+                        <MdFavorite color="#4F709C" size={25} />
+                      ) : (
+                        <MdFavoriteBorder color="#4F709C" size={25} />
+                      )}
+                    </button>
+                    <button
+                      className={styles.buttonShare}
+                      onClick={() => openSharePopup(producto)}
+                    >
+                      <BsShareFill color="#4F709C" size={19} />
+                    </button>
+                  </div>
                 </div>
-                <button
-                  className={styles.closeButton}
-                  onClick={() => closePopup(product)}
-                >
-                  Cerrar
-                </button>
+                <div className={styles.sharePopup} id={`popup${producto.id}`}>
+                  <img
+                    className={styles.sharePopupImg}
+                    src={producto.urlImg}
+                    alt="img-product-popup"
+                  />
+                  <p>{producto.name}</p>
+                  <a
+                    href={`/detalle/${producto.id}`}
+                    className={styles.detailLink}
+                  >
+                    Ver mas
+                  </a>
+                  <input
+                    className={styles.sharePopupInput}
+                    type="text"
+                    placeholder="Escribe tu comentario"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                  <div className={styles.socialLinks}>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://www.facebook.com/share?url=https://frontend-grupo4-integradora.vercel.app`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsFacebook color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://www.instagram.com/share?url=https://frontend-grupo4-integradora.vercel.app`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsInstagram color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`https://twitter.com/share?url=https://frontend-grupo4-integradora.vercel.app&text=${producto.name}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsTwitter color="#214F55" />
+                    </a>
+                    <a
+                      className={styles.socialLinksA}
+                      href={`whatsapp://send?text=${encodeURIComponent(
+                        `¡Mira este producto: ${producto.name}! https://frontend-grupo4-integradora.vercel.app`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BsWhatsapp color="#214F55" />
+                    </a>
+                  </div>
+
+                  <button
+                    className={styles.closeButton}
+                    onClick={() => closePopup(producto)}
+                  >
+                    Cerrar
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       <div className={styles.pagination}>
         <button

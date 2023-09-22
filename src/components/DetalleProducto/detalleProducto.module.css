@@ -4,18 +4,32 @@
   display: flex;
   flex-direction: column;
 }
+
+
 .detalleHeader {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
 }
+
 .caracteristicas {
   display: flex;
+  justify-content: space-between; /* Distribuir espacio igualmente entre elementos */
+  align-items: center; /* Alinear verticalmente los elementos */
+  text-align: center;
 }
-.caracteristicasIndiv{
-  padding: 2rem;
+
+.caracteristicasIndiv {
+  padding: 6rem; /* Ajusta el espaciado interno según tus preferencias */
 }
+
+.flecha{
+  margin-right: 5rem;
+}
+
+
+
 .detalleBody {
   display: flex;
   margin-top: 2rem;
@@ -77,38 +91,41 @@
   align-items: center;
 }
 
+
 .imgContainer {
   display: flex;
 }
 
 .productImageBox {
   padding-right: 1rem;
-  
 }
-.productImage{
+
+.productImage {
   width: 30vw;
   height: 55vh;
   border-radius: 1.5rem;
-
 }
 
 .product4 {
   display: flex;
- 
+  align-items: center; 
+  margin-top: -1rem;
 }
 
 .product2 {
   display: inline-block;
-  padding: 1rem;
-
+  padding: 0.5rem;
+ 
 }
 
 .productImg {
   width: 15vw;
-  height: 25vh;
+  height: 26vh;
   border-radius: 1rem;
   margin: 0.5rem;
+  margin-bottom: 0.5rem;
 }
+
 
 
 
@@ -146,6 +163,43 @@
   background-color: #fff;
 }
 
+.tarjetasContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.tarjeta {
+  flex-basis: calc(25% - 10px);
+  padding: 20px;
+  background-color: #A9A794;
+  border: 1px solid #ddd;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  text-align: center;
+}
+
+.tarjeta h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.tarjeta p {
+  font-size: 14px;
+  color: #666;
+}
+
+.politicasContainer {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.politicasContainer h4 {
+  font-size: 24px; 
+  margin-bottom: 20px;
+}
+
 .reviewContainer {
   display: flex;
   justify-content: space-between;
@@ -180,7 +234,6 @@
 .averageRating p {
   font-size: 14px;
   margin-bottom: 10px;
-  /* Estilos para el párrafo de valoración promedio */
 }
 
 
