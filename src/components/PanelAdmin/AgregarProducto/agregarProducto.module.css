@@ -1,14 +1,12 @@
 .agregarProducto {
   margin: 20px;
   padding: 20px;
-  border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #A9A794;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
-  width: 50vw;
+  width: 40vw;
 }
 
 label {
@@ -18,9 +16,9 @@ label {
 }
 
 input[type="text"],
+input[type="number"],
 textarea,
-select,
-input[type="file"] {
+select{
   width: 100%;
   padding: 8px;
   margin-top: 5px;
@@ -63,8 +61,22 @@ button[type="submit"]:hover {
   flex-direction: column;
 }
 
+.father {
+ display: flex;
+ justify-content: space-between;
+}
+
 .features {
  display: flex;
  justify-content: space-between;
  gap: 10px;
+}
+
+.imagenes{
+  background-color: #ccc;
+  width: 80%;
+  height: 60%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
 }

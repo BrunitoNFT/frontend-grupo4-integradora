@@ -30,7 +30,6 @@ const Navbar = () => {
       .then((response) => response.json())
       .then((data) => {
         setUserData(data);
-        console.log("AQUIIIII", userData);
       })
       .catch((error) => {
         console.error("Error al obtener datos del usuario:", error);

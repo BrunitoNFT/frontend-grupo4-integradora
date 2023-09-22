@@ -50,7 +50,7 @@ return (
           <div className={styles.menuItemIcon}>
             <FaPlus />
           </div>
-          <p className={styles.descripcion}>Agrega un producto nuevo a tu catalogo</p>
+          <p className={styles.descripcion}>Agrega un producto nuevo a tu catalogo y sus imagenes</p>
           <button onClick={handleMostrarAgregarProducto}>Agregar Producto</button>
         </div>
         <div className={styles.menuItem}>
