@@ -39,7 +39,7 @@ const navigation = [
   },
   {
     id: 5,
-    path: '/PanelAdmin',
+    path: '/administracion',
     Element: PanelAdmin,
   },
   {
