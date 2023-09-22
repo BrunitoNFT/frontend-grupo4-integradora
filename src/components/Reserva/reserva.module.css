@@ -1,0 +1,95 @@
+.container {
+    display: flex;
+    padding: 1.5rem;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .formContainer {
+    flex: 0 0 60vw;
+    flex: 1;
+    background-color: #f5f5f5;
+    padding: 2rem;
+    border-radius: 0.6rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .formContainerH2 {
+    font-size: 1.7rem;
+    text-align: center;
+  }
+  
+  .formContainerForm {
+    margin-top: 1.5rem;
+  }
+  
+  .formContainerLabel {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.7rem;
+  }
+  
+  .formContainerInput {
+    width: 100%;
+    padding: 0.7rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.4rem;
+  }
+  
+  .formContainerButton {
+    background-color: #214F55;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.8rem 1.3rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    margin-left: 40%;
+  }
+  
+  .productoContainer {
+    margin-top: 20px;
+    background-color: #d9d8d2;
+    border-radius: 0.6rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    padding: 0.2rem;
+  }
+  
+  .productoContainerH3 {
+    font-size: 18px;
+  }
+  
+  .productoContainerImg {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+  
+  .historialContainer {
+    background-color: #A9A794;
+    width: 20vw;
+    flex: 0 0 25vw;
+    padding: 2rem;
+    border-radius: 0.6rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .historialContainerH2 {
+    font-size: 1.7rem;
+    text-align: center;
+    color: whitesmoke;
+  }
+  
+  .historial {
+    margin-top: 1.5rem;
+  }
+  
+  .historialArticle {
+    background-color: #f5f5f5;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  

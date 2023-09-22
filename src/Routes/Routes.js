@@ -6,15 +6,14 @@ import Contacto from '../components/Home/Contactanos/Contacto';
 const Home = lazy(() => import('../Screens/Home'));
 const Galeria = lazy(() => import('../Screens/Galeria'));
 const Detalle = lazy(() => import('../Screens/Detalle'));
-const Cart = lazy(() => import('../Screens/CartContent'));
 const PanelAdmin = lazy(() => import('../Screens/PanelAdmin'));
 const Register = lazy(() => import('../Screens/Register'));
 const PanelUsuarios = lazy(() => import('../Screens/PanelUsuarios'));
 const Productos = lazy(() => import('../Screens/Productos'));
 const Login = lazy (() => import ('../Screens/Login'));
-const Politicas = lazy (() => import('../Screens/Politica'));
 const AdministrarCaracteristicas = lazy (() => import('../Screens/AdministrarCaracteristicas'));
-const Favoritos = lazy(() => import ('../Screens/Favorito'))
+const Favoritos = lazy(() => import ('../Screens/Favorito'));
+const Reserva = lazy(() => import('../Screens/ReservaInstrumento'));
 
 // Define la configuración de rutas
 const navigation = [
@@ -35,8 +34,8 @@ const navigation = [
   },
   {
     id: 4,
-    path: '/cart',
-    Element: Cart,
+    path: '/reservas',
+    Element: Reserva,
   },
   {
     id: 5,
@@ -65,11 +64,6 @@ const navigation = [
   },
   {
     id: 10,
-    path: '/Politicas',
-    Element: Politicas,
-  },
-  {
-    id: 11,
     path: '/Favoritos',
     Element: Favoritos,
   },
