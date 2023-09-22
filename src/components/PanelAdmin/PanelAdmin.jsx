@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 import AgregarProducto from './AgregarProducto/AgregarProducto';
+import AgregarImagenes from './AgregarImagenes/AgregarImagenes';
 import ListaProductos from './ListaProductos/ListaProductos';
 import AdministrarCaracteristicas from './AdministrarCaracteristicas/AdministrarCaracteristicas';
 import AdministrarCategorias from './AdministrarCategorias/AdministrarCategorias';
 import styles from './panelAdministracion.module.css';
-import { FaList, FaPlus, FaCog, FaTag } from 'react-icons/fa';
+import { FaList, FaPlus, FaCog, FaTag, FaRegImages } from 'react-icons/fa';
 
 const AdministracionPanel = () => {
   const [mostrarAgregarProducto, setMostrarAgregarProducto] = useState(false);
+  const [mostrarAgregarImagenes, setMostrarAgregarImagenes] = useState(false)
   const [mostrarListaProductos, setMostrarListaProductos] = useState(false);
   const [mostrarAdminCaracteristicas, setMostrarAdminCaracteristicas] = useState(false);
   const [mostrarAdminCategorias, setMostrarAdminCategorias] = useState(false);
 
   const handleMostrarAgregarProducto = () => {
     setMostrarAgregarProducto(!mostrarAgregarProducto);
+    setMostrarListaProductos(false);
+    setMostrarAdminCaracteristicas(false);
+    setMostrarAdminCategorias(false); 
+  };
+
+  const handleMostrarAgregarImagenes = () => {
+    setMostrarAgregarImagenes(!mostrarAgregarImagenes);
+    setMostrarAgregarProducto(false);
     setMostrarListaProductos(false);
     setMostrarAdminCaracteristicas(false);
     setMostrarAdminCategorias(false); 
@@ -50,8 +60,15 @@ return (
           <div className={styles.menuItemIcon}>
             <FaPlus />
           </div>
-          <p className={styles.descripcion}>Agrega un producto nuevo a tu catalogo y sus imagenes</p>
+          <p className={styles.descripcion}>Agrega un producto nuevo a tu catalogo</p>
           <button onClick={handleMostrarAgregarProducto}>Agregar Producto</button>
+        </div>
+        <div className={styles.menuItem}>
+          <div className={styles.menuItemIcon}>
+            <FaRegImages />
+          </div>
+          <p className={styles.descripcion}>Agrega imagenes a un producto</p>
+          <button onClick={handleMostrarAgregarImagenes}>Agregar Imagenes</button>
         </div>
         <div className={styles.menuItem}>
           <div className={styles.menuItemIcon}>
@@ -77,6 +94,7 @@ return (
       </nav>
 
       {mostrarAgregarProducto && <AgregarProducto />} 
+      {mostrarAgregarImagenes && <AgregarImagenes />} 
       {mostrarListaProductos && <ListaProductos />}
       {mostrarAdminCaracteristicas && <AdministrarCaracteristicas />}
       {mostrarAdminCategorias && <AdministrarCategorias />}

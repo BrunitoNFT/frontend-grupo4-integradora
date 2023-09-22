@@ -1,0 +1,40 @@
+.agregarImagenes {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #A9A794;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    width: 50vw;
+}
+
+.imagenes {
+    background-color: #ccc;
+    width: 60%;
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+button[type="submit"] {
+    margin-top: 15px;
+    background-color: #214f55;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: center;
+    display:block
+}
+  
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.allProducts {
+    width: 50%;
+}

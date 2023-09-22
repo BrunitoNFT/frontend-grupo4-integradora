@@ -9,7 +9,6 @@ function AgregarProductos() {
   const [categorias, setCategorias] = useState([]);
   const [brands, setBrands] = useState([]);
   const [brand, setBrand] = useState('');
-  const [imagenes, setImagenes] = useState([]);
   const [productos, setProductos] = useState([]);
   const [features, setFeatures] = useState([]);
   const [featuresElegidas, setFeaturesElegidas] = useState([]);
@@ -39,11 +38,6 @@ function AgregarProductos() {
       .then(data => setFeatures(data))
       .catch(error => console.error('Error al obtener categorías:', error));
   }, []);
-
-  const handleImagenesChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImagenes(files);
-  };
 
   useEffect(()=>{
     const crearProducto = async () => {
@@ -100,8 +94,6 @@ function AgregarProductos() {
   }
   
   return (
-    <div className={styles.father}>
-      {/* Bloque agregar producto */}
       <div className={styles.agregarProducto}>
         <h1>Agregar Productos</h1>
         <div>
@@ -151,15 +143,6 @@ function AgregarProductos() {
         </div>
         <button onClick={()=>setInvocarCreacion(true)}>Crear Producto</button>
       </div>
-
-      {/* Bloque agregar imagenes */}
-      <form onSubmit={handleSubmitImagenes} className={styles.agregarProducto}>
-          <h1>Agrega Imagenes</h1>
-
-          <input type="file" multiple onChange={handleImagenesChange} className={styles.imagenes}/>
-
-      </form>
-    </div>
   );
 }
 
