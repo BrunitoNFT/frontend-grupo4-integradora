@@ -28,32 +28,33 @@ const PanelUsuarios = () => {
     usuario.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleMakeAdmin = async (userId) => {
+  const handleMakeAdmin = async (email) => {
+    console.log('Intentando promover a administrador con correo:', email);
+  
     try {
-      const response = await fetch(`http://18.118.140.140/admin/promote/${userId}`, {
+      const response = await fetch(`http://18.118.140.140/administracion/promote?emailUser=${email}`, {
         method: 'POST',
+        mode: "no-cors",
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
+  
+      console.log('Respuesta del servidor:', response);
+  
       if (response.ok) {
-        const updatedUsuarios = usuarios.map((usuario) => {
-          if (usuario.id === userId) {
-            return { ...usuario, role: 'ROLE_ADMIN' };
-          }
-          return usuario;
-        });
-        setUsuarios(updatedUsuarios);
-        console.log(`Usuario con ID ${userId} promovido a administrador.`);
+        // ... Tu código para actualizar el estado ...
+        console.log(`Usuario con correo ${email} promovido a administrador.`);
       } else {
-        console.error('Error al promover al usuario a administrador.');
+        const errorData = await response.text(); // Obtén detalles del error si están disponibles
+        console.error('Error al promover al usuario a administrador:', errorData);
       }
     } catch (error) {
       console.error('Error:', error);
     }
   };
-
+  
+  
   return (
     <div className={styles.panelUsuarios}>
       <h1 className={styles.panelTitle}>Panel de Usuarios</h1>
@@ -87,9 +88,9 @@ const PanelUsuarios = () => {
               <td>{usuario.email}</td>
               <td>
                 {usuario.role === "ROLE_USER" && (
-                  <button className={styles.adminButton} onClick={() => handleMakeAdmin(usuario.id)}>
-                  Dar Permisos
-                </button>
+                 <button className={styles.adminButton} onClick={() => handleMakeAdmin(usuario.email)}>
+                 Dar Permisos
+               </button>
                 )}
               </td>
             </tr>
