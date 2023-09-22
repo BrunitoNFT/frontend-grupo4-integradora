@@ -1,5 +1,6 @@
 
 import { lazy } from 'react';
+import Contacto from '../components/Home/Contactanos/Contacto';
 
 // Define los componentes lazy
 const Home = lazy(() => import('../Screens/Home'));
@@ -10,6 +11,7 @@ const Register = lazy(() => import('../Screens/Register'));
 const PanelUsuarios = lazy(() => import('../Screens/PanelUsuarios'));
 const Productos = lazy(() => import('../Screens/Productos'));
 const Login = lazy (() => import ('../Screens/Login'));
+const AdministrarCaracteristicas = lazy (() => import('../Screens/AdministrarCaracteristicas'));
 const Favoritos = lazy(() => import ('../Screens/Favorito'));
 const Reserva = lazy(() => import('../Screens/ReservaInstrumento'));
 
@@ -64,6 +66,16 @@ const navigation = [
     id: 10,
     path: '/Favoritos',
     Element: Favoritos,
+  },
+  {
+    id:12,
+    path:'/Contacto',
+    Element: Contacto,
+  },
+  {
+    id: 13,
+    path: '/AdministrarCaracteristicas',
+    Element: AdministrarCaracteristicas,
   },
 ];
 

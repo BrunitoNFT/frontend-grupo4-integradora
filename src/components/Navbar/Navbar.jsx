@@ -125,6 +125,9 @@ const Navbar = () => {
           <Link className={styles.linksNavbar} to={"/Productos"}>
             Productos
           </Link>
+          <Link className={styles.linksNavbar} to={"/Contacto"}>
+            Contacto
+          </Link>
         </div>
       </div>
   );

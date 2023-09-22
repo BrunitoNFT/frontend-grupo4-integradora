@@ -11,9 +11,9 @@ function Contactanos() {
                     <span>Comunicate con nosotros</span>
                 </section>
 
-                <button className={styles.contactoButton}>
-                    Contacto
-                </button>
+                <a href="/Contacto" className={styles.contactoButton}>
+                 Contacto
+                </a>
             </div>
         </>
     )

@@ -16,12 +16,15 @@
 
 .navbarLogo {
   justify-self: start;
-  margin-left: 20px;
   cursor: pointer;
   text-decoration: none;
   fill: currentColor;
   color: black;
 }
+.logo{
+  padding-left: 0.6rem;
+}
+
 
 .navbarIcons {
   display: flex;
