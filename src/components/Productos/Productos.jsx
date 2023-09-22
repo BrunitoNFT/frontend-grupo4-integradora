@@ -26,7 +26,7 @@ const Productos = () => {
   const [mostrarPopup, setMostrarPopup] = useState(false);
 
   const checkAuthentication = () => {
-    const isAutenticado = localStorage.getItem("jwtToken");
+    const isAutenticado = sessionStorage.getItem("jwtToken");
     setIsAutenticado(isAutenticado);
   };
 
@@ -71,7 +71,7 @@ const Productos = () => {
     fetchProductos();
     fetchCategorias();
     checkAuthentication();
-    const storedFavoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    const storedFavoritos = JSON.parse(sessionStorage.getItem("favoritos")) || [];
     setFavoritos(storedFavoritos);
     const favoritosMap = {};
     storedFavoritos.forEach((favorito) => {
@@ -96,14 +96,14 @@ const Productos = () => {
       if (!favoritos.find((fav) => fav.id === producto.id)) {
         const nuevosFavoritos = [...favoritos, producto];
         setFavoritos(nuevosFavoritos);
-        localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
+        sessionStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
         setIsFavorito({ ...isFavorito, [producto.id]: true });
       } else {
         const nuevosFavoritos = favoritos.filter(
           (fav) => fav.id !== producto.id
         );
         setFavoritos(nuevosFavoritos);
-        localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
+        sessionStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
         setIsFavorito({ ...isFavorito, [producto.id]: false });
       }
     } else {
@@ -221,7 +221,7 @@ const Productos = () => {
                 <div className={styles.socialLinks}>
                     <a
                       className={styles.socialLinksA}
-                      href={`https://www.facebook.com/share?url=https://frontend-grupo4-integradora.vercel.app`}
+                      href={`https://www.facebook.com/share?url=http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -229,7 +229,7 @@ const Productos = () => {
                     </a>
                     <a
                       className={styles.socialLinksA}
-                      href={`https://www.instagram.com/share?url=https://frontend-grupo4-integradora.vercel.app`}
+                      href={`https://www.instagram.com/`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -237,7 +237,7 @@ const Productos = () => {
                     </a>
                     <a
                       className={styles.socialLinksA}
-                      href={`https://twitter.com/share?url=https://frontend-grupo4-integradora.vercel.app&text=${producto.name}`}
+                      href={`https://twitter.com/share?url=https://http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com&text=${producto.name}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -246,7 +246,7 @@ const Productos = () => {
                     <a
                       className={styles.socialLinksA}
                       href={`whatsapp://send?text=${encodeURIComponent(
-                        `¡Mira este producto: ${producto.name}! https://frontend-grupo4-integradora.vercel.app`
+                        `¡Mira este producto: ${producto.name}! http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
