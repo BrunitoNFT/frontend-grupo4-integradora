@@ -29,20 +29,32 @@ function AgregarProductos() {
     // Obtener categorías usando fetch
     fetch("http://18.118.140.140/categories")
       .then(response => response.json())
-      .then(data => setCategorias(data))
+      .then((data) => {
+        data.sort((a,b) =>
+        a.name.localeCompare(b.name));
+        setCategorias(data)
+      })
       .catch(error => console.error('Error al obtener categorías:', error));
 
     // Obtener caracteristicas usando fetch
     fetch("http://18.118.140.140/brand")
       .then(response => response.json())
-      .then(data => setBrands(data))
+      .then((data) => {
+        data.sort((a,b) =>
+        a.name.localeCompare(b.name));
+        setBrands(data)
+      })
       .catch(error => console.error('Error al obtener marcas:', error));
   }, []);
 
   useEffect(() => {
     fetch("http://18.118.140.140/features")
       .then(response => response.json())
-      .then(data => setFeatures(data))
+      .then((data) => {
+        data.sort((a,b) =>
+        a.name.localeCompare(b.name));
+        setFeatures(data)
+      })
       .catch(error => console.error('Error al obtener categorías:', error));
   }, []);
 

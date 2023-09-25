@@ -14,7 +14,11 @@ function AgregarImagenes() {
         const response = await(await
             fetch('http://18.118.140.140/product')
             ).json()
-            setProductos(response)
+            .then((data) => {
+                data.sort((a,b) =>
+                a.name.localeCompare(b.name));
+                setProductos(data)
+              })
     }
 
     async function postImagenes(id, formData) {
