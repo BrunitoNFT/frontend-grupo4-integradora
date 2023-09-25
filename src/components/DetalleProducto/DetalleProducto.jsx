@@ -41,9 +41,8 @@ const DetalleProducto = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
+  const [imagenActual, setImagenActual] = useState(images[0]);
   const [agregarProducto, setAgregarProducto] = useState(false);
-  /* const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null); */
   const [focusedInput, setFocusedInput] = useState(null);
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
@@ -110,7 +109,7 @@ const DetalleProducto = () => {
       const newReview = {
         rating,
         text: currentReview,
-        date: moment().format("YYYY-MM-DD"),
+        date: moment().format("DD-MM-YYYY"),
       };
       setReviews([...reviews, newReview]);
       setCurrentReview("");
@@ -122,60 +121,65 @@ const DetalleProducto = () => {
     return <p>Producto no encontrado</p>;
   }
 
+  const cambiarImagen = (nuevaImagen) => {
+    setImagenActual(nuevaImagen);
+    console.log("Nueva imagen actual:", nuevaImagen);
+  };
+
   /// LO UTILIZA EL CALENDARIO PARA RESTRINGIR FECHAS PASADAS
   const isOutsideRange = (day) => {
     const today = moment();
     return day.isBefore(today, "day");
   };
-  
+
   /// FORMATEA LAS FECHAS DEL CALENDARIO PARA OBTENER UN FORMATO YYYY-MM-DD
   const startDateAsMoment = dateRange.startDate;
   const startDateFormatted = startDateAsMoment
-    ? startDateAsMoment.format("YYYY-MM-DD")
+    ? startDateAsMoment.format("DD-MM-YYYY")
     : null;
 
   const endDateAsMoment = dateRange.endDate;
   const endDateFormatted = endDateAsMoment
-    ? endDateAsMoment.format("YYYY-MM-DD")
+    ? endDateAsMoment.format("DD-MM-YYYY")
     : null;
 
   /// FUNCION PARA HACER LA RESERVA HACIENDO POST AL SHOPPING-CART
   //useEffect(() => {
-    const addProducto = async () => {
+  const addProducto = async () => {
 
-      console.log("addProduct()");
-      const bookProduct = {
-        product: {
-          "id": product.id
-        },
-        amount: amount,
-        startBooking: startDateFormatted,
-        endBooking: endDateFormatted,
-      };
-      try {
-        if (startDateFormatted && endDateFormatted) {
-          const response = await fetch("http://18.118.140.140/shopping-cart", {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bookProduct)
-          });
-  
-          if (response.ok) {
-            alert(`Se ha agregado '${product.name}' a Reservas!`);
-            setAgregarProducto(false);
-          }
-        } else {
-          alert("Selecciona las fechas de incio y final antes de reservar.");
-        }
-      } catch (error) {
-        console.error('Error al enviar la solicitud:', error);
-        alert('Error al enviar la solicitud');
-      }
+    console.log("addProduct()");
+    const bookProduct = {
+      product: {
+        "id": product.id
+      },
+      amount: amount,
+      startBooking: startDateFormatted,
+      endBooking: endDateFormatted,
     };
-  
+    try {
+      if (startDateFormatted && endDateFormatted) {
+        const response = await fetch("http://18.118.140.140/shopping-cart", {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(bookProduct)
+        });
+
+        if (response.ok) {
+          alert(`Se ha agregado '${product.name}' a Reservas!`);
+          setAgregarProducto(false);
+        }
+      } else {
+        alert("Selecciona las fechas de incio y final antes de reservar.");
+      }
+    } catch (error) {
+      console.error('Error al enviar la solicitud:', error);
+      alert('Error al enviar la solicitud');
+    }
+  };
+
   //  if (agregarProducto) {
   //    addProducto();
   //  }
@@ -242,7 +246,7 @@ const DetalleProducto = () => {
             <div className={styles.imgContainer}>
               <div className={styles.productImageBox}>
                 <img
-                  src={images[0]}
+                  src={imagenActual}
                   alt="img-product"
                   className={styles.productImage}
                 />
@@ -253,11 +257,13 @@ const DetalleProducto = () => {
                     src={images[0]}
                     alt="img-product"
                     className={styles.productImg}
+                    onClick={() => cambiarImagen(images[0])}
                   />
                   <img
                     src={images[1]}
                     alt="img-product"
                     className={styles.productImg}
+                    onClick={() => cambiarImagen(images[1])}
                   />
                 </div>
                 <div className={styles.product2}>
@@ -265,11 +271,13 @@ const DetalleProducto = () => {
                     src={images[2]}
                     alt="img-product"
                     className={styles.productImg}
+                    onClick={() => cambiarImagen(images[2])}
                   />
                   <img
                     src={images[3]}
                     alt="img-product"
                     className={styles.productImg}
+                    onClick={() => cambiarImagen(images[3])}
                   />
                 </div>
               </div>
@@ -289,11 +297,10 @@ const DetalleProducto = () => {
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
-                    className={`${
-                      star <= averageRating
-                        ? styles.starActive
-                        : styles.starInactive
-                    }`}
+                    className={`${star <= averageRating
+                      ? styles.starActive
+                      : styles.starInactive
+                      }`}
                   >
                     <FaStar />
                   </span>
@@ -314,9 +321,8 @@ const DetalleProducto = () => {
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
-                    className={`${
-                      star <= rating ? styles.starActive : styles.starInactive
-                    }`}
+                    className={`${star <= rating ? styles.starActive : styles.starInactive
+                      }`}
                     onClick={() => handleRatingChange(star)}
                   >
                     {star <= rating ? <FaStar /> : <FaRegStar />}

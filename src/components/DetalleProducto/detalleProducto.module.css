@@ -101,9 +101,16 @@
 
 .productImageBox {
   padding-right: 1rem;
+  
 }
 
 .productImage {
+  width: 30vw;
+  height: 55vh;
+  border-radius: 1.5rem;
+}
+
+.defaultText{
   width: 30vw;
   height: 55vh;
   border-radius: 1.5rem;
