@@ -1,95 +1,161 @@
 .container {
-    display: flex;
-    padding: 1.5rem;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  
-  .formContainer {
-    flex: 0 0 60vw;
-    flex: 1;
-    background-color: #f5f5f5;
-    padding: 2rem;
-    border-radius: 0.6rem;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .formContainerH2 {
-    font-size: 1.7rem;
-    text-align: center;
-  }
-  
-  .formContainerForm {
-    margin-top: 1.5rem;
-  }
-  
-  .formContainerLabel {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 0.7rem;
-  }
-  
-  .formContainerInput {
-    width: 100%;
-    padding: 0.7rem;
-    margin-bottom: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 0.4rem;
-  }
-  
-  .formContainerButton {
-    background-color: #214F55;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.8rem 1.3rem;
-    cursor: pointer;
-    margin-top: 1rem;
-    margin-left: 40%;
-  }
-  
-  .productoContainer {
-    margin-top: 20px;
-    background-color: #d9d8d2;
-    border-radius: 0.6rem;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    padding: 0.2rem;
-  }
-  
-  .productoContainerH3 {
-    font-size: 18px;
-  }
-  
-  .productoContainerImg {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
-  }
-  
-  .historialContainer {
-    background-color: #A9A794;
-    width: 20vw;
-    flex: 0 0 25vw;
-    padding: 2rem;
-    border-radius: 0.6rem;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .historialContainerH2 {
-    font-size: 1.7rem;
-    text-align: center;
-    color: whitesmoke;
-  }
-  
-  .historial {
-    margin-top: 1.5rem;
-  }
-  
-  .historialArticle {
-    background-color: #f5f5f5;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  }
-  
+  display: flex;
+  padding: 1.5rem;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.formContainer {
+  flex: 0 0 60vw;
+  flex: 1;
+  background-color: #f5f5f5;
+  padding: 2rem;
+  border-radius: 0.6rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.formContainerH2 {
+  font-size: 1.7rem;
+  text-align: center;
+}
+
+.formContainerForm {
+  margin-top: 1.5rem;
+}
+
+.formContainerLabel {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.7rem;
+}
+
+.formContainerInput {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+}
+
+.formContainerButton {
+  background-color: #214F55;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.8rem 1.3rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  margin-left: 40%;
+}
+
+.productoContainer {
+  margin-top: 20px;
+  background-color: #d9d8d2;
+  border-radius: 0.6rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  padding: 0.2rem;
+}
+
+.productoContainerH3 {
+  font-size: 18px;
+}
+
+.productoContainerImg {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+.historialContainer {
+  background-color: #A9A794;
+  width: 20vw;
+  flex: 0 0 25vw;
+  padding: 2rem;
+  border-radius: 0.6rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.historialContainerH2 {
+  font-size: 1.7rem;
+  text-align: center;
+  color: whitesmoke;
+}
+
+.historial {
+  margin-top: 1.5rem;
+}
+
+.historialArticle {
+  background-color: #f5f5f5;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.listProductosul {
+  margin-left: 20px;
+  font-size: 1.1rem;
+  list-style-type:decimal;
+  font-weight: 400;
+  margin-bottom: 25px;
+  padding: 0;
+}
+
+.listProductosli {
+  margin-bottom: 20px;
+}
+
+.btnReserva {
+  background-color: #4f709c;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  bottom: 0.6rem;
+  right: 0.6rem; 
+  margin-left: 20px;
+}
+
+.btnReserva:hover {
+  background-color: #0056b3;
+}
+
+.formContainerP {
+  font-size: 17px;
+}
+
+.formContainerTextarea {
+  width: 16rem;
+  padding: 5px;
+  height: 5rem;
+  border: 1px solid black;
+  border-radius: 7px;
+}
+
+
+
+.reservaH3 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.reservaP {
+  font-size: 1.2rem;
+  margin-left: 50px;
+  margin-bottom: 26px;
+
+}
+
+.reservaConfirm {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-left: 50px;
+  margin-top: 20px;
+
+}
