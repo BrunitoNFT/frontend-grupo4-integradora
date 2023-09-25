@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./reserva.module.css";
+import moment from "moment";
 
 function Reserva() {
   const [products, setProducts] = useState([]);
@@ -16,7 +17,6 @@ function Reserva() {
 
   const navigate = useNavigate();
 
-
   useEffect(() => {
     async function fetchData() {
       await fetchDetailBooking();
@@ -24,7 +24,6 @@ function Reserva() {
 
     fetchData();
   }, []);
-
 
   useEffect(() => {
     /// VALIDA QUE EL USUARIO ESTE LOGEADO PARA ACCEDER A LA PAGINA
@@ -119,53 +118,55 @@ function Reserva() {
     }
   }
 
-
   return (
     <div className={styles.container}>
       <div className={styles.formContainer}>
         <h2 className={styles.formContainerH2}>Formulario de Reserva</h2>
-        <p>Nombre: {nombre}</p>
-        <p>Apellido: {apellido}</p>
-        <p>Email: {correo}</p>
-        <textarea
+        <p className={styles.formContainerP}> <strong>Nombre:</strong>  {nombre}</p>
+        <p className={styles.formContainerP}> <strong>Apellido:</strong>  {apellido}</p>
+        <p className={styles.formContainerP}> <strong>Email:</strong> {correo}</p>
+        <textarea className={styles.formContainerTextarea}
           placeholder="Observaciones"
           value={observations}
           onChange={(e) => setObservations(e.target.value)}
         />
 
         {bookingInfo ? (
-          <div>
-            <h3>Mensaje de Reserva:</h3>
-            <p>Booking Code: {bookingInfo.bookingCode}</p>
-            <p>Fecha de Reserva: {bookingInfo.dateBooking}</p>
-            <ul>
+          <div className={styles.reserva}>
+            <h3 className={styles.reservaH3}>Mensaje de Reserva:</h3>
+            <p className={styles.reservaP}><strong>Booking Code: </strong>{bookingInfo.bookingCode}</p>
+            <p className={styles.reservaP}><strong>Fecha de Reserva: </strong> {moment(bookingInfo.dateBooking).format("DD-MM-YYYY")}</p>
               {products && Array.isArray(products)
                 ? products.map((product) => (
-                    <li key={product.product.id}>
-                      Producto: {product.product.name}
-                    </li>
+                    <p  key={product.product.id} className={styles.reservaP}>
+                      <strong>Instrumento:</strong> {product.product.name}
+                    </p>
                   ))
                 : null}
-            </ul>
-            <p>Costo Total: ${bookingInfo.totalCost}</p>
+            <p className={styles.reservaP}><strong>Costo Total: </strong>${bookingInfo.totalCost}</p>
+            <p className={styles.reservaConfirm}>RESERVA CONFIRMADA</p>
+            <p className={styles.reservaConfirm}>¡Gracias por confiar en Drop The Bass!</p>
           </div>
         ) : (
           <>
             <h3 className={styles.formContainerH2}>Productos para Reservar:</h3>
-            <ul>
+            <ul className={styles.listProductosul}>
               {products.map((product) => (
-                <li key={product.product.id}>
-                  Nombre: {product.product.name}
+                <li className={styles.listProductosli} key={product.product.id}>
+                  <strong>Instrumento:</strong> {product.product.name}
                   <br />
-                  Inicio de reserva: {product.startBooking}
+                  <strong>Inicio de reserva:</strong>{" "}
+                  {moment(product.startBooking).format("DD-MM-YYYY")}
                   <br />
-                  Fin de reserva: {product.endBooking}
+                  <strong>Fin de reserva:</strong>{" "}
+                  {moment(product.endBooking).format("DD-MM-YYYY")}
                   <br />
                 </li>
               ))}
             </ul>
             {products.length > 0 && (
               <button
+                className={styles.btnReserva}
                 onClick={() => {
                   setBooking(true);
                 }}
@@ -180,18 +181,16 @@ function Reserva() {
       <div className={styles.historialContainer}>
         <h2 className={styles.historialContainerH2}>Historial de Reservas</h2>
         <ul>
-              {history.map((reservation) => (
-              <li key={reservation.id}>
-                Nombre: {reservation.productName}
-                <br />
-                Fecha de reserva: {reservation.dateBooking}
-              
-              </li>
-            ))}
-          </ul>
+          {history.map((reservation) => (
+            <li key={reservation.id}>
+              Instrumento: {reservation.productName}
+              <br />
+              Fecha de reserva: {reservation.dateBooking}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 }
 export default Reserva;
-
