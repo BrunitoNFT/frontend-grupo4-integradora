@@ -42,8 +42,6 @@ const DetalleProducto = () => {
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
   const [agregarProducto, setAgregarProducto] = useState(false);
-  /* const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null); */
   const [focusedInput, setFocusedInput] = useState(null);
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
@@ -55,6 +53,8 @@ const DetalleProducto = () => {
 
   let token = sessionStorage.getItem("jwtToken");
   let amount = 1;
+
+  const [blockedDates, setBlockedDates] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,6 +80,36 @@ const DetalleProducto = () => {
 
     fetchData();
   }, [id]);
+
+  //CALENDARIO FECHAS OCUPADAS (BLOQUEA LAS FECHAS)
+  useEffect(() => {
+    // Función para obtener las fechas ocupadas desde la API
+    const fetchOccupiedDates = async () => {
+      if (product && product.id) {
+        try {
+          const response = await fetch(
+            `http://18.118.140.140/detail-booking/occupied-dates?productId=${product.id}`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            // Formatea las fechas ocupadas en un formato compatible con react-dates
+            const formattedDates = data.map((dateRange) => ({
+              startDate: moment(dateRange.startDate),
+              endDate: moment(dateRange.endDate).add(1, "day"), // Agregar 1 día al endDate
+            }));
+            setBlockedDates(formattedDates);
+          } else {
+            console.error("Error al obtener las fechas ocupadas");
+          }
+        } catch (error) {
+          console.error("Error al realizar la solicitud:", error);
+        }
+      }
+    };
+
+    // Llama a la función para obtener las fechas ocupadas al cargar el componente
+    fetchOccupiedDates();
+  }, [product]);
 
   const calculateAverageRating = () => {
     if (reviews.length === 0) {
@@ -127,7 +157,7 @@ const DetalleProducto = () => {
     const today = moment();
     return day.isBefore(today, "day");
   };
-  
+
   /// FORMATEA LAS FECHAS DEL CALENDARIO PARA OBTENER UN FORMATO YYYY-MM-DD
   const startDateAsMoment = dateRange.startDate;
   const startDateFormatted = startDateAsMoment
@@ -140,46 +170,48 @@ const DetalleProducto = () => {
     : null;
 
   /// FUNCION PARA HACER LA RESERVA HACIENDO POST AL SHOPPING-CART
-  //useEffect(() => {
-    const addProducto = async () => {
-
-      console.log("addProduct()");
-      const bookProduct = {
-        product: {
-          "id": product.id
-        },
-        amount: amount,
-        startBooking: startDateFormatted,
-        endBooking: endDateFormatted,
-      };
-      try {
-        if (startDateFormatted && endDateFormatted) {
-          const response = await fetch("http://18.118.140.140/shopping-cart", {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bookProduct)
-          });
-  
-          if (response.ok) {
-            alert(`Se ha agregado '${product.name}' a Reservas!`);
-            setAgregarProducto(false);
-          }
-        } else {
-          alert("Selecciona las fechas de incio y final antes de reservar.");
-        }
-      } catch (error) {
-        console.error('Error al enviar la solicitud:', error);
-        alert('Error al enviar la solicitud');
-      }
+  const addProducto = async () => {
+    const bookProduct = {
+      product: {
+        id: product.id,
+      },
+      amount: amount,
+      startBooking: startDateFormatted,
+      endBooking: endDateFormatted,
     };
+    try {
+      if (startDateFormatted && endDateFormatted) {
+        const response = await fetch("http://18.118.140.140/shopping-cart", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(bookProduct),
+        });
+
+        if (response.ok) {
+          alert(`Se ha agregado '${product.name}' a Reservas!`);
+          setAgregarProducto(false);
+        }
+      } else {
+        alert("Selecciona las fechas de incio y final antes de reservar.");
+      }
+    } catch (error) {
+      console.error("Error al enviar la solicitud:", error);
+      alert("Error al enviar la solicitud");
+    }
+  };
+
   
-  //  if (agregarProducto) {
-  //    addProducto();
-  //  }
-  //}, [agregarProducto]);
+
+  const isDayBlocked = (day) => {
+    // Comprueba si la fecha está dentro del rango de fechas ocupadas
+    return blockedDates.some((blockedDate) =>
+      day.isBetween(blockedDate.startDate, blockedDate.endDate, null, "[]")
+    );
+  };
+ 
 
   return (
     <div className={styles.detalleProducto}>
@@ -224,6 +256,7 @@ const DetalleProducto = () => {
             <div className={styles.calendario}>
               <h4>Selecciona un rango de fechas</h4>
               <DateRangePicker
+              displayFormat="DD-MM-YYYY"
                 startDate={dateRange.startDate}
                 startDateId="start_date_id"
                 endDate={dateRange.endDate}
@@ -234,6 +267,7 @@ const DetalleProducto = () => {
                 focusedInput={focusedInput}
                 onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
                 isOutsideRange={isOutsideRange}
+                isDayBlocked={isDayBlocked} 
               />
             </div>
           </article>
@@ -250,24 +284,24 @@ const DetalleProducto = () => {
               <div className={styles.product4}>
                 <div className={styles.product2}>
                   <img
-                    src={images[0]}
+                    src={images[1]}
                     alt="img-product"
                     className={styles.productImg}
                   />
                   <img
-                    src={images[1]}
+                    src={images[2]}
                     alt="img-product"
                     className={styles.productImg}
                   />
                 </div>
                 <div className={styles.product2}>
                   <img
-                    src={images[2]}
+                    src={images[3]}
                     alt="img-product"
                     className={styles.productImg}
                   />
                   <img
-                    src={images[3]}
+                    src={images[4]}
                     alt="img-product"
                     className={styles.productImg}
                   />

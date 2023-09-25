@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { DateRangePicker, isSameDay  } from "react-dates";
+import { DateRangePicker, isSameDay } from "react-dates";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import styles from "../Buscador/buscador.module.css";
@@ -33,31 +33,20 @@ function Buscador() {
     ? endDateAsMoment.format("DD-MM-YYYY")
     : null;
 
-    const startDateForBackend = startDateAsMoment
-  ? startDateAsMoment.format("YYYY-MM-DD")
-  : null;
+  const startDateForBackend = startDateAsMoment
+    ? startDateAsMoment.format("YYYY-MM-DD")
+    : null;
 
-const endDateForBackend = endDateAsMoment
-  ? endDateAsMoment.format("YYYY-MM-DD")
-  : null;
+  const endDateForBackend = endDateAsMoment
+    ? endDateAsMoment.format("YYYY-MM-DD")
+    : null;
   //YYYY-MM-DD ENVIO DE INFO A LA BASE DE DATOS - DD-MM-YYYY INFO ENVIADA AL FRONT PARA VISTA USUARIO
-
   //FIN FORMATEO DE FECHAS
 
   //BUSCADOR
-    const handleSearchInputChange = (event) => {
-      const value = event.target.value;
-      setSearchKeyword(value);
-    
-    // Verificar si la longitud de la cadena de búsqueda es mayor o igual a 3
-  if (value.length >= 1) {
-    // Filtrar sugerencias basadas en el valor de entrada
-    const filteredSuggestions = productos.filter((product) =>
-      product.name.toLowerCase().includes(value.toLowerCase())
-    );
-
-    setAutoCompleteSuggestions(filteredSuggestions);
-
+  const handleSearchInputChange = (event) => {
+    const value = event.target.value;
+    setSearchKeyword(value);
     // Realizar una solicitud para obtener la lista de productos actualizada
     fetch(`http://18.118.140.140/product`)
       .then((response) => response.json())
@@ -67,11 +56,22 @@ const endDateForBackend = endDateAsMoment
       .catch((error) =>
         console.error("Error al realizar la solicitud de búsqueda:", error)
       );
-  } else {
-    // Si la longitud es menor a 3, limpiar las sugerencias
-    setAutoCompleteSuggestions([]);
-  }
-};
+      
+
+    // Verificar si la longitud de la cadena de búsqueda es mayor o igual a 3
+    if (value.length >= 1) {
+      // Filtrar sugerencias basadas en el valor de entrada
+      const filteredSuggestions = productos.filter((product) =>
+        product.name.toLowerCase().includes(value.toLowerCase())
+      );
+
+      setAutoCompleteSuggestions(filteredSuggestions);
+
+    } else {
+      // Si la longitud es menor a 3, limpiar las sugerencias
+      setAutoCompleteSuggestions([]);
+    }
+  };
   const handleAutoCompleteSelection = (suggestion) => {
     setSelectedProduct(suggestion); // Almacena el producto seleccionado
     setSearchKeyword(suggestion.name); // Llena el input de búsqueda con el nombre del producto seleccionado
@@ -93,9 +93,6 @@ const endDateForBackend = endDateAsMoment
     } else {
       setSearchResults([]);
     }
-    console.log("resultado", searchResults);
-    console.log("fechaInicioooooo", startDateForBackend);
-    console.log("fechaFiiiiiiin", endDateForBackend);
   };
 
   /// FUNCION PARA HACER LA RESERVA HACIENDO POST AL SHOPPING-CART
@@ -103,10 +100,10 @@ const endDateForBackend = endDateAsMoment
   //CHEQUEA QUE TENGA TOKEN
   const isUserLoggedIn = () => {
     if (token) {
-        return true; // El usuario está logueado y el token es válido
-      }
-      return false; // El usuario no está logueado o el token es inválido
+      return true; // El usuario está logueado y el token es válido
     }
+    return false; // El usuario no está logueado o el token es inválido
+  };
 
   //BOTON RESERVAR PRODUCTO (SI EL USUARIO NO ESTA LOGUEADO SALE UN ALERT)
   const handleReservarProducto = async () => {
@@ -120,7 +117,7 @@ const endDateForBackend = endDateAsMoment
           startBooking: startDateForBackend,
           endBooking: endDateForBackend,
         };
-  
+
         const response = await fetch("http://18.118.140.140/shopping-cart", {
           method: "POST",
           headers: {
@@ -129,7 +126,7 @@ const endDateForBackend = endDateAsMoment
           },
           body: JSON.stringify(bookProduct),
         });
-  
+
         if (response.ok) {
           setProductos(...productos, bookProduct);
           alert(`Se ha agregado '${selectedProduct.name}' a Reservas!`);
@@ -145,15 +142,15 @@ const endDateForBackend = endDateAsMoment
       alert("Debe iniciar sesión para realizar la reserva.");
     }
   };
-//TERMINA EL BOTON DE RESERVAR
+  //TERMINA EL BOTON DE RESERVAR
 
-  /// LO UTILIZA EL CALENDARIO PARA RESTRINGIR FECHAS PASADAS
-    const isOutsideRange = (day) => {
-      const today = moment();
-      return day.isBefore(today, "day");
-    };
+  /// FUNCION PARA RESTRINGIR FECHAS PASADAS
+  const isOutsideRange = (day) => {
+    const today = moment();
+    return day.isBefore(today, "day");
+  };
 
-      //CALENDARIO FECHAS OCUPADAS (BLOQUEA LAS FECHAS)
+  //CALENDARIO FECHAS OCUPADAS (BLOQUEA LAS FECHAS)
   useEffect(() => {
     // Función para obtener las fechas ocupadas desde la API
     const fetchOccupiedDates = async () => {
@@ -178,7 +175,7 @@ const endDateForBackend = endDateAsMoment
         }
       }
     };
-  
+
     // Llama a la función para obtener las fechas ocupadas al cargar el componente
     fetchOccupiedDates();
   }, [selectedProduct]);
@@ -209,7 +206,10 @@ const endDateForBackend = endDateAsMoment
         <ul className={styles.autoCompleteList}>
           {autoCompleteSuggestions.map((suggestion) => (
             <li key={suggestion.id}>
-              <button className={styles.btnAutocomplete} onClick={() => handleAutoCompleteSelection(suggestion)}>
+              <button
+                className={styles.btnAutocomplete}
+                onClick={() => handleAutoCompleteSelection(suggestion)}
+              >
                 {suggestion.name}
               </button>
             </li>
@@ -231,7 +231,7 @@ const endDateForBackend = endDateAsMoment
           onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
           isOutsideRange={isOutsideRange}
           isDayBlocked={isDayBlocked} // Utiliza la función para bloquear fechas ocupadas
-        />  
+        />
       </div>
 
       <button className={styles.buscadorButton} onClick={handleBuscar}>
