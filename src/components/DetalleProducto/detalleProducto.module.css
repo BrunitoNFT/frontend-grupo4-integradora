@@ -110,10 +110,16 @@
 }
 
 .errorBox{
+  color:whitesmoke;
   text-align: center;
   width: 30vw;
   height: 55vh;
   border-radius: 1.5rem;
+  background-color: black;
+  opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .defaultText{
@@ -140,6 +146,12 @@
   border-radius: 1rem;
   margin: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+.productImg:hover {
+  transform: scale(1.1); 
+  opacity: 0.8;
+  cursor: pointer;
 }
 
 .VerMasBox {
