@@ -7,6 +7,7 @@ import styles from "./detalleProducto.module.css";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { GiMusicalScore, GiMusicSpell } from "react-icons/gi";
 import { FaStar, FaRegStar } from "react-icons/fa";
+import { CgSearchLoading } from "react-icons/cg";
 import moment from "moment";
 
 const opcionesDePoliticas = [
@@ -149,7 +150,7 @@ const DetalleProducto = () => {
   };
 
   if (!product) {
-    return <p>Producto no encontrado</p>;
+    return <p>Cargando producto... <CgSearchLoading size={30}/></p>;
   }
 
   /// LO UTILIZA EL CALENDARIO PARA RESTRINGIR FECHAS PASADAS

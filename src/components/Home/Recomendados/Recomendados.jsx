@@ -28,7 +28,7 @@ const Recomendados = () => {
   }
 
   const checkAuthentication = () => {
-    const isAutenticado = sessionStorage.getItem("jwtToken");
+    const isAutenticado = localStorage.getItem("jwtToken");
     setIsAutenticado(isAutenticado);
   };
 
@@ -53,7 +53,7 @@ const Recomendados = () => {
   useEffect(() => {
     fetchProductos();
     checkAuthentication();
-    const storedFavoritos = JSON.parse(sessionStorage.getItem("favoritos")) || [];
+    const storedFavoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
     if (Array.isArray(storedFavoritos)) {
       setFavoritos(storedFavoritos);
       const favoritosMap = {};
@@ -80,14 +80,14 @@ const Recomendados = () => {
       if (!favoritos.find((fav) => fav.id === producto.id)) {
         const nuevosFavoritos = [...favoritos, producto];
         setFavoritos(nuevosFavoritos);
-        sessionStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
+        localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
         setIsFavorito({ ...isFavorito, [producto.id]: true });
       } else {
         const nuevosFavoritos = favoritos.filter(
           (fav) => fav.id !== producto.id
         );
         setFavoritos(nuevosFavoritos);
-        sessionStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
+        localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
         setIsFavorito({ ...isFavorito, [producto.id]: false });
       }
     } else {
@@ -157,10 +157,11 @@ const Recomendados = () => {
                   className={styles.img}
                 />
               </Link>
+
               <div className={styles.dataContainer}>
                 <span className={styles.h3}>{producto.name}</span>
+                <br />
                 <span className={styles.h4}>{producto.price}</span>
-                <div className={styles.dataContainerChildren}></div>
                 <div className={styles.sharePopup} id={`popup${producto.id}`}>
                   <img
                     className={styles.sharePopupImg}
@@ -209,7 +210,7 @@ const Recomendados = () => {
                     <a
                       className={styles.socialLinksA}
                       href={`whatsapp://send?text=${encodeURIComponent(
-                        `¡Mira este producto: ${producto.name}! http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`
+                        `¡Mira este producto: ${producto.name}! http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com/detalle/${producto.id}`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
