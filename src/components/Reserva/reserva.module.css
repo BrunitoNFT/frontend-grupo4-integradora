@@ -133,6 +133,7 @@
   cursor: pointer;
   border-radius: 0.5rem;
   margin-top: 1rem;
+  text-decoration: none;
 }
 
 .buttonVerProducto:hover {
