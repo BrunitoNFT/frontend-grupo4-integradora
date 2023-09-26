@@ -61,6 +61,39 @@ const PanelUsuarios = () => {
     }
   };
 
+  const handleRemoveAdmin = async (email) => {
+    console.log('Intentando quitar permisos de administrador con correo:', email);
+
+    try {
+      const response = await fetch(
+        `http://18.118.140.140/administracion/change-user?emailUser=${email}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        // Update the user list when admin permissions are removed
+        const updatedUsuarios = usuarios.map((usuario) => {
+          if (usuario.email === email) {
+            return { ...usuario, role: 'ROLE_USER' };
+          }
+          return usuario;
+        });
+        setUsuarios(updatedUsuarios);
+      } else {
+        const errorData = await response.text();
+        console.error('Error al quitar permisos de administrador:', errorData);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <div className={styles.panelUsuarios}>
       <h1 className={styles.panelTitle}>Panel de Usuarios</h1>
@@ -103,6 +136,14 @@ const PanelUsuarios = () => {
                     onClick={() => handleMakeAdmin(usuario.email)}
                   >
                     Dar Permisos
+                  </button>
+                )}
+                {usuario.role === 'ROLE_ADMIN' && (
+                  <button
+                    className={styles.adminButton}
+                    onClick={() => handleRemoveAdmin(usuario.email)}
+                  >
+                    Quitar Permisos
                   </button>
                 )}
               </td>

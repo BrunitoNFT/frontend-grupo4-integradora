@@ -41,6 +41,7 @@ const DetalleProducto = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
+  const [imagenActual, setImagenActual] = useState(images[0]);
   const [agregarProducto, setAgregarProducto] = useState(false);
   const [focusedInput, setFocusedInput] = useState(null);
   const [rating, setRating] = useState(0);
@@ -140,7 +141,7 @@ const DetalleProducto = () => {
       const newReview = {
         rating,
         text: currentReview,
-        date: moment().format("YYYY-MM-DD"),
+        date: moment().format("DD-MM-YYYY"),
       };
       setReviews([...reviews, newReview]);
       setCurrentReview("");
@@ -152,6 +153,10 @@ const DetalleProducto = () => {
     return <p>Producto no encontrado</p>;
   }
 
+  const cambiarImagen = (nuevaImagen) => {
+    setImagenActual(nuevaImagen);
+  };
+
   /// LO UTILIZA EL CALENDARIO PARA RESTRINGIR FECHAS PASADAS
   const isOutsideRange = (day) => {
     const today = moment();
@@ -161,12 +166,12 @@ const DetalleProducto = () => {
   /// FORMATEA LAS FECHAS DEL CALENDARIO PARA OBTENER UN FORMATO YYYY-MM-DD
   const startDateAsMoment = dateRange.startDate;
   const startDateFormatted = startDateAsMoment
-    ? startDateAsMoment.format("YYYY-MM-DD")
+    ? startDateAsMoment.format("DD-MM-YYYY")
     : null;
 
   const endDateAsMoment = dateRange.endDate;
   const endDateFormatted = endDateAsMoment
-    ? endDateAsMoment.format("YYYY-MM-DD")
+    ? endDateAsMoment.format("DD-MM-YYYY")
     : null;
 
   /// FUNCION PARA HACER LA RESERVA HACIENDO POST AL SHOPPING-CART
@@ -273,47 +278,57 @@ const DetalleProducto = () => {
           </article>
 
           <article className={styles.ladoDerecho}>
-            <div className={styles.imgContainer}>
-              <div className={styles.productImageBox}>
-                <img
-                  src={images[0]}
-                  alt="img-product"
-                  className={styles.productImage}
-                />
-              </div>
-              <div className={styles.product4}>
-                <div className={styles.product2}>
-                  <img
-                    src={images[1]}
-                    alt="img-product"
-                    className={styles.productImg}
-                  />
-                  <img
-                    src={images[2]}
-                    alt="img-product"
-                    className={styles.productImg}
-                  />
-                </div>
-                <div className={styles.product2}>
-                  <img
-                    src={images[3]}
-                    alt="img-product"
-                    className={styles.productImg}
-                  />
-                  <img
-                    src={images[4]}
-                    alt="img-product"
-                    className={styles.productImg}
-                  />
-                </div>
-              </div>
-            </div>
-            <button className={styles.VerMasBox}>
-              <Link className={styles.a} to={`/Galeria/${id}`}>
-                Ver Más
-              </Link>
-            </button>
-          </article>
+      <div className={styles.imgContainer}>
+      {imagenActual ? (
+      <div className={styles.productImageBox}>
+        <img
+          src={imagenActual}
+          alt="img-product"
+          className={styles.productImage}
+        />
+      </div>
+    ) : (
+      <div className={styles.errorBox}>
+        <p>Haz click en una imagen</p>
+      </div>
+    )}
+        <div className={styles.product4}>
+          <div className={styles.product2}>
+            <img
+              src={images[0]}
+              alt="img-product"
+              className={styles.productImg}
+              onClick={() => cambiarImagen(images[0])}
+            />
+            <img
+              src={images[1]}
+              alt="img-product"
+              className={styles.productImg}
+              onClick={() => cambiarImagen(images[1])}
+            />
+          </div>
+          <div className={styles.product2}>
+            <img
+              src={images[2]}
+              alt="img-product"
+              className={styles.productImg}
+              onClick={() => cambiarImagen(images[2])}
+            />
+            <img
+              src={images[3]}
+              alt="img-product"
+              className={styles.productImg}
+              onClick={() => cambiarImagen(images[3])}
+            />
+          </div>
+        </div>
+      </div>
+      <button className={styles.VerMasBox}>
+        <Link className={styles.a} to={`/Galeria/${id}`}>
+          Ver Más
+        </Link>
+      </button>
+    </article>
         </section>
 
         <section className={styles.reviewContainer}>
@@ -323,11 +338,10 @@ const DetalleProducto = () => {
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
-                    className={`${
-                      star <= averageRating
-                        ? styles.starActive
-                        : styles.starInactive
-                    }`}
+                    className={`${star <= averageRating
+                      ? styles.starActive
+                      : styles.starInactive
+                      }`}
                   >
                     <FaStar />
                   </span>
@@ -348,9 +362,8 @@ const DetalleProducto = () => {
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
-                    className={`${
-                      star <= rating ? styles.starActive : styles.starInactive
-                    }`}
+                    className={`${star <= rating ? styles.starActive : styles.starInactive
+                      }`}
                     onClick={() => handleRatingChange(star)}
                   >
                     {star <= rating ? <FaStar /> : <FaRegStar />}
