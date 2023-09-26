@@ -30,9 +30,12 @@ const Productos = () => {
     setIsAutenticado(isAutenticado);
   };
 
+
   const openSharePopup = (product) => {
     const popup = document.getElementById(`popup${product.id}`);
-    popup.style.display = "block";
+    if (popup) {
+      popup.style.display = "block";
+    }
   };
 
   const closePopup = (product) => {
@@ -179,7 +182,7 @@ const Productos = () => {
                 </button>
                 <button
                   className={styles.buttonShare}
-                  onClick={() => openSharePopup(productos)}
+                  onClick={() => openSharePopup(producto)}
                 >
                   <BsShareFill color="#4F709C" size={19} />
                 </button>
@@ -198,15 +201,15 @@ const Productos = () => {
               <div className={styles.productoNombre}>{producto.name}</div>
               <div className={styles.productoPrecio}>$ {producto.price}</div>
               {/* Elementos para la ventana emergente de compartir */}
-              <div className={styles.sharePopup} id={`popup${productos.id}`}>
+              <div className={styles.sharePopup} id={`popup${producto.id}`}>
                 <img
                   className={styles.sharePopupImg}
-                  src={productos.img}
+                  src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
                   alt="img-product-popup"
                 />
-                <p>{productos.objeto}</p>
+                <p>{producto.name}</p>
                 <a
-                  href={`/detalle/${productos.id}`}
+                  href={`/detalle/${producto.id}`}
                   className={styles.detailLink}
                 >
                   Ver mas
@@ -256,7 +259,7 @@ const Productos = () => {
                   </div>
                 <button
                   className={styles.closeButton}
-                  onClick={() => closePopup(productos)}
+                  onClick={() => closePopup(producto)}
                 >
                   Cerrar
                 </button>
