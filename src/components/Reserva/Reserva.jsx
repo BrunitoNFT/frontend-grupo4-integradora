@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./reserva.module.css";
 import moment from "moment";
 
@@ -110,6 +110,7 @@ function Reserva() {
       if (response.ok) {
         const jsonData = await response.json();
         setHistory(jsonData);
+        console.log('HISTORYYY', history);
       } else {
         console.log("Error al intentar obtener historial de reservas");
       }
@@ -122,10 +123,20 @@ function Reserva() {
     <div className={styles.container}>
       <div className={styles.formContainer}>
         <h2 className={styles.formContainerH2}>Formulario de Reserva</h2>
-        <p className={styles.formContainerP}> <strong>Nombre:</strong>  {nombre}</p>
-        <p className={styles.formContainerP}> <strong>Apellido:</strong>  {apellido}</p>
-        <p className={styles.formContainerP}> <strong>Email:</strong> {correo}</p>
-        <textarea className={styles.formContainerTextarea}
+        <p className={styles.formContainerP}>
+          {" "}
+          <strong>Nombre:</strong> {nombre}
+        </p>
+        <p className={styles.formContainerP}>
+          {" "}
+          <strong>Apellido:</strong> {apellido}
+        </p>
+        <p className={styles.formContainerP}>
+          {" "}
+          <strong>Email:</strong> {correo}
+        </p>
+        <textarea
+          className={styles.formContainerTextarea}
           placeholder="Observaciones"
           value={observations}
           onChange={(e) => setObservations(e.target.value)}
@@ -134,18 +145,28 @@ function Reserva() {
         {bookingInfo ? (
           <div className={styles.reserva}>
             <h3 className={styles.reservaH3}>Mensaje de Reserva:</h3>
-            <p className={styles.reservaP}><strong>Booking Code: </strong>{bookingInfo.bookingCode}</p>
-            <p className={styles.reservaP}><strong>Fecha de Reserva: </strong> {moment(bookingInfo.dateBooking).format("DD-MM-YYYY")}</p>
-              {products && Array.isArray(products)
-                ? products.map((product) => (
-                    <p  key={product.product.id} className={styles.reservaP}>
-                      <strong>Instrumento:</strong> {product.product.name}
-                    </p>
-                  ))
-                : null}
-            <p className={styles.reservaP}><strong>Costo Total: </strong>${bookingInfo.totalCost}</p>
+            <p className={styles.reservaP}>
+              <strong>Booking Code: </strong>
+              {bookingInfo.bookingCode}
+            </p>
+            <p className={styles.reservaP}>
+              <strong>Fecha de Reserva: </strong>{" "}
+              {moment(bookingInfo.dateBooking).format("DD-MM-YYYY")}
+            </p>
+            {products && Array.isArray(products)
+              ? products.map((product) => (
+                  <p key={product.product.id} className={styles.reservaP}>
+                    <strong>Instrumento:</strong> {product.product.name}
+                  </p>
+                ))
+              : null}
+            <p className={styles.reservaP}>
+              <strong>Costo Total: </strong>${bookingInfo.totalCost}
+            </p>
             <p className={styles.reservaConfirm}>RESERVA CONFIRMADA</p>
-            <p className={styles.reservaConfirm}>¡Gracias por confiar en Drop The Bass!</p>
+            <p className={styles.reservaConfirm}>
+              ¡Gracias por confiar en Drop The Bass!
+            </p>
           </div>
         ) : (
           <>
@@ -180,12 +201,24 @@ function Reserva() {
 
       <div className={styles.historialContainer}>
         <h2 className={styles.historialContainerH2}>Historial de Reservas</h2>
-        <ul>
+        <ul className={styles.historialUl}>
           {history.map((reservation) => (
-            <li key={reservation.id}>
-              Instrumento: {reservation.productName}
+            <li key={reservation.id} className={styles.historialLis}>
+              <div className={styles.hiorialDivLi}>
+                Instrumento: {reservation.productName}
+                <br />
+                Fecha de reserva:{" "}
+                {moment(reservation.dateBooking).format("DD-MM-YYYY")}
+                <br />
+                <Link
+                className={styles.buttonVerProducto}
+              okey={reservation.id}
+              to={"/detalle/" + reservation.productId}
+            >
+              Ver producto
+            </Link>
+              </div>
               <br />
-              Fecha de reserva: {reservation.dateBooking}
             </li>
           ))}
         </ul>
