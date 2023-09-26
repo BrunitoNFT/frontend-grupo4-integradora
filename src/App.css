@@ -22,6 +22,10 @@ body {
   flex: 1;
 }
 
+.DateRangePickerInput__withBorder {
+  border: none !important;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

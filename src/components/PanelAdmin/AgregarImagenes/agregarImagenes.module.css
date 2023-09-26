@@ -55,3 +55,19 @@ button[type="submit"]:hover {
     width: 50%;
     margin-bottom: 0.5rem;
 }
+
+.errorForm {
+    background-color: brown;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.success {
+    background-color: #388940;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+}
