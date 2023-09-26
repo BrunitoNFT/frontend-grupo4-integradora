@@ -107,7 +107,7 @@ function AdministrarCaracteristicas() {
 
   return (
     <div>
-      <h2 className={styles.heading}>Lista de Productos y sus caracteristicas</h2>
+      <h2 className={styles.heading}>Edita las caracteristicas de tus Productos</h2>
       <div className={styles.card}>
         <table className={styles.listaProductos}>
           <thead>

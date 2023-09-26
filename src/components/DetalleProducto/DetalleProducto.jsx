@@ -155,7 +155,6 @@ const DetalleProducto = () => {
 
   const cambiarImagen = (nuevaImagen) => {
     setImagenActual(nuevaImagen);
-    console.log("Nueva imagen actual:", nuevaImagen);
   };
 
   /// LO UTILIZA EL CALENDARIO PARA RESTRINGIR FECHAS PASADAS
@@ -279,51 +278,57 @@ const DetalleProducto = () => {
           </article>
 
           <article className={styles.ladoDerecho}>
-            <div className={styles.imgContainer}>
-              <div className={styles.productImageBox}>
-                <img
-                  src={imagenActual}
-                  alt="img-product"
-                  className={styles.productImage}
-                />
-              </div>
-              <div className={styles.product4}>
-                <div className={styles.product2}>
-                  <img
-                    src={images[1]}
-                    alt="img-product"
-                    className={styles.productImg}
-                    onClick={() => cambiarImagen(images[0])}
-                  />
-                  <img
-                    src={images[2]}
-                    alt="img-product"
-                    className={styles.productImg}
-                    onClick={() => cambiarImagen(images[1])}
-                  />
-                </div>
-                <div className={styles.product2}>
-                  <img
-                    src={images[3]}
-                    alt="img-product"
-                    className={styles.productImg}
-                    onClick={() => cambiarImagen(images[2])}
-                  />
-                  <img
-                    src={images[4]}
-                    alt="img-product"
-                    className={styles.productImg}
-                    onClick={() => cambiarImagen(images[3])}
-                  />
-                </div>
-              </div>
-            </div>
-            <button className={styles.VerMasBox}>
-              <Link className={styles.a} to={`/Galeria/${id}`}>
-                Ver Más
-              </Link>
-            </button>
-          </article>
+      <div className={styles.imgContainer}>
+      {imagenActual ? (
+      <div className={styles.productImageBox}>
+        <img
+          src={imagenActual}
+          alt="img-product"
+          className={styles.productImage}
+        />
+      </div>
+    ) : (
+      <div className={styles.errorBox}>
+        <p>Haz click en una imagen</p>
+      </div>
+    )}
+        <div className={styles.product4}>
+          <div className={styles.product2}>
+            <img
+              src={images[0]}
+              alt="img-product"
+              className={styles.productImg}
+              onClick={() => cambiarImagen(images[0])}
+            />
+            <img
+              src={images[1]}
+              alt="img-product"
+              className={styles.productImg}
+              onClick={() => cambiarImagen(images[1])}
+            />
+          </div>
+          <div className={styles.product2}>
+            <img
+              src={images[2]}
+              alt="img-product"
+              className={styles.productImg}
+              onClick={() => cambiarImagen(images[2])}
+            />
+            <img
+              src={images[3]}
+              alt="img-product"
+              className={styles.productImg}
+              onClick={() => cambiarImagen(images[3])}
+            />
+          </div>
+        </div>
+      </div>
+      <button className={styles.VerMasBox}>
+        <Link className={styles.a} to={`/Galeria/${id}`}>
+          Ver Más
+        </Link>
+      </button>
+    </article>
         </section>
 
         <section className={styles.reviewContainer}>

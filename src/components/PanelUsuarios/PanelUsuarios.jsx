@@ -44,7 +44,7 @@ const PanelUsuarios = () => {
       );
 
       if (response.ok) {
-        // Actualizar la lista de usuarios cuando un usuario es promovido
+        // Update the user list when a user is promoted
         const updatedUsuarios = usuarios.map((usuario) => {
           if (usuario.email === email) {
             return { ...usuario, role: 'ROLE_ADMIN' };
@@ -62,13 +62,13 @@ const PanelUsuarios = () => {
   };
 
   const handleRemoveAdmin = async (email) => {
-    console.log('Intentando quitar permisos de administrador a:', email);
+    console.log('Intentando quitar permisos de administrador con correo:', email);
 
     try {
       const response = await fetch(
-        `http://18.118.140.140/administracion/remove?emailUser=${email}`,
+        `http://18.118.140.140/administracion/change-user?emailUser=${email}`,
         {
-          method: 'DELETE',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ const PanelUsuarios = () => {
       );
 
       if (response.ok) {
-        // Actualizar la lista de usuarios cuando se quitan los permisos de administrador
+        // Update the user list when admin permissions are removed
         const updatedUsuarios = usuarios.map((usuario) => {
           if (usuario.email === email) {
             return { ...usuario, role: 'ROLE_USER' };
@@ -87,7 +87,7 @@ const PanelUsuarios = () => {
         setUsuarios(updatedUsuarios);
       } else {
         const errorData = await response.text();
-        console.error('Error al quitar permisos de administrador al usuario:', errorData);
+        console.error('Error al quitar permisos de administrador:', errorData);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -130,19 +130,20 @@ const PanelUsuarios = () => {
               <td>{usuario.lastname}</td>
               <td>{usuario.email}</td>
               <td>
-                {usuario.role === 'ROLE_ADMIN' ? (
-                  <button
-                    className={styles.adminButton}
-                    onClick={() => handleRemoveAdmin(usuario.email)}
-                  >
-                    Quitar Permisos
-                  </button>
-                ) : (
+                {usuario.role === 'ROLE_USER' && (
                   <button
                     className={styles.adminButton}
                     onClick={() => handleMakeAdmin(usuario.email)}
                   >
                     Dar Permisos
+                  </button>
+                )}
+                {usuario.role === 'ROLE_ADMIN' && (
+                  <button
+                    className={styles.adminButton}
+                    onClick={() => handleRemoveAdmin(usuario.email)}
+                  >
+                    Quitar Permisos
                   </button>
                 )}
               </td>

@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styles from './listaProductos.module.css';
 import { FaTrash, FaSave, FaTimes } from 'react-icons/fa';
 
-let token = localStorage.getItem("jwtToken");
+let token = sessionStorage.getItem("jwtToken");
 
 const ListaProductos = () => {
   const [productos, setProductos] = useState([]);
-  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     fetch("http://18.118.140.140/product")
@@ -17,21 +16,15 @@ const ListaProductos = () => {
       .catch((error) => console.log("Error fetching data:", error));
   }, []);
 
-  useEffect(() => {
-    fetch("http://18.118.140.140/categories")
-      .then((response) => response.json())
-      .then((data) => {
-        setCategories(data);
-      })
-      .catch((error) => console.log("Error fetching categories:", error));
-  }, []);
-
   const handleDelete = (id) => {
     const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar este producto?');
     if (confirmDelete) {
       fetch(`http://18.118.140.140/product/${id}`, {
         method: 'DELETE',
-        headers: {Authorization: `Bearer ${token}`},
+        headers: {
+          Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
       })
         .then(response => {
           if (response.ok) {
