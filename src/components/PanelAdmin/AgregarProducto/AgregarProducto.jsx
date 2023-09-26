@@ -122,7 +122,7 @@ function AgregarProductos() {
       setErrorName()
     }
 
-    if (descripcion < 30 || descripcion > 200) {
+    if (descripcion.length < 30 || descripcion > 200) {
       setErrorDescripcion('La longitud de la descripcion debe ser mayor a 30 caracteres y no más de 200')
       hasSomeError = true
     } else {
@@ -158,7 +158,8 @@ function AgregarProductos() {
     }
 
     if (hasSomeError) {
-      return
+      cleanInputs();
+      return 
     }
 
     crearProducto()
