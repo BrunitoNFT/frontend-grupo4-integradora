@@ -6,7 +6,7 @@ const Favoritos = () => {
   const [favoritos, setFavoritos] = useState([]);
 
   useEffect(() => {
-    const storedFavoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    const storedFavoritos = JSON.parse(sessionStorage.getItem("favoritos")) || [];
     setFavoritos(storedFavoritos);
   }, []);
 
@@ -18,6 +18,8 @@ const Favoritos = () => {
     // Actualiza el sessionStorage
     sessionStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
   };
+
+
 
   return (
     <div>
@@ -33,7 +35,7 @@ const Favoritos = () => {
             </button>
             <img
                 className={styles.imgLista}
-                src={producto.urlImg}
+                src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
                 alt="imagenProducto"
             />
             <div className={styles.productoNombre}>{producto.name}</div>

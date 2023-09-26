@@ -30,7 +30,7 @@ const Recomendados = () => {
   }
 
   const checkAuthentication = () => {
-    const isAutenticado = localStorage.getItem("jwtToken");
+    const isAutenticado = sessionStorage.getItem("jwtToken");
     setIsAutenticado(isAutenticado);
   };
 
@@ -55,7 +55,7 @@ const Recomendados = () => {
   useEffect(() => {
     fetchProductos();
     checkAuthentication();
-    const storedFavoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    const storedFavoritos = JSON.parse(sessionStorage.getItem("favoritos")) || [];
     if (Array.isArray(storedFavoritos)) {
       setFavoritos(storedFavoritos);
       const favoritosMap = {};
@@ -82,14 +82,14 @@ const Recomendados = () => {
       if (!favoritos.find((fav) => fav.id === producto.id)) {
         const nuevosFavoritos = [...favoritos, producto];
         setFavoritos(nuevosFavoritos);
-        localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
+        sessionStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
         setIsFavorito({ ...isFavorito, [producto.id]: true });
       } else {
         const nuevosFavoritos = favoritos.filter(
           (fav) => fav.id !== producto.id
         );
         setFavoritos(nuevosFavoritos);
-        localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
+        sessionStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
         setIsFavorito({ ...isFavorito, [producto.id]: false });
       }
     } else {
@@ -129,6 +129,25 @@ const Recomendados = () => {
         <div className={styles.cardConteiner}>
           {currentItems.map((producto) => (
             <div key={producto.id} className={styles.card}>
+              <div className={styles.botonesFavshare}>
+                <button
+                  onClick={() => addToFavoritos(producto)}
+                  className={styles.favoritosButton}
+                >
+                  {isFavorito[producto.id] ? (
+                    <MdFavorite color="#4F709C" size={25} />
+                  ) : (
+                    <MdFavoriteBorder color="#4F709C" size={25} />
+                  )}
+                </button>
+                <button
+                  className={styles.buttonShare}
+                  onClick={() => openSharePopup(producto)}
+                >
+                  <BsShareFill color="#4F709C" size={19} />
+                </button>
+              </div>
+
               <Link
                 className={styles.imgContainer}
                 key={producto.id}
@@ -143,30 +162,11 @@ const Recomendados = () => {
               <div className={styles.dataContainer}>
                 <span className={styles.h3}>{producto.name}</span>
                 <span className={styles.h4}>{producto.price}</span>
-                <div className={styles.dataContainerChildren}>
-                  <div className={styles.botonesFavshare}>
-                    <button
-                      onClick={() => addToFavoritos(producto)}
-                      className={styles.favoritosButton}
-                    >
-                      {isFavorito[producto.id] ? (
-                        <MdFavorite color="#4F709C" size={25} />
-                      ) : (
-                        <MdFavoriteBorder color="#4F709C" size={25} />
-                      )}
-                    </button>
-                    <button
-                      className={styles.buttonShare}
-                      onClick={() => openSharePopup(producto)}
-                    >
-                      <BsShareFill color="#4F709C" size={19} />
-                    </button>
-                  </div>
-                </div>
+                <div className={styles.dataContainerChildren}></div>
                 <div className={styles.sharePopup} id={`popup${producto.id}`}>
                   <img
                     className={styles.sharePopupImg}
-                    src={producto.urlImg}
+                    src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
                     alt="img-product-popup"
                   />
                   <p>{producto.name}</p>

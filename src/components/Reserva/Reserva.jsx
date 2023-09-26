@@ -210,6 +210,7 @@ function Reserva() {
                 Fecha de reserva:{" "}
                 {moment(reservation.dateBooking).format("DD-MM-YYYY")}
                 <br />
+                <br />
                 <Link
                 className={styles.buttonVerProducto}
               okey={reservation.id}
