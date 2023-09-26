@@ -84,6 +84,7 @@ const Navbar = () => {
             ) : (
               <>
               <div className={styles.navbarAvatar}>
+                {user.role === "ROLE_ADMIN" || user.role === "ROLE_DEV" ? 
                 <div className={styles.SelectWrapper}>
                   <div
                     className={`${styles.Select} ${isOpen ? styles.Open : ""}`}
@@ -98,6 +99,8 @@ const Navbar = () => {
                     </ul>
                   )}
                 </div>
+                : undefined
+                }
                 <div className={styles.avatarLogout}>
                 <div className={styles.avatar}>
                   {avatar}

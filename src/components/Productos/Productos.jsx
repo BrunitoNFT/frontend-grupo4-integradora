@@ -200,8 +200,10 @@ const Productos = () => {
               </Link>
               <div className={styles.productoNombre}>{producto.name}</div>
               <div className={styles.productoPrecio}>$ {producto.price}</div>
+
               {/* Elementos para la ventana emergente de compartir */}
               <div className={styles.sharePopup} id={`popup${producto.id}`}>
+                <div className={styles.cardflex}>
                 <img
                   className={styles.sharePopupImg}
                   src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
@@ -263,6 +265,7 @@ const Productos = () => {
                 >
                   Cerrar
                 </button>
+                </div>
               </div>
             </li>
           ))}

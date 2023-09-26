@@ -41,7 +41,7 @@ function InicioSesion() {
           const nombre = data.name;
           const apellido =data.lastname;
           const correo = data.email;
-
+          const role = data.role
           
 
           // Almacenar el token en el almacenamiento local (localStorage o sessionStorage)
@@ -51,7 +51,7 @@ function InicioSesion() {
           sessionStorage.setItem("lastname",apellido)
           sessionStorage.setItem("email",correo)
           // Actualizar el estado del usuario o redirigir a la página de inicio
-          setUser({ email }); // Actualiza el contexto con la información del usuario
+          setUser({ email, role }); // Actualiza el contexto con la información del usuario
           navigate("/"); // Redirige a la página de inicio o a donde sea necesario
 
           
