@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styles from './listaProductos.module.css';
-import { FaTrash, FaSave, FaTimes } from 'react-icons/fa';
+import { FaTrash, FaSave, FaEdit } from 'react-icons/fa';
 
 let token = sessionStorage.getItem("jwtToken");
 
 const ListaProductos = () => {
   const [productos, setProductos] = useState([]);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   useEffect(() => {
     fetch("http://18.118.140.140/product")
@@ -23,8 +24,8 @@ const ListaProductos = () => {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
+          "Content-Type": "application/json"
+        },
       })
         .then(response => {
           if (response.ok) {
@@ -39,6 +40,42 @@ const ListaProductos = () => {
           console.error('Error al realizar la solicitud:', error);
         });
     }
+  };
+
+  const handleEdit = (id) => {
+    setEditingProduct(id);
+  };
+
+  const handleSave = (id, updatedProductData) => {
+    fetch(`http://18.118.140.140/product/${id}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(updatedProductData),
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('No se pudo actualizar el producto');
+        }
+      })
+      .then(data => {
+        const updatedProducts = productos.map(producto => {
+          if (producto.id === id) {
+            return data;
+          } else {
+            return producto;
+          }
+        });
+        setProductos(updatedProducts);
+        setEditingProduct(null);
+      })
+      .catch(error => {
+        console.error('Error al actualizar el producto:', error);
+      });
   };
 
   const formatPrice = (price) => {
@@ -71,15 +108,39 @@ const ListaProductos = () => {
               <td>
                 <img src={`http://18.118.140.140/s3/product-images/${producto.id}/0`} alt={`Imagen de ${producto.name}`} />
               </td>
-              <td>{producto.name}</td>
+              <td>
+                {editingProduct === producto.id ? (
+                  <input
+                    type="text"
+                    value={producto.name}
+                    onChange={(e) => {
+                      const updatedProduct = { ...producto, name: e.target.value };
+                      handleSave(producto.id, updatedProduct);
+                    }}
+                  />
+                ) : (
+                  producto.name
+                )}
+              </td>
               <td>{producto.description}</td>
               <td>{producto.category.name}</td>
               <td>{producto.brand.name}</td>
               <td>{formatPrice(producto.price)}</td>
               <td>
-                <button onClick={() => handleDelete(producto.id)}>
-                  <FaTrash />
-                </button>
+                {editingProduct === producto.id ? (
+                  <button onClick={() => handleSave(producto.id, producto)}>
+                    <FaSave />
+                  </button>
+                ) : (
+                  <>
+                    <button onClick={() => handleEdit(producto.id)}>
+                      <FaEdit />
+                    </button>
+                    <button onClick={() => handleDelete(producto.id)}>
+                      <FaTrash />
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
