@@ -10,6 +10,8 @@ import {
 } from "react-icons/bs";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
+
+
 const Recomendados = () => {
   const itemsPerPage = 10;
   const [productos, setProductos] = useState([]);
