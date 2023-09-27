@@ -53,7 +53,6 @@ const Recomendados = () => {
   }, [productos]);
 
   useEffect(() => {
-/*     setIsLoading(false) */
     fetchProductos();
     checkAuthentication();
     const storedFavoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
