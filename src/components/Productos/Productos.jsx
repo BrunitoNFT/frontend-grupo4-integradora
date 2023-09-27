@@ -56,9 +56,6 @@ const Productos = () => {
     setCategorias(jsonData);
   }
 
-  console.log("CATEGORIAS", categorias);
-  console.log("PRODUCTOS", productos);
-
   const handleCategoriaChange = (e) => {
     const checkbox = e.target;
     if (checkbox.checked) {
@@ -169,7 +166,6 @@ const Productos = () => {
               </p>
             </div>
           )}
-          <div />
           <ul className={styles.cardProductos}>
             {isLoading &&
               Array(40)

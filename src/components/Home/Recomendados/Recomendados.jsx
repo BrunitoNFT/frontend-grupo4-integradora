@@ -11,6 +11,7 @@ import {
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
 const Recomendados = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const itemsPerPage = 10;
   const [productos, setProductos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,6 +26,7 @@ const Recomendados = () => {
     const response = await fetch("http://18.118.140.140/product");
     const jsonData = await response.json();
     setProductos(jsonData);
+    setIsLoading(false);
   }
 
   const checkAuthentication = () => {
@@ -51,6 +53,7 @@ const Recomendados = () => {
   }, [productos]);
 
   useEffect(() => {
+/*     setIsLoading(false) */
     fetchProductos();
     checkAuthentication();
     const storedFavoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
@@ -100,8 +103,6 @@ const Recomendados = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = randomizedData.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log("data products: ", productos);
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -122,113 +123,118 @@ const Recomendados = () => {
             </p>
           </div>
         )}
-        <div />
-
         <div className={styles.cardConteiner}>
-          {currentItems.map((producto) => (
-            <div key={producto.id} className={styles.card}>
-              <div className={styles.botonesFavshare}>
-                <button
-                  onClick={() => addToFavoritos(producto)}
-                  className={styles.favoritosButton}
-                >
-                  {isFavorito[producto.id] ? (
-                    <MdFavorite color="#4F709C" size={25} />
-                  ) : (
-                    <MdFavoriteBorder color="#4F709C" size={25} />
-                  )}
-                </button>
-                <button
-                  className={styles.buttonShare}
-                  onClick={() => openSharePopup(producto)}
-                >
-                  <BsShareFill color="#4F709C" size={19} />
-                </button>
-              </div>
 
-              <Link
-                className={styles.imgContainer}
-                key={producto.id}
-                to={"/detalle/" + producto.id}
-              >
-                <img
-                  src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
-                  alt="img-product-card"
-                  className={styles.img}
-                />
-              </Link>
-
-              <div className={styles.dataContainer}>
-                <span className={styles.h3}>{producto.name}</span>
-                <br />
-                <span className={styles.h4}>{producto.price}</span>
-                <div className={styles.sharePopup} id={`popup${producto.id}`}>
-                  <img
-                    className={styles.sharePopupImg}
-                    src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
-                    alt="img-product-popup"
-                  />
-                  <p>{producto.name}</p>
-                  <a
-                    href={`/detalle/${producto.id}`}
-                    className={styles.detailLink}
-                  >
-                    Ver mas
-                  </a>
-                  <input
-                    className={styles.sharePopupInput}
-                    type="text"
-                    placeholder="Escribe tu comentario"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                  />
-                  <div className={styles.socialLinks}>
-                    <a
-                      className={styles.socialLinksA}
-                      href={`https://www.facebook.com/share?url=http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+          {isLoading ? 
+            Array(10)
+            .fill(null)
+            .map((producto, index) => (
+              <div className={styles.card} key={index}></div>
+            )) : 
+              currentItems.map((producto) => (
+                <div key={producto.id} className={styles.card}>
+                  <div className={styles.botonesFavshare}>
+                    <button
+                      onClick={() => addToFavoritos(producto)}
+                      className={styles.favoritosButton}
                     >
-                      <BsFacebook color="#214F55" />
-                    </a>
-                    <a
-                      className={styles.socialLinksA}
-                      href={`https://www.instagram.com`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      {isFavorito[producto.id] ? (
+                        <MdFavorite color="#4F709C" size={25} />
+                      ) : (
+                        <MdFavoriteBorder color="#4F709C" size={25} />
+                      )}
+                    </button>
+                    <button
+                      className={styles.buttonShare}
+                      onClick={() => openSharePopup(producto)}
                     >
-                      <BsInstagram color="#214F55" />
-                    </a>
-                    <a
-                      className={styles.socialLinksA}
-                      href={`https://twitter.com/share?url=http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com&text=${producto.name}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <BsTwitter color="#214F55" />
-                    </a>
-                    <a
-                      className={styles.socialLinksA}
-                      href={`whatsapp://send?text=${encodeURIComponent(
-                        `¡Mira este producto: ${producto.name}! http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com/detalle/${producto.id}`
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <BsWhatsapp color="#214F55" />
-                    </a>
+                      <BsShareFill color="#4F709C" size={19} />
+                    </button>
                   </div>
-
-                  <button
-                    className={styles.closeButton}
-                    onClick={() => closePopup(producto)}
+    
+                  <Link
+                    className={styles.imgContainer}
+                    key={producto.id}
+                    to={"/detalle/" + producto.id}
                   >
-                    Cerrar
-                  </button>
+                    <img
+                      src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
+                      alt="img-product-card"
+                      className={styles.img}
+                    />
+                  </Link>
+    
+                  <div className={styles.dataContainer}>
+                    <span className={styles.h3}>{producto.name}</span>
+                    <br />
+                    <span className={styles.h4}>{producto.price}</span>
+                    <div className={styles.sharePopup} id={`popup${producto.id}`}>
+                      <img
+                        className={styles.sharePopupImg}
+                        src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
+                        alt="img-product-popup"
+                      />
+                      <p>{producto.name}</p>
+                      <a
+                        href={`/detalle/${producto.id}`}
+                        className={styles.detailLink}
+                      >
+                        Ver mas
+                      </a>
+                      <input
+                        className={styles.sharePopupInput}
+                        type="text"
+                        placeholder="Escribe tu comentario"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                      />
+                      <div className={styles.socialLinks}>
+                        <a
+                          className={styles.socialLinksA}
+                          href={`https://www.facebook.com/share?url=http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <BsFacebook color="#214F55" />
+                        </a>
+                        <a
+                          className={styles.socialLinksA}
+                          href={`https://www.instagram.com`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <BsInstagram color="#214F55" />
+                        </a>
+                        <a
+                          className={styles.socialLinksA}
+                          href={`https://twitter.com/share?url=http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com&text=${producto.name}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <BsTwitter color="#214F55" />
+                        </a>
+                        <a
+                          className={styles.socialLinksA}
+                          href={`whatsapp://send?text=${encodeURIComponent(
+                            `¡Mira este producto: ${producto.name}! http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com/detalle/${producto.id}`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <BsWhatsapp color="#214F55" />
+                        </a>
+                      </div>
+    
+                      <button
+                        className={styles.closeButton}
+                        onClick={() => closePopup(producto)}
+                      >
+                        Cerrar
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              ))}
         </div>
       </div>
       <div className={styles.pagination}>
