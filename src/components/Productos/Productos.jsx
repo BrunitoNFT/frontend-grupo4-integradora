@@ -15,6 +15,7 @@ import {
 } from "react-icons/bs";
 
 const Productos = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [filtroCategorias, setFiltroCategorias] = useState([]);
@@ -29,7 +30,6 @@ const Productos = () => {
     const isAutenticado = sessionStorage.getItem("jwtToken");
     setIsAutenticado(isAutenticado);
   };
-
 
   const openSharePopup = (product) => {
     const popup = document.getElementById(`popup${product.id}`);
@@ -47,6 +47,7 @@ const Productos = () => {
     const response = await fetch("http://18.118.140.140/product");
     const jsonData = await response.json();
     setProductos(jsonData);
+    setIsLoading(false);
   }
 
   async function fetchCategorias() {
@@ -54,9 +55,6 @@ const Productos = () => {
     const jsonData = await response.json();
     setCategorias(jsonData);
   }
-
-  console.log("CATEGORIAS", categorias);
-  console.log("PRODUCTOS", productos);
 
   const handleCategoriaChange = (e) => {
     const checkbox = e.target;
@@ -71,10 +69,12 @@ const Productos = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     fetchProductos();
     fetchCategorias();
     checkAuthentication();
-    const storedFavoritos = JSON.parse(sessionStorage.getItem("favoritos")) || [];
+    const storedFavoritos =
+      JSON.parse(sessionStorage.getItem("favoritos")) || [];
     setFavoritos(storedFavoritos);
     const favoritosMap = {};
     storedFavoritos.forEach((favorito) => {
@@ -131,7 +131,6 @@ const Productos = () => {
   return (
     <div className={styles.bodyProdutos}>
       <h2 className={styles.tituloLista}>Productos</h2>
-
       <div className={styles.filtroCategoria}>
         <div className={styles.selectWrapper}>
           <div className={styles.selectedItems} onClick={toggleDropdown}>
@@ -162,117 +161,124 @@ const Productos = () => {
         <div className={styles.loginPop}>
           {mostrarPopup && (
             <div className={styles.loginPopup}>
-              <p className={styles.loginPopupP}>Por favor, inicia sesión para marcar como favorito.</p>
+              <p className={styles.loginPopupP}>
+                Por favor, inicia sesión para marcar como favorito.
+              </p>
             </div>
           )}
-        <div/>
-        <ul className={styles.cardProductos}>
-          {productosFiltrados.map((producto) => (
-            <li className={styles.cardProductosLi} key={producto.id}>
-              <div className={styles.botonesFavshare}>
-                <button
-                  onClick={() => addToFavoritos(producto)}
-                  className={styles.favoritosButton}
-                >
-                  {isFavorito[producto.id] ? (
-                    <MdFavorite color="#4F709C" size={25} />
-                  ) : (
-                    <MdFavoriteBorder color="#4F709C" size={25} />
-                  )}
-                </button>
-                <button
-                  className={styles.buttonShare}
-                  onClick={() => openSharePopup(producto)}
-                >
-                  <BsShareFill color="#4F709C" size={19} />
-                </button>
-              </div>
-              <Link
-                className={styles.card}
-                key={producto.id}
-                to={"/detalle/" + producto.id}
-              >
-                <img
-                  className={styles.imgLista}
-                  src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
-                  alt="imagenProducto"
-                />
-              </Link>
-              <div className={styles.productoNombre}>{producto.name}</div>
-              <div className={styles.productoPrecio}>$ {producto.price}</div>
-
-              {/* Elementos para la ventana emergente de compartir */}
-              <div className={styles.sharePopup} id={`popup${producto.id}`}>
-                <div className={styles.cardflex}>
-                <img
-                  className={styles.sharePopupImg}
-                  src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
-                  alt="img-product-popup"
-                />
-                <p>{producto.name}</p>
-                <a
-                  href={`/detalle/${producto.id}`}
-                  className={styles.detailLink}
-                >
-                  Ver mas
-                </a>
-                <input
-                  className={styles.sharePopupInput}
-                  type="text"
-                  placeholder="Escribe tu comentario"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                />
-                <div className={styles.socialLinks}>
-                    <a
-                      className={styles.socialLinksA}
-                      href={`https://www.facebook.com/share?url=http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <BsFacebook color="#214F55" />
-                    </a>
-                    <a
-                      className={styles.socialLinksA}
-                      href={`https://www.instagram.com/`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <BsInstagram color="#214F55" />
-                    </a>
-                    <a
-                      className={styles.socialLinksA}
-                      href={`https://twitter.com/share?url=https://http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com&text=${producto.name}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <BsTwitter color="#214F55" />
-                    </a>
-                    <a
-                      className={styles.socialLinksA}
-                      href={`whatsapp://send?text=${encodeURIComponent(
-                        `¡Mira este producto: ${producto.name}! http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <BsWhatsapp color="#214F55" />
-                    </a>
-                  </div>
-                <button
-                  className={styles.closeButton}
-                  onClick={() => closePopup(producto)}
-                >
-                  Cerrar
-                </button>
+          <ul className={styles.cardProductos}>
+            {isLoading &&
+              Array(40)
+                .fill(null)
+                .map((producto, index) => (
+                  <li className={styles.cardProductosLoading} key={index}></li>
+                ))}
+            {productosFiltrados.map((producto) => (
+              <li className={styles.cardProductosLi} key={producto.id}>
+                <div className={styles.botonesFavshare}>
+                  <button
+                    onClick={() => addToFavoritos(producto)}
+                    className={styles.favoritosButton}
+                  >
+                    {isFavorito[producto.id] ? (
+                      <MdFavorite color="#4F709C" size={25} />
+                    ) : (
+                      <MdFavoriteBorder color="#4F709C" size={25} />
+                    )}
+                  </button>
+                  <button
+                    className={styles.buttonShare}
+                    onClick={() => openSharePopup(producto)}
+                  >
+                    <BsShareFill color="#4F709C" size={19} />
+                  </button>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+                <Link
+                  className={styles.card}
+                  key={producto.id}
+                  to={"/detalle/" + producto.id}
+                >
+                  <img
+                    className={styles.imgLista}
+                    src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
+                    alt="imagenProducto"
+                  />
+                </Link>
+                <div className={styles.productoNombre}>{producto.name}</div>
+                <div className={styles.productoPrecio}>${producto.price}</div>
+
+                {/* Elementos para la ventana emergente de compartir */}
+                <div className={styles.sharePopup} id={`popup${producto.id}`}>
+                  <div className={styles.cardflex}>
+                    <img
+                      className={styles.sharePopupImg}
+                      src={`http://18.118.140.140/s3/product-images/${producto.id}/0`}
+                      alt="img-product-popup"
+                    />
+                    <p>{producto.name}</p>
+                    <a
+                      href={`/detalle/${producto.id}`}
+                      className={styles.detailLink}
+                    >
+                      Ver mas
+                    </a>
+                    <input
+                      className={styles.sharePopupInput}
+                      type="text"
+                      placeholder="Escribe tu comentario"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    />
+                    <div className={styles.socialLinks}>
+                      <a
+                        className={styles.socialLinksA}
+                        href={`https://www.facebook.com/share?url=http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <BsFacebook color="#214F55" />
+                      </a>
+                      <a
+                        className={styles.socialLinksA}
+                        href={`https://www.instagram.com/`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <BsInstagram color="#214F55" />
+                      </a>
+                      <a
+                        className={styles.socialLinksA}
+                        href={`https://twitter.com/share?url=https://http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com&text=${producto.name}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <BsTwitter color="#214F55" />
+                      </a>
+                      <a
+                        className={styles.socialLinksA}
+                        href={`whatsapp://send?text=${encodeURIComponent(
+                          `¡Mira este producto: ${producto.name}! http://g4-deploy-react-app.s3-website.us-east-2.amazonaws.com`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <BsWhatsapp color="#214F55" />
+                      </a>
+                    </div>
+                    <button
+                      className={styles.closeButton}
+                      onClick={() => closePopup(producto)}
+                    >
+                      Cerrar
+                    </button>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 
