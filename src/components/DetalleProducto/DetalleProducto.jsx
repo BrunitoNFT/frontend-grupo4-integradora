@@ -151,7 +151,11 @@ const DetalleProducto = () => {
   };
 
   if (!product) {
-    return <p>Cargando producto... <CgSearchLoading size={30}/></p>;
+    return (
+      <p>
+        Cargando producto... <CgSearchLoading size={30} />
+      </p>
+    );
   }
 
   const cambiarImagen = (nuevaImagen) => {
@@ -209,15 +213,12 @@ const DetalleProducto = () => {
     }
   };
 
-  
-
   const isDayBlocked = (day) => {
     // Comprueba si la fecha está dentro del rango de fechas ocupadas
     return blockedDates.some((blockedDate) =>
       day.isBetween(blockedDate.startDate, blockedDate.endDate, null, "[]")
     );
   };
- 
 
   return (
     <div className={styles.detalleProducto}>
@@ -262,7 +263,7 @@ const DetalleProducto = () => {
             <div className={styles.calendario}>
               <h4>Selecciona un rango de fechas</h4>
               <DateRangePicker
-              displayFormat="DD-MM-YYYY"
+                displayFormat="DD-MM-YYYY"
                 startDate={dateRange.startDate}
                 startDateId="start_date_id"
                 endDate={dateRange.endDate}
@@ -273,63 +274,64 @@ const DetalleProducto = () => {
                 focusedInput={focusedInput}
                 onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
                 isOutsideRange={isOutsideRange}
-                isDayBlocked={isDayBlocked} 
+                isDayBlocked={isDayBlocked}
               />
             </div>
           </article>
 
           <article className={styles.ladoDerecho}>
-      <div className={styles.imgContainer}>
-      {imagenActual ? (
-      <div className={styles.productImageBox}>
-        <img
-          src={imagenActual}
-          alt="img-product"
-          className={styles.productImage}
-        />
-      </div>
-    ) : (
-      <div className={styles.errorBox}>
-        <p>Haz click en una imagen</p>
-      </div>
-    )}
-        <div className={styles.product4}>
-          <div className={styles.product2}>
-            <img
-              src={images[0]}
-              alt="img-product"
-              className={styles.productImg}
-              onClick={() => cambiarImagen(images[0])}
-            />
-            <img
-              src={images[1]}
-              alt="img-product"
-              className={styles.productImg}
-              onClick={() => cambiarImagen(images[1])}
-            />
-          </div>
-          <div className={styles.product2}>
-            <img
-              src={images[2]}
-              alt="img-product"
-              className={styles.productImg}
-              onClick={() => cambiarImagen(images[2])}
-            />
-            <img
-              src={images[3]}
-              alt="img-product"
-              className={styles.productImg}
-              onClick={() => cambiarImagen(images[3])}
-            />
-          </div>
-        </div>
-      </div>
-      <button className={styles.VerMasBox}>
-        <Link className={styles.a} to={`/Galeria/${id}`}>
-          Ver Más
-        </Link>
-      </button>
-    </article>
+            <div className={styles.imgContainer}>
+              {imagenActual ? (
+                <div className={styles.productImageBox}>
+                  <img
+                    src={imagenActual}
+                    alt="img-product"
+                    className={styles.productImage}
+                  />
+                </div>
+              ) : (
+                <div className={styles.errorBox}>
+                  {images[0] && (
+                    <img
+                      src={images[0]}
+                      alt="img-product"
+                      className={styles.productImage}
+                      onClick={() => cambiarImagen(images[0])}
+                    />
+                  )}
+                </div>
+              )}
+              <div className={styles.product4}>
+                <div className={styles.product2}>
+                  {images.slice(0, 2).map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`img-product-${index}`}
+                      className={styles.productImg}
+                      onClick={() => cambiarImagen(image)}
+                    />
+                  ))}
+                </div>
+                <div className={styles.product2}>
+                  {images.slice(2, 4).map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`img-product-${index + 2}`}
+                      className={styles.productImg}
+                      onClick={() => cambiarImagen(image)}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+            <button className={styles.VerMasBox}>
+              <Link className={styles.a} to={`/Galeria/${id}`}>
+                Ver Más
+              </Link>
+            </button>
+          </article>
         </section>
 
         <section className={styles.reviewContainer}>
@@ -339,10 +341,11 @@ const DetalleProducto = () => {
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
-                    className={`${star <= averageRating
-                      ? styles.starActive
-                      : styles.starInactive
-                      }`}
+                    className={`${
+                      star <= averageRating
+                        ? styles.starActive
+                        : styles.starInactive
+                    }`}
                   >
                     <FaStar />
                   </span>
@@ -363,8 +366,9 @@ const DetalleProducto = () => {
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
-                    className={`${star <= rating ? styles.starActive : styles.starInactive
-                      }`}
+                    className={`${
+                      star <= rating ? styles.starActive : styles.starInactive
+                    }`}
                     onClick={() => handleRatingChange(star)}
                   >
                     {star <= rating ? <FaStar /> : <FaRegStar />}

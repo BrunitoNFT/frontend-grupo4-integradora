@@ -110,16 +110,9 @@
 }
 
 .errorBox{
-  color:whitesmoke;
-  text-align: center;
   width: 30vw;
   height: 55vh;
   border-radius: 1.5rem;
-  background-color: black;
-  opacity: 0.5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .defaultText{
